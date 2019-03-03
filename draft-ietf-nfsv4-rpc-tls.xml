@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [ ]>
+<?xml-stylesheet type="text/xsl" href="rfc2629.xslt"?>
+<?rfc strict="yes"?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+
+<rfc
+ category="std"
+ docName="draft-cel-nfsv4-rpc-tls-02"
+ updates="5531"
+ ipr="pre5378Trust200902"
+ submissionType="IETF"
+ xml:lang="en">
+
+<front>
+
+<title abbrev="RPC-Over-TLS">
+Remote Procedure Call Encryption By Default
+</title>
+
+<author initials="T.M." surname="Myklebust" fullname="Trond Myklebust">
+<organization abbrev="Hammerspace">
+Hammerspace Inc
+</organization>
+<address>
+<postal>
+<street>4300 El Camino Real Ste 105</street>
+<city>Los Altos</city>
+<region>CA</region>
+<code>94022</code>
+<country>United States of America</country>
+</postal>
+<email>trond.myklebust@hammerspace.com</email>
+</address>
+</author>
+
+<author initials="C.L." surname="Lever" fullname="Charles Lever" role="editor">
+<organization abbrev="Oracle">Oracle Corporation</organization>
+<address>
+<postal>
+<street></street>
+<city></city>
+<region></region>
+<code></code>
+<country>United States of America</country>
+</postal>
+<email>chuck.lever@oracle.com</email>
+</address>
+</author>
+
+<date/>
+
+<area>Transport</area>
+<workgroup>Network File System Version 4</workgroup>
+
+<abstract>
+<t>
+This document describes a mechanism that enables
+encryption of in-transit Remote Procedure Call (RPC)
+transactions with minimal administrative overhead and
+full interoperation with RPC implementations that
+do not support this mechanism.
+This document updates RFC 5531.
+</t>
+</abstract>
+
+</front>
+
+<middle>
+
+<section
+ title="Introduction"
+ anchor="section:8f035331-8eb8-4fbc-973a-673fba5fe952">
+
+<t>
+In 2014 the IETF published
+<xref target="RFC7258"/>
+which recognized that unauthorized observation
+of network traffic had become widespread and
+was a subversive threat to all who
+make use of the Internet at large.
+It strongly recommended that newly defined Internet
+protocols make a real effort to mitigate monitoring attacks.
+Typically this mitigation is done by encrypting data in transit.
+</t>
+<t>
+The Remote Procedure Call version 2 protocol
+has been a Proposed Standard for three decades
+(see <xref target="RFC5531"/> and its antecedants).
+Eisler et al. first introduced an in-transit encryption mechanism
+for RPC with RPCSEC GSS over twenty years ago
+<xref target="RFC2203"/>.
+However, experience has shown that RPCSEC GSS
+is difficult to deploy:
+<list style="symbols">
+<t>
+Per-client deployment and administrative costs
+are not scalable.
+Keying material must be provided for each RPC client,
+including transient clients.
+</t>
+<t>
+Parts of the RPC header remain in clear-text,
+and can constitute a significant security exposure.
+</t>
+<t>
+On-host cryptographic manipulation of data payloads can
+exact a significant CPU cost on both clients and the server.
+</t>
+<t>
+Host identity management must be carried out in a security realm
+that is separate from user identity management.
+In certain environments, for example, different authorities
+might be responsible for provisioning client systems versus
+provisioning new users.
+</t>
+</list>
+However strong a privacy service is,
+it can not provide any security if the difficulties
+of deploying and using it result in it not being used at all.
+</t>
+<t>
+An alternative approach is to employ a
+transport layer security mechanism that can protect the privacy
+of each RPC connection transparently to RPC and Upper Layer protocols.
+The Transport Layer Security protocol
+<xref target="RFC8446"/>
+(TLS) is a well-established Internet building block that
+protects many common Internet protocols such as
+the Hypertext Transport Protocol (http)
+<xref target="RFC2818"/>.
+</t>
+<t>
+Encrypting at the RPC transport layer
+enables several significant benefits.
+<list style="hanging">
+<t hangText="Encryption By Default">
+<vspace/>
+In-transit encryption can be enabled immediately after installation
+without additional administrative actions such as
+identifying the host system to a trust authority,
+generating additional key material, or
+provisioning a secure network tunnel.
+</t>
+<t hangText="Protection of Existing Protocols">
+<vspace/>
+The imposition of encryption at the transport layer protects
+any Upper Layer protocol that employs RPC
+without alteration of that protocol.
+RPC transport layer encryption can protect
+recent versions of NFS such as NFS version 4.2
+<xref target="RFC7862"/>
+and indeed legacy NFS versions such as NFS version 3
+<xref target="RFC1813"/>
+and NFS side-band protocols such as the MNT protocol
+<xref target="RFC1813"/>.
+</t>
+<t hangText="Decoupled User and Host Identities">
+<vspace/>
+RPCSEC GSS provides a framework for cryptographically
+protecting user and host identities but assumes that
+both are managed by the same security authority.
+</t>
+<t hangText="Encryption Offload">
+<vspace/>
+The use of a well-established transport encryption mechanism
+that is also employed by other very common network protocols
+makes it possible to use hardware encryption implementations
+so that the host CPU is not burdened
+with the work of encrypting and decrypting
+large RPC arguments and results.
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="Requirements Language"
+ anchor="section:024237c9-5504-49b4-a2d3-2d2a5efbb967">
+<t>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY",
+and "OPTIONAL" in this document are to be interpreted
+as described in BCP 14
+<xref target="RFC2119"/>
+<xref target="RFC8174"/>
+when, and only when, they appear in all capitals, as shown here.
+</t>
+</section>
+
+<section
+ title="Terminology"
+ anchor="section:0eb1100e-daa8-4b2c-98ae-94258cfdcb1b">
+<t>
+This document adopts the terminology introduced in Section 3 of
+<xref target="RFC6973"/>
+and assumes a working knowledge of
+the Remote Procedure Call (RPC) version 2 protocol
+<xref target="RFC5531"/>
+and
+the Transport Layer Security (TLS) version 1.3 protocol
+<xref target="RFC8446"/>.
+</t>
+<t>
+Note also that the NFS community uses the term "privacy"
+where other Internet communities might use "confidentiality".
+In this document the two terms are synonymous.
+</t>
+</section>
+
+<section
+ title="RPC-Over-TLS in Operation"
+ anchor="section:ec3feed5-1de0-454b-9ab3-ce47ba901583">
+<t>
+In this section we cleave to the convention that a "client"
+is the peer host that actively initiates a connection, and
+a "server" is the peer host that passively accepts a connection request.
+</t>
+
+<section
+ title="Discovering Server-side TLS Support"
+ anchor="section:0a03673b-14ba-4228-8a8a-f76aa318ca73">
+<t>
+The mechanism described in this document interoperates
+fully with implementations that do not support it.
+The use of TLS is automatically disabled in these cases.
+To achieve this, we introduce a new authentication flavor called AUTH_TLS.
+This new flavor is used to signal that the client wants to initiate
+TLS negotiation if the server supports it.
+<figure align="left">
+<artwork xml:space="preserve" align="left">
+&lt;CODE BEGINS&gt;
+
+enum auth_flavor {
+        AUTH_NONE       = 0,
+        AUTH_SYS        = 1,
+        AUTH_SHORT      = 2,
+        AUTH_DH         = 3,
+        AUTH_KERB       = 4,
+        AUTH_RSA        = 5,
+        RPCSEC_GSS      = 6,
+        AUTH_TLS        = 7,
+
+        /* and more to be defined */
+};
+
+&lt;CODE ENDS&gt;
+</artwork>
+</figure>
+The length of the opaque data constituting the credential
+sent in the call message MUST be zero.
+The verifier accompanying the credential MUST be an AUTH_NONE
+verifier of length zero.
+</t>
+<t>
+The flavor value of the verifier received in the reply message
+from the server MUST be AUTH_NONE.
+The bytes of the verifier's string encode the fixed ASCII characters
+"STARTTLS".
+</t>
+<t>
+When an RPC client is ready to initiate a TLS handshake,
+it sends a NULL RPC request with an auth_flavor of AUTH_TLS.
+The NULL request is made to the same port as if TLS were not in use.
+</t>
+<t>
+The RPC server can respond in one of three ways:
+<list style="symbols">
+<t>
+If the RPC server does not recognise the AUTH_TLS authentication flavor,
+it responds with a reject_stat of AUTH_ERROR.
+The RPC client then knows that this server does not support TLS.
+</t>
+<t>
+If the RPC server accepts the NULL RPC procedure,
+but fails to return an AUTH_NONE verifier containing the
+string "STARTTLS",
+the RPC client knows that this server does not support TLS.
+</t>
+<t>
+If the RPC server accepts the NULL RPC procedure,
+and returns an AUTH_NONE verifier containing the string "STARTTLS",
+the RPC client MAY proceed with TLS negotiation.
+</t>
+</list>
+</t>
+<t>
+If an RPC client attempts to use AUTH_TLS
+for anything other than the NULL RPC procedure,
+the RPC server responds with a reject_stat of AUTH_ERROR.
+</t>
+<t>
+Once the TLS handshake is complete,
+the RPC client and server will have established
+a secure channel for communicating
+and can proceed to use standard security flavors within that channel,
+presumably after negotiating down the
+irrelevant RPCSEC_GSS privacy and integrity services
+and applying channel binding
+<xref target="RFC7861"/>.
+</t>
+<t>
+If TLS negotiation fails for any reason --
+say, the RPC server rejects the certificate presented by the RPC client,
+or the RPC client fails to authenticate the RPC server --
+the RPC client reports this failure to the calling application
+the same way it would report an AUTH_ERROR rejection from the RPC server.
+</t>
+</section>
+
+<section
+ title="Streams and Datagrams"
+ anchor="section:cc204592-f561-49bd-b1c9-de0ff7f0e7ab">
+<t>
+RPC operates on several different types of transports.
+RPC on a stream transport is protected by using TLS
+<xref target="RFC8446"/>;
+on a datagram transport, RPC must use DTLS
+<xref target="RFC6347"/>.
+</t>
+<t>
+RPC-over-RDMA
+can make use of Transport Layer Security below the RDMA transport layer
+<xref target="RFC8166"/>.
+The exact mechanism is not within the scope of this document.
+</t>
+</section>
+
+<section
+ title="Authentication"
+ anchor="section:6edef553-c95a-47d7-abba-0b537fe3a959">
+<t>
+Both RPC and TLS have their own variants of authentication,
+and there is some overlap in capability.
+The goal of interoperability with implementations that do not
+support TLS requires that we limit the
+combinations that are allowed and precisely specify the
+role that each layer plays.
+We also want to handle TLS such that an RPC implementation can
+make the use of TLS invisible to existing RPC consumer applications.
+</t>
+<t>
+Toward these ends, there are two main deployment modes.
+</t>
+
+<section
+ title="No Client Authentication"
+ anchor="section:6aee70c8-c726-4edb-a4b5-b3b41da5cb54">
+<t>
+In a basic deployment,
+a server possesses a certificate that is self-signed
+or signed by a well-known trust anchor,
+while its clients might not possess a certificate.
+In this situation, the client MAY authenticate the server host,
+but the server cannot authenticate connecting clients.
+Here, encryption of the transport connection is established
+and the RPC requests in transit carry user and group identities
+according to the conventions of the ONC RPC protocol.
+</t>
+</section>
+
+<section
+ title="Client Authentication"
+ anchor="section:9c6bd149-1506-45bd-9dc8-ae2be8798a76">
+<t>
+In this type of deployment,
+both the server and its clients possess valid certificates.
+As part of the TLS handshake, both peers MAY authenticate.
+Should authentication of either peer fail,
+or should authorization based on those identities block access
+to the server, the connection can be rejected.
+However, once encryption of the transport connection is established,
+the server MUST NOT utilize TLS identity for the purpose of authorizing
+RPC requests.
+</t>
+<t>
+In some cases, a client might choose to present a certificate
+that represents a user rather than one that is bound to the client host.
+As above, the server MUST NOT utilize this identity for the purpose
+of authorizing RPC requests.
+</t>
+</section>
+
+<section
+ title="Advanced Forms of RPC Authentication"
+ anchor="section:12d92596-f310-48c8-a4e0-b6ca038524e5">
+<t>
+RPCSEC GSS can provide
+integrity
+or
+privacy (also known as confidentiality) services.
+When operating over an encrypted TLS session, these services become
+redundant.
+Each RPC implementation is responsible for using channel binding
+for detecting when GSS integrity or privacy is unnecessary and can
+therefore be disabled
+See Section 2.5 of <xref target="RFC7861"/> for details.
+</t>
+<t>
+Note that a GSS service principal is still required on the server,
+and mutual authentication of server and client still occurs after
+the TLS session is established.
+</t>
+</section>
+
+<section
+ title="Other Forms of TLS Authentication"
+ anchor="section:936921ed-67bb-46bf-b316-6740e07f6652">
+<t>
+Versions of TLS subsequent to TLS 1.2 feature a token binding
+mechanism which is nominally more secure than using certificates.
+This is discussed in further detail in
+<xref target="RFC8471"/>.
+When such versions of TLS are used to encrypted RPC traffic,
+token binding may replace the use of certificates, but the
+restrictions specified earlier in this section still apply.
+</t>
+</section>
+
+</section>
+
+</section>
+
+<section
+ title="Security Considerations"
+ anchor="section:2ae49383-e6b2-4830-8407-995febf727f2">
+<t>
+One purpose of the mechanism described in this document
+is to protect RPC-based applications against threats to
+the privacy of RPC transactions and RPC user identities.
+A taxonomy of these threats appears in Section 5 of
+<xref target="RFC6973"/>.
+In addition, Section 6 of
+<xref target="RFC7525"/>
+contains a detailed discussion
+of technologies used in conjunction with TLS.
+Implementers should familiarize themselves with these materials.
+</t>
+<t>
+The NFS version 4 protocol permits more than one user to
+use an NFS client at the same time
+<xref target="RFC7862"/>.
+Typically that NFS client will conserve connection resources
+by routing RPC transactions from all of its users over a few
+or a single connection.
+In circumstances where the users on that NFS client belong
+to multiple distinct security domains,
+it may be necessary to establish separate TLS-protected connections
+that do not share the same encryption parameters.
+</t>
+
+<section
+ title="Implications for AUTH_SYS"
+ anchor="section:552b02a0-f19e-4b46-809c-672a6ae931a1">
+<t>
+Ever since the IETF NFSV4 Working Group took over
+the maintenance of the NFSv4 family of protocols
+(currently specified in
+<xref target="RFC7530"/>,
+<xref target="RFC5661"/>,
+and
+<xref target="RFC7863"/>,
+among others),
+it has encouraged the use of RPCSEC GSS over AUTH_SYS.
+For various reasons,
+unfortunately AUTH_SYS continues to be
+the primary authentication mechanism deployed by NFS administrators.
+As a result, NFS security remains in an unsatisfactory state.
+</t>
+<t>
+A deeper purpose of this document is to attempt to address
+some of the shortcomings of AUTH_SYS so that,
+where it has been impractical to deploy RPCSEC GSS,
+better NFSv4 security can nevertheless be achieved.
+</t>
+<t>
+When AUTH_SYS is used with TLS and no client certificate is available,
+the RPC server is still acting on RPC requests for which there is
+no trustworthy authentication.
+In-transit traffic is protected, but the client itself can still
+misrepresent user identity without detection.
+This is an improvement from AUTH_SYS without encryption, but it
+leaves a critical security exposure.
+</t>
+<t>
+Therefore, the RECOMMENDED deployment mode is that both servers and
+clients have certificate material available so that servers can have
+a degree of trust that clients are acting responsibly.
+</t>
+</section>
+
+</section>
+
+<section
+ title="IANA Considerations"
+ anchor="section:7b126473-2a13-453b-9bca-66bc11b7b018">
+<t>
+In accordance with Section 6 of
+<xref target="RFC7301"/>,
+the authors request that IANA allocate the following value
+in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry.
+The "sunrpc" string identifies SunRPC when used over TLS.
+<list style="hanging">
+<t hangText="Protocol:">
+<vspace/>
+SunRPC
+</t>
+<t hangText="Identification Sequence:">
+<vspace/>
+0x73 0x75 0x6e 0x72 0x70 0x63 ("sunrpc")
+</t>
+<t hangText="Reference:">
+<vspace/>
+RFC-TBD
+</t>
+</list>
+</t>
+<!-- RFC Editor:
+Please replace RFC-TBD with the RFC number assigned to this document.
+-->
+</section>
+
+</middle>
+
+<back>
+
+<references title="Normative References">
+<?rfc include="reference.RFC.2119.xml"?>
+<?rfc include="reference.RFC.5531.xml"?>
+<?rfc include="reference.RFC.6347.xml"?>
+<?rfc include="reference.RFC.7258.xml"?>
+<?rfc include="reference.RFC.7301.xml"?>
+<?rfc include="reference.RFC.7861.xml"?>
+<?rfc include="reference.RFC.8174.xml"?>
+<?rfc include="reference.RFC.8446.xml"?>
+</references>
+
+<references title="Informative References">
+
+<?rfc include="reference.RFC.1813.xml"?>
+<?rfc include="reference.RFC.2203.xml"?>
+<?rfc include="reference.RFC.2818.xml"?>
+<?rfc include="reference.RFC.5661.xml"?>
+<?rfc include="reference.RFC.6973.xml"?>
+<?rfc include="reference.RFC.7525.xml"?>
+<?rfc include="reference.RFC.7530.xml"?>
+<?rfc include="reference.RFC.7862.xml"?>
+<?rfc include="reference.RFC.7863.xml"?>
+<?rfc include="reference.RFC.8166.xml"?>
+<?rfc include="reference.RFC.8471.xml"?>
+
+<reference
+ anchor="LJNL"
+ target="https://www.linuxjournal.com/content/encrypting-nfsv4-stunnel-tls">
+<front>
+<title>Encrypting NFSv4 with Stunnel TLS</title>
+<author initials="C.F." surname="Fisher" fullname="Charles Fisher">
+<organization>Linux Journal</organization>
+</author>
+<date day="18" month="August" year="2018"/>
+</front>
+</reference>
+
+</references>
+
+<section
+ title="Acknowledgments"
+ anchor="section:4959412f-37ad-42b8-9169-d477148f81a8"
+ numbered="no">
+<t>
+Special mention goes to Charles Fisher, author of
+"Encrypting NFSv4 with Stunnel TLS"
+<xref target="LJNL"/>.
+His article inspired the mechanism described in this document.
+</t>
+<t>
+The authors are grateful to
+Bill Baker,
+David Black,
+Lars Eggert,
+Benjamin Kaduk
+Greg Marsden,
+Alex McDonald,
+David Noveck,
+Justin Mazzola Paluska,
+and
+Tom Talpey
+for their input and support of this work.
+</t>
+<t>
+Special thanks go to
+Transport Area Director Spencer Dawkins,
+NFSV4 Working Group Chairs Spencer Shepler and Brian Pawlowski,
+and
+NFSV4 Working Group Secretary Thomas Haynes
+for their guidance and oversight.
+</t>
+</section>
+
+</back>
+
+</rfc>
