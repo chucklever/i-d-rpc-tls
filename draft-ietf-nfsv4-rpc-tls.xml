@@ -335,32 +335,37 @@ Toward these ends, there are two deployment modes.
 </t>
 
 <section
- title="Server-only Authentication"
+ title="Server-only Host Authentication"
  anchor="section:6aee70c8-c726-4edb-a4b5-b3b41da5cb54">
 <t>
 In a basic deployment,
-a server possesses a certificate that is self-signed
-or signed by a well-known trust anchor,
-while its clients might not possess a certificate.
-In this situation, the client SHOULD authenticate the server host,
+a server possesses a unique global identity
+(e.g., a certificate that is self-signed
+or signed by a well-known trust anchor)
+while its clients are anonymous
+(i.e., present no identifier).
+In this situation, the client SHOULD authenticate the server host
+using the presented TLS identity,
 but the server cannot authenticate connecting clients.
-Here, encryption of the transport connection is established
+Here, a TLS session is established
 and the RPC requests in transit carry user and group identities
 according to the conventions of the RPC protocol.
 </t>
 </section>
 
 <section
- title="Mutual Authentication"
+ title="Mutual Host Authentication"
  anchor="section:9c6bd149-1506-45bd-9dc8-ae2be8798a76">
 <t>
 In this type of deployment,
-both the server and its clients possess valid certificates.
-As part of the TLS handshake, both peers SHOULD authenticate.
+both the server and its clients possess unique identities
+(e.g., certificates).
+As part of the TLS handshake, both peer hosts SHOULD authenticate
+using the presented TLS identities.
 Should authentication of either peer fail,
 or should authorization based on those identities block access
-to the server, the connection can be rejected.
-However, once encryption of the transport connection is established,
+to the server, the connection MAY be rejected.
+However, once a TLS session is established,
 the server MUST NOT utilize TLS identity for the purpose of authorizing
 RPC requests.
 </t>
@@ -369,6 +374,8 @@ In some cases, a client might choose to present a certificate
 that represents a user rather than one that is bound to the client host.
 As above, the server MUST NOT utilize this identity for the purpose
 of authorizing RPC requests.
+The TLS identities of the peer hosts are fully independent
+of RPC user identities.
 </t>
 </section>
 
@@ -743,8 +750,8 @@ by routing RPC transactions from all of its users over a few
 or a single connection.
 In circumstances where the users on that NFS client belong
 to multiple distinct security domains,
-it may be necessary to establish separate TLS-protected connections
-that do not share the same encryption parameters.
+the client MUST establish independent TLS sessions
+for each distinct security domain.
 </t>
 
 <section
@@ -781,9 +788,10 @@ This is an improvement from AUTH_SYS without encryption, but it
 leaves a critical security exposure.
 </t>
 <t>
-Therefore, the RECOMMENDED deployment mode is that both servers and
-clients have certificate material available so that servers can have
-a degree of trust that clients are acting responsibly.
+Therefore, the RECOMMENDED deployment mode is that
+clients have certificate material configured and used
+so that servers can have a degree of trust
+that clients are acting responsibly.
 </t>
 </section>
 
