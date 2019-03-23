@@ -64,7 +64,7 @@ Hammerspace Inc
 This document describes a mechanism that enables
 encryption of in-transit Remote Procedure Call (RPC)
 transactions with minimal administrative overhead and
-full interoperation with RPC implementations that
+full interoperation with ONC RPC implementations that
 do not support this mechanism.
 This document updates RFC 5531.
 </t>
@@ -114,9 +114,9 @@ On-host cryptographic manipulation of data payloads can
 exact a significant CPU cost on both clients and the server.
 </t>
 <t>
-Host identity management must be carried out in a security realm
-that is separate from user identity management.
-In certain environments, for example, different authorities
+Host identity management and user identity management
+must be carried out in the same security realm.
+In certain environments, different authorities
 might be responsible for provisioning client systems versus
 provisioning new users.
 </t>
@@ -142,7 +142,7 @@ enables several significant benefits.
 <list style="hanging">
 <t hangText="Encryption By Default">
 <vspace/>
-In-transit encryption can be enabled immediately after installation
+In-transit encryption can be enabled
 without additional administrative actions such as
 identifying the host system to a trust authority,
 generating additional key material, or
@@ -151,7 +151,7 @@ provisioning a secure network tunnel.
 <t hangText="Protection of Existing Protocols">
 <vspace/>
 The imposition of encryption at the transport layer protects
-any Upper Layer protocol that employs RPC
+any Upper Layer protocol that employs RPC,
 without alteration of that protocol.
 RPC transport layer encryption can protect
 recent versions of NFS such as NFS version 4.2
@@ -163,18 +163,15 @@ and NFS side-band protocols such as the MNT protocol
 </t>
 <t hangText="Decoupled User and Host Identities">
 <vspace/>
-RPCSEC GSS provides a framework for cryptographically
-protecting user and host identities but assumes that
-both are managed by the same security authority.
+TLS can be used to authenticate hosts using certificates
+while other security mechanisms can handle user authentictation.
 </t>
 <t hangText="Encryption Offload">
 <vspace/>
 The use of a well-established transport encryption mechanism
 that is also employed by other very common network protocols
-makes it possible to use hardware encryption implementations
-so that the host CPU is not burdened
-with the work of encrypting and decrypting
-large RPC arguments and results.
+makes it likely that a hardware encryption implementation
+will be available to offload encryption and decryption.
 </t>
 </list>
 </t>
@@ -209,7 +206,7 @@ the Transport Layer Security (TLS) version 1.3 protocol
 </t>
 <t>
 Note also that the NFS community uses the term "privacy"
-where other Internet communities might use "confidentiality".
+where other Internet communities use "confidentiality".
 In this document the two terms are synonymous.
 </t>
 </section>
@@ -228,11 +225,15 @@ a "server" is the peer host that passively accepts a connection request.
  anchor="section:0a03673b-14ba-4228-8a8a-f76aa318ca73">
 <t>
 The mechanism described in this document interoperates
-fully with implementations that do not support it.
+fully with RPC implementations that do not support TLS.
 The use of TLS is automatically disabled in these cases.
-To achieve this, we introduce a new authentication flavor called AUTH_TLS.
+</t>
+<t>
+To achieve this, we introduce a new RPC authentication flavor called AUTH_TLS.
 This new flavor is used to signal that the client wants to initiate
 TLS negotiation if the server supports it.
+Except for the modifications described in this section,
+the RPC protocol is largely unaware of security encapsulation.
 <figure align="left">
 <artwork xml:space="preserve" align="left">
 &lt;CODE BEGINS&gt;
@@ -265,8 +266,8 @@ The bytes of the verifier's string encode the fixed ASCII characters
 "STARTTLS".
 </t>
 <t>
-When an RPC client is ready to initiate a TLS handshake,
-it sends a NULL RPC request with an auth_flavor of AUTH_TLS.
+When an RPC client is ready to begin sending traffic to a server,
+it starts with a NULL RPC request with an auth_flavor of AUTH_TLS.
 The NULL request is made to the same port as if TLS were not in use.
 </t>
 <t>
@@ -294,6 +295,8 @@ the RPC client SHOULD proceed with TLS negotiation.
 If an RPC client attempts to use AUTH_TLS
 for anything other than the NULL RPC procedure,
 the RPC server responds with a reject_stat of AUTH_ERROR.
+In addition, a client MUST NOT attempt a TLS handshake
+after the initial exchange.
 </t>
 <t>
 Once the TLS handshake is complete,
@@ -315,25 +318,7 @@ the same way it would report an AUTH_ERROR rejection from the RPC server.
 </section>
 
 <section
- title="Streams and Datagrams"
- anchor="section:cc204592-f561-49bd-b1c9-de0ff7f0e7ab">
-<t>
-RPC operates on several different types of transports.
-RPC on a stream transport is protected by using TLS
-<xref target="RFC8446"/>;
-on a datagram transport, RPC must use DTLS
-<xref target="RFC6347"/>.
-</t>
-<t>
-RPC-over-RDMA
-can make use of Transport Layer Security below the RDMA transport layer
-<xref target="RFC8166"/>.
-The exact mechanism is not within the scope of this document.
-</t>
-</section>
-
-<section
- title="Authentication"
+ title="RPC Authentication"
  anchor="section:6edef553-c95a-47d7-abba-0b537fe3a959">
 <t>
 Both RPC and TLS have their own variants of authentication,
@@ -346,11 +331,11 @@ We also want to handle TLS such that an RPC implementation can
 make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
-Toward these ends, there are two main deployment modes.
+Toward these ends, there are two deployment modes.
 </t>
 
 <section
- title="No Client Authentication"
+ title="Server-only Authentication"
  anchor="section:6aee70c8-c726-4edb-a4b5-b3b41da5cb54">
 <t>
 In a basic deployment,
@@ -361,12 +346,12 @@ In this situation, the client SHOULD authenticate the server host,
 but the server cannot authenticate connecting clients.
 Here, encryption of the transport connection is established
 and the RPC requests in transit carry user and group identities
-according to the conventions of the ONC RPC protocol.
+according to the conventions of the RPC protocol.
 </t>
 </section>
 
 <section
- title="Client Authentication"
+ title="Mutual Authentication"
  anchor="section:9c6bd149-1506-45bd-9dc8-ae2be8798a76">
 <t>
 In this type of deployment,
@@ -395,34 +380,341 @@ RPCSEC GSS can provide
 integrity
 or
 privacy (also known as confidentiality) services.
-When operating over an encrypted TLS session, these services become
-redundant.
+When operating over a TLS session, these services become redundant.
 Each RPC implementation is responsible for using channel binding
 for detecting when GSS integrity or privacy is unnecessary and can
-therefore be disabled
+therefore be disabled.
 See Section 2.5 of <xref target="RFC7861"/> for details.
 </t>
 <t>
 Note that a GSS service principal is still required on the server,
-and mutual authentication of server and client still occurs after
+and mutual GSS authentication of server and client still occurs after
 the TLS session is established.
 </t>
 </section>
 
+</section>
+
+</section>
+
 <section
- title="Other Forms of TLS Authentication"
+ title="TLS Requirements"
+ anchor="section:D93526DA-7B9D-419B-BE84-4AD8DA48577E">
+<t>
+When a TLS session is negotiated for the purpose of transporting RPC,
+the following restrictions apply:
+<list style="symbols">
+<t>
+Implementations MUST NOT negotiate TLS versions prior to v1.3
+<xref target="RFC8446"/>.
+Support for mandatory-to-implement ciphersuites for
+the negotiated TLS version is REQUIRED.
+</t>
+<t>
+Implementations MUST support certificate-based mutual authentication.
+Support for TLS-PSK mutual authentication
+<xref target="RFC4279"/>
+is OPTIONAL.
+See
+<xref target="section:6edef553-c95a-47d7-abba-0b537fe3a959"/>
+for further details.
+</t>
+<t>
+Negotiation of a ciphersuite providing for confidentiality as
+well as integrity protection is REQUIRED.
+Support for and negotiation of compression is OPTIONAL.
+</t>
+</list>
+</t>
+
+<section
+ title="Connection Types"
+ anchor="section:cc204592-f561-49bd-b1c9-de0ff7f0e7ab">
+
+<section
+ title="Operation on TCP"
+ anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8">
+<t>
+RPC over TCP is protected by using TLS
+<xref target="RFC8446"/>.
+As soon as a client completes the TCP handshake,
+it uses the mechanism described in
+<xref target="section:0a03673b-14ba-4228-8a8a-f76aa318ca73"/>
+to discover TLS support and then negotiate a TLS session.
+</t>
+</section>
+
+<section
+ title="Operation on UDP"
+ anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75">
+<t>
+RPC over UDP is protected using DTLS
+<xref target="RFC6347"/>.
+As soon as a client initializes a socket for use with
+an unfamiliar server,
+it uses the mechanism described in
+<xref target="section:0a03673b-14ba-4228-8a8a-f76aa318ca73"/>
+to discover DTLS support and then negotiate a DTLS session.
+Connected operation is RECOMMENDED.
+</t>
+<t>
+Using a DTLS transport does not introduce reliable or in-order
+semantics to RPC on UDP.
+Also, DTLS does not support fragmentation of RPC messages.
+One RPC message fits in a single DTLS datagram.
+DTLS encapsulation has overhead which reduces the effective
+Path MTU (PMTU) and thus the maximum RPC payload size.
+</t>
+</section>
+
+<section
+ title="Operation on an RDMA Transport"
+ anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F">
+<t>
+RPC-over-RDMA
+can make use of Transport Layer Security below the RDMA transport layer
+<xref target="RFC8166"/>.
+The exact mechanism is not within the scope of this document.
+</t>
+</section>
+
+</section>
+
+<section
+ title="TLS Peer Authentication"
  anchor="section:936921ed-67bb-46bf-b316-6740e07f6652">
+<t>
+Peer authentication can be performed by TLS using any of the
+following mechanisms:
+</t>
+
+<section
+ title="X.509 Certificates Using PKIX trust"
+ anchor="section:7A68F518-2C02-4705-8218-4F13E51372F4">
+<t>
+Implementations are REQUIRED to support this mechanism.
+In this mode, an RPC client is uniquely identified
+by the tuple (serial number of presented client certificate;Issuer).
+<list style="symbols">
+<t>
+Implementations MUST allow the configuration of a list of
+trusted Certification Authorities for incoming connections.
+</t>
+<t>
+Certificate validation MUST include the verification rules as per
+<xref target="RFC5280"/>.
+</t>
+<t>
+Implementations SHOULD indicate their trusted Certification
+Authorities (CAs).
+</t>
+<t>
+Peer validation always includes a check on whether the
+locally configured expected DNS name or IP address of the
+server that is contacted matches its presented certificate.
+DNS names and IP addresses can be contained in the Common
+Name (CN) or subjectAltName entries.
+For verification, only one of these entries is to be considered.
+The following precedence applies: for DNS name validation,
+subjectAltName:DNS has precedence over CN; for IP address
+validation, subjectAltName:iPAddr has precedence over CN.
+Implementors of this specification are advised to read
+Section 6 of
+<xref target="RFC6125"/>
+for more details on DNS name validation.
+</t>
+<t>
+Implementations MAY allow the configuration of a set of
+additional properties of the certificate to check for a
+peer's authorization to communicate
+(e.g., a set of allowed values in subjectAltName:URI
+or a set of allowed X509v3 Certificate Policies).
+</t>
+<t>
+When the configured trust base changes (e.g., removal of a
+CA from the list of trusted CAs; issuance of a new CRL for
+a given CA), implementations MAY renegotiate the TLS
+session to reassess the connecting peer's continued
+authorization.
+</t>
+</list>
+</t>
+<t>
+Having identified a connecting entity does not mean the
+RPC server necessarily wants to communicate with that client.
+For example, if the Issuer is not in a trusted set of Issuers,
+the RPC server may decline to perform RPC transactions
+with this client.
+Implementations that want to support a wide variety of trust models
+should expose as many details of the presented certificate to the
+administrator as possible so that the trust model can be implemented
+by the administrator.
+As a suggestion, at least the following
+parameters of the X.509 client certificate should be exposed:
+<list style="symbols">
+<t>
+Originating IP address
+</t>
+<t>
+Certificate Fingerprint
+</t>
+<t>
+Issuer
+</t>
+<t>
+Subject
+</t>
+<t>
+all X509v3 Extended Key Usage
+</t>
+<t>
+all X509v3 Subject Alternative Name
+</t>
+<t>
+all X509v3 Certificate Policies
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="X.509 Certificates Using Fingerprints"
+ anchor="section:15B9BEE9-9D2F-49B7-900E-0BA9BCE9CB27">
+<t>
+This mechanism is OPTIONAL to implement.
+In this mode, an RPC client is uniquely identified
+by the fingerprint of the presented client certificate.
+</t>
+<t>
+Implementations SHOULD allow the configuration of a list
+of trusted certificates,
+identified via fingerprint of the DER encoded certificate octets.
+Implementations MUST support SHA-1 as the hash algorithm for the
+fingerprint.
+To prevent attacks based on hash collisions,
+support for a more contemporary hash function,
+such as SHA-256, is RECOMMENDED.
+</t>
+</section>
+
+<section
+ title="Pre-Shared Keys"
+ anchor="section:6DA9ED5F-BAD9-4126-95B7-E2331655A01E">
+<t>
+This mechanism is OPTIONAL to implement.
+In this mode, an RPC client is uniquely identified by its TLS
+identifier.
+At least the following parameters of the TLS connection should be exposed:
+<list style="symbols">
+<t>
+Originating IP address
+</t>
+<t>
+TLS Identifier
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="Token Binding"
+ anchor="section:CBA3E016-B160-4C37-85CA-8D467A6AFE83">
+<t>
+This mechanism is OPTIONAL to implement.
+In this mode, an RPC client is uniquely identified by a token.
+</t>
 <t>
 Versions of TLS subsequent to TLS 1.2 feature a token binding
 mechanism which is nominally more secure than using certificates.
 This is discussed in further detail in
 <xref target="RFC8471"/>.
-When such versions of TLS are used to encrypted RPC traffic,
-token binding may replace the use of certificates, but the
-restrictions specified earlier in this section still apply.
 </t>
 </section>
 
+</section>
+
+</section>
+
+<!-- RFC Editor:
+Please remove the following section and the reference to RFC 7942
+before this document is published.
+-->
+<section
+ title="Implementation Status"
+ anchor="section:88BBA4D6-ED42-4FE6-A208-9D277B68729A">
+<t>
+This section records the status of known implementations of the
+protocol defined by this specification at the time of posting of
+this Internet-Draft, and is based on a proposal described in
+<xref target="RFC7942"/>.
+The description of implementations in this section is
+intended to assist the IETF in its decision processes in
+progressing drafts to RFCs.
+</t>
+<t>
+Please note that the listing of any individual implementation here
+does not imply endorsement by the IETF.
+Furthermore, no effort has been spent to verify the information
+presented here that was supplied by IETF contributors.
+This is not intended as, and must not be construed to be, a
+catalog of available implementations or their features.
+Readers are advised to note that other implementations may exist.
+</t>
+
+<section
+ title="Linux NFS server and client"
+ anchor="section:BF03B3A2-4483-4404-9E7A-F60FCD850F31">
+<t>
+<list style="hanging" hangIndent="11">
+<t hangText="Organization:">
+The Linux Foundation
+</t>
+<t hangText="URL:">
+https://www.kernel.org
+</t>
+<t hangText="Maturity:">
+Prototype software based on early versions of this document.
+</t>
+<t hangText="Coverage:">
+The bulk of this specification is implemented.
+The use of DTLS functionality is not implemented.
+</t>
+<t hangText="Licensing:">
+GPLv2
+</t>
+<t hangText="Implementation experience:">
+No comments from implementors.
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="DESY NFS server"
+ anchor="section:94AA7844-E393-4353-A35D-DA01D13C909B">
+<t>
+<list style="hanging" hangIndent="11">
+<t hangText="Organization:">
+DESY
+</t>
+<t hangText="URL:">
+https://desy.de
+</t>
+<t hangText="Maturity:">
+Prototype software based on early versions of this document.
+</t>
+<t hangText="Coverage:">
+The bulk of this specification is implemented.
+The use of DTLS functionality is not implemented.
+</t>
+<t hangText="Licensing:">
+Freely distributable with acknowledgment.
+</t>
+<t hangText="Implementation experience:">
+No comments from implementors.
+</t>
+</list>
+</t>
 </section>
 
 </section>
@@ -532,11 +824,15 @@ Please replace RFC-TBD with the RFC number assigned to this document.
 
 <references title="Normative References">
 <?rfc include="reference.RFC.2119.xml"?>
+<?rfc include="reference.RFC.4279.xml"?>
+<?rfc include="reference.RFC.5280.xml"?>
 <?rfc include="reference.RFC.5531.xml"?>
+<?rfc include="reference.RFC.6125.xml"?>
 <?rfc include="reference.RFC.6347.xml"?>
 <?rfc include="reference.RFC.7258.xml"?>
 <?rfc include="reference.RFC.7301.xml"?>
 <?rfc include="reference.RFC.7861.xml"?>
+<?rfc include="reference.RFC.7942.xml"?>.
 <?rfc include="reference.RFC.8174.xml"?>
 <?rfc include="reference.RFC.8446.xml"?>
 </references>
@@ -573,10 +869,12 @@ His article inspired the mechanism described in this document.
 The authors are grateful to
 Bill Baker,
 David Black,
+Alan DeKok,
 Lars Eggert,
-Benjamin Kaduk
+Benjamin Kaduk,
 Greg Marsden,
 Alex McDonald,
+Tigran Mkrtchyan,
 David Noveck,
 Justin Mazzola Paluska,
 and
@@ -585,7 +883,7 @@ for their input and support of this work.
 </t>
 <t>
 Special thanks go to
-Transport Area Director Spencer Dawkins,
+Transport Area Director Magnus Westerlund,
 NFSV4 Working Group Chairs Spencer Shepler and Brian Pawlowski,
 and
 NFSV4 Working Group Secretary Thomas Haynes
