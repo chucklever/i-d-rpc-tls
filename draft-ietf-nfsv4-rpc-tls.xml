@@ -61,7 +61,7 @@ Hammerspace Inc
 
 <abstract>
 <t>
-This document describes a mechanism that enables
+This document describes a mechanism that opportunistically enables
 encryption of in-transit Remote Procedure Call (RPC)
 transactions with minimal administrative overhead and
 full interoperation with ONC RPC implementations that
@@ -111,7 +111,7 @@ and can constitute a significant security exposure.
 </t>
 <t>
 On-host cryptographic manipulation of data payloads can
-exact a significant CPU cost on both clients and the server.
+exact a significant CPU cost on clients and servers.
 </t>
 <t>
 Host identity management and user identity management
@@ -157,7 +157,7 @@ RPC transport layer encryption can protect
 recent versions of NFS such as NFS version 4.2
 <xref target="RFC7862"/>
 and indeed legacy NFS versions such as NFS version 3
-<xref target="RFC1813"/>
+<xref target="RFC1813"/>,
 and NFS side-band protocols such as the MNT protocol
 <xref target="RFC1813"/>.
 </t>
@@ -287,7 +287,7 @@ the RPC client knows that this server does not support TLS.
 <t>
 If the RPC server accepts the NULL RPC procedure,
 and returns an AUTH_NONE verifier containing the string "STARTTLS",
-the RPC client SHOULD proceed with TLS negotiation.
+the RPC client SHOULD send a STARTTLS.
 </t>
 </list>
 </t>
@@ -295,8 +295,9 @@ the RPC client SHOULD proceed with TLS negotiation.
 If an RPC client attempts to use AUTH_TLS
 for anything other than the NULL RPC procedure,
 the RPC server responds with a reject_stat of AUTH_ERROR.
-In addition, a client MUST NOT attempt a TLS handshake
-after the initial exchange.
+If the client sends a STARTTLS after it has sent other
+non-encrypted RPC traffic or after a TLS session has
+already been negotiated, the server MUST silently discard it.
 </t>
 <t>
 Once the TLS handshake is complete,
@@ -766,9 +767,8 @@ the maintenance of the NFSv4 family of protocols
 and
 <xref target="RFC7863"/>,
 among others),
-it has encouraged the use of RPCSEC GSS over AUTH_SYS.
-For various reasons,
-unfortunately AUTH_SYS continues to be
+it has encouraged the use of RPCSEC GSS rather than AUTH_SYS.
+For various reasons, AUTH_SYS continues to be
 the primary authentication mechanism deployed by NFS administrators.
 As a result, NFS security remains in an unsatisfactory state.
 </t>
@@ -792,6 +792,40 @@ Therefore, the RECOMMENDED deployment mode is that
 clients have certificate material configured and used
 so that servers can have a degree of trust
 that clients are acting responsibly.
+</t>
+</section>
+
+<section
+ title="STRIPTLS Attacks"
+ anchor="section:8894bdd2-0e0b-47a3-a2cb-70e4d93b55b0">
+<t>
+A classic form of attack on protocols that initiate a connection
+in plain-text to discover support for TLS is a man-in-the-middle
+that alters the plain-text handshake to make it appear as though
+TLS support is not available.
+There are a few possible ways to mitigate such attacks:
+<list style="symbols">
+<t>
+Clients can be configured to require TLS encryption.
+If an attacker spoofs the handshake, the client disconnects
+and reports the problem.
+</t>
+<t>
+A TLSA record
+<xref target="RFC6698"/>
+can alert clients that TLS is expected to work, and
+provides a binding of hostname to x.509 identity.
+If TLS cannot be negotiated or authentication fails,
+the client disconnects and reports the problem.
+</t>
+<t>
+Additional steps can be added to the AUTH_TLS negotiation
+mechanism described in this document
+to ensure that is secure.
+</t>
+</list>
+We have not yet selected a proper mitigation for this
+form of attack.
 </t>
 </section>
 
@@ -851,6 +885,7 @@ Please replace RFC-TBD with the RFC number assigned to this document.
 <?rfc include="reference.RFC.2203.xml"?>
 <?rfc include="reference.RFC.2818.xml"?>
 <?rfc include="reference.RFC.5661.xml"?>
+<?rfc include="reference.RFC.6698.xml"?>
 <?rfc include="reference.RFC.6973.xml"?>
 <?rfc include="reference.RFC.7525.xml"?>
 <?rfc include="reference.RFC.7530.xml"?>
@@ -880,6 +915,7 @@ David Black,
 Alan DeKok,
 Lars Eggert,
 Benjamin Kaduk,
+Olga Kornievskaia,
 Greg Marsden,
 Alex McDonald,
 Tigran Mkrtchyan,
