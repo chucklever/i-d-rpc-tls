@@ -119,7 +119,6 @@ provisioning new users.
 <t>
 On-host cryptographic manipulation of data payloads can
 exact a significant CPU and memory bandwidth cost on RPC peers.
-That makes the deployment of GSS privacy rare.
 Offloadng does not appear to be practical using GSS privacy
 since each message is encrypted using its own key
 based on the issuing RPC user.
@@ -335,7 +334,7 @@ already been negotiated, the server MUST silently discard it.
 </section>
 
 <section
- title="RPC Authentication"
+ title="Authentication"
  anchor="section:6edef553-c95a-47d7-abba-0b537fe3a959">
 <t>
 Both RPC and TLS have their own variants of authentication,
@@ -348,34 +347,23 @@ We also want to handle TLS such that an RPC implementation can
 make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
-Toward these ends, two deployment modes are permitted.
-In both modes, RPC user authentication is not affected
-by the use of transport layer security.
-</t>
-
-<section
- title="Server-only Host Authentication"
- anchor="section:6aee70c8-c726-4edb-a4b5-b3b41da5cb54">
-<t>
-In a basic deployment,
-a server possesses a unique global identity
-(e.g., a certificate that is self-signed
-or signed by a well-known trust anchor)
+Depending on its configuration,
+an RPC server MAY request a TLS identity from each client
+upon first contact.
+This permits two different modes of deployment:
+<list style="hanging">
+<t hangText="Server-only Host Authentication">
+<vspace/>
+A server possesses a unique global identity
+(e.g., a certificate that is signed by a well-known trust anchor)
 while its clients are anonymous
 (i.e., present no identifier).
 In this situation, the client SHOULD authenticate the server host
 using the presented TLS identity,
-but the server cannot authenticate connecting clients.
-Here, a TLS session is established
-and the RPC requests in transit carry user and group identities
-according to the conventions of the RPC protocol.
+but the server cannot authenticate clients.
 </t>
-</section>
-
-<section
- title="Mutual Host Authentication"
- anchor="section:9c6bd149-1506-45bd-9dc8-ae2be8798a76">
-<t>
+<t hangText="Mutual Host Authentication">
+<vspace/>
 In this type of deployment,
 both the server and its clients possess unique identities
 (e.g., certificates).
@@ -383,20 +371,17 @@ As part of the TLS handshake, both peer hosts SHOULD authenticate
 using the presented TLS identities.
 Should authentication of either peer fail,
 or should authorization based on those identities block access
-to the server, the connection MAY be rejected.
-However, once a TLS session is established,
-the server MUST NOT utilize TLS identity for the purpose of authorizing
-RPC requests.
+to the server, the client association MAY be rejected.
+</t>
+</list>
 </t>
 <t>
-In some cases, a client might choose to present a certificate
-that represents a user rather than one that is bound to the client host.
-As above, the server MUST NOT utilize this identity for the purpose
-of authorizing RPC requests.
-The TLS identities of the peer hosts are fully independent
-of RPC user identities.
+In either of these modes, RPC user authentication is not affected
+by the use of transport layer security.
+Once a TLS session is established,
+the server MUST NOT utilize the client's host TLS identity
+for the purpose of authorizing individual RPC requests.
 </t>
-</section>
 
 <section
  title="Using TLS with RPCSEC GSS"
@@ -468,6 +453,13 @@ it uses the mechanism described in
 <xref target="section:0a03673b-14ba-4228-8a8a-f76aa318ca73"/>
 to discover TLS support and then negotiate a TLS session.
 </t>
+<t>
+An RPC client terminates a TLS session by sending a TLS closure alert.
+After TLS session termination,
+any other RPC request over the same connection
+MUST fail with a reject_stat of AUTH_ERROR.
+</t>
+
 </section>
 
 <section
@@ -492,8 +484,13 @@ DTLS encapsulation has overhead which reduces the effective
 Path MTU (PMTU) and thus the maximum RPC payload size.
 </t>
 <t>
-[ cel: will need to say something about STARTTLS replay on
-a connectionless transport. ]
+[ todo:
+Will need to say something about STARTTLS replay on
+a connectionless transport.
+Also need some text about
+what happens to RPC requests after
+session termination.
+]
 </t>
 </section>
 
@@ -770,9 +767,9 @@ Implementers should familiarize themselves with these materials.
 The NFS version 4 protocol permits more than one user to
 use an NFS client at the same time
 <xref target="RFC7862"/>.
-Typically that NFS client will conserve connection resources
-by routing RPC transactions from all of its users over a few
-or a single connection.
+Typically that NFS client implementation conserves connection resources
+by routing RPC transactions from all of its users
+over a small number of connections.
 In circumstances where the users on that NFS client belong
 to multiple distinct security domains,
 the client MUST establish independent TLS sessions
@@ -848,8 +845,9 @@ mechanism described in this document
 to ensure that is secure.
 </t>
 </list>
+[ todo:
 We have not yet selected a proper mitigation for this
-form of attack.
+form of attack. ]
 </t>
 </section>
 
@@ -945,8 +943,9 @@ Alex McDonald,
 Tigran Mkrtchyan,
 David Noveck,
 Justin Mazzola Paluska,
+Tom Talpey,
 and
-Tom Talpey
+Martin Thomson
 for their input and support of this work.
 </t>
 <t>
