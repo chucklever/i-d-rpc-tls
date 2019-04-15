@@ -166,7 +166,7 @@ and NFS side-band protocols such as the MNT protocol
 </t>
 <t hangText="Decoupled User and Host Identities">
 <vspace/>
-TLS can be used to authenticate hosts
+TLS can be used to authenticate peer hosts
 while other security mechanisms can handle user authentictation.
 Cryptographic authentication of hosts can be provided while
 still using simpler user authentication flavors such as AUTH_SYS.
@@ -223,17 +223,28 @@ Note also that the NFS community uses the term "privacy"
 where other Internet communities use "confidentiality".
 In this document the two terms are synonymous.
 </t>
+<t>
+We cleave to the convention that a "client"
+is a network host that actively initiates an association,
+and
+a "server" is a network host that passively accepts an association request.
+</t>
+<t>
+RPC documentation historically refers to
+the authentication of a connecting host as "machine authentication".
+TLS documentation refers to the same as "peer authentication".
+In this document there is little distinction.
+</t>
+<t>
+The term "user authentication" in this document refers specifically
+to RPC users; i.e., the process owner of the application which is
+using RPC.
+</t>
 </section>
 
 <section
  title="RPC-Over-TLS in Operation"
  anchor="section:ec3feed5-1de0-454b-9ab3-ce47ba901583">
-<t>
-In this section we cleave to the convention that a "client"
-is the peer host that actively initiates an association,
-and
-a "server" is the peer host that passively accepts an association request.
-</t>
 
 <section
  title="Discovering Server-side TLS Support"
@@ -367,7 +378,7 @@ but the server cannot authenticate clients.
 In this type of deployment,
 both the server and its clients possess unique identities
 (e.g., certificates).
-As part of the TLS handshake, both peer hosts SHOULD authenticate
+As part of the TLS handshake, both peers SHOULD authenticate
 using the presented TLS identities.
 Should authentication of either peer fail,
 or should authorization based on those identities block access
@@ -379,7 +390,7 @@ to the server, the client association MAY be rejected.
 In either of these modes, RPC user authentication is not affected
 by the use of transport layer security.
 Once a TLS session is established,
-the server MUST NOT utilize the client's host TLS identity
+the server MUST NOT utilize the client peer's TLS identity
 for the purpose of authorizing individual RPC requests.
 </t>
 
@@ -454,9 +465,10 @@ it uses the mechanism described in
 to discover TLS support and then negotiate a TLS session.
 </t>
 <t>
-An RPC client terminates a TLS session by sending a TLS closure alert.
+An RPC client terminates a TLS session by sending a TLS closure alert,
+or by closing the underlying TCP socket.
 After TLS session termination,
-any other RPC request over the same connection
+any subsequent RPC request over the same socket
 MUST fail with a reject_stat of AUTH_ERROR.
 </t>
 
@@ -484,13 +496,10 @@ DTLS encapsulation has overhead which reduces the effective
 Path MTU (PMTU) and thus the maximum RPC payload size.
 </t>
 <t>
-[ todo:
-Will need to say something about STARTTLS replay on
-a connectionless transport.
-Also need some text about
-what happens to RPC requests after
-session termination.
-]
+DTLS does not detect STARTTLS replay.
+A DTLS session can be terminated by sending a TLS closure alert.
+Subsequent RPC messages passing between the client and server
+will no longer be protected until a new TLS session is established.
 </t>
 </section>
 
@@ -824,7 +833,8 @@ A classic form of attack on network protocols that initiate an association
 in plain-text to discover support for TLS is a man-in-the-middle
 that alters the plain-text handshake to make it appear as though
 TLS support is not available on one or both peers.
-There are a few possible ways to mitigate such attacks:
+Clients implementers can choose from the following to mitigate
+STRIPTLS attacks:
 <list style="symbols">
 <t>
 Clients can be configured to require TLS encryption.
@@ -839,15 +849,7 @@ provides a binding of hostname to x.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
 </t>
-<t>
-Additional steps can be added to the AUTH_TLS negotiation
-mechanism described in this document
-to ensure that is secure.
-</t>
 </list>
-[ todo:
-We have not yet selected a proper mitigation for this
-form of attack. ]
 </t>
 </section>
 
@@ -931,6 +933,10 @@ Special mention goes to Charles Fisher, author of
 His article inspired the mechanism described in this document.
 </t>
 <t>
+Many thanks to Tigran Mkrtchyan for his work on the DESY prototype
+and resulting feedback to this document.
+</t>
+<t>
 The authors are grateful to
 Bill Baker,
 David Black,
@@ -940,7 +946,6 @@ Benjamin Kaduk,
 Olga Kornievskaia,
 Greg Marsden,
 Alex McDonald,
-Tigran Mkrtchyan,
 David Noveck,
 Justin Mazzola Paluska,
 Tom Talpey,
@@ -949,7 +954,7 @@ Martin Thomson
 for their input and support of this work.
 </t>
 <t>
-Special thanks go to
+Lastly, special thanks go to
 Transport Area Director Magnus Westerlund,
 NFSV4 Working Group Chairs Spencer Shepler and Brian Pawlowski,
 and
