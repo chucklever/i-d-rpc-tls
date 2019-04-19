@@ -837,9 +837,11 @@ Clients implementers can choose from the following to mitigate
 STRIPTLS attacks:
 <list style="symbols">
 <t>
-Clients can be configured to require TLS encryption.
+Clients can be configured to require that a TLS session is established
+on every connection.
 If an attacker spoofs the handshake, the client disconnects
 and reports the problem.
+This approach is RECOMMENDED.
 </t>
 <t>
 A TLSA record
