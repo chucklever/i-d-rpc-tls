@@ -483,13 +483,22 @@ it uses the mechanism described in
 to discover TLS support and then negotiate a TLS session.
 </t>
 <t>
-An RPC client terminates a TLS session by sending a TLS closure alert,
+After the TLS session is established,
+all traffic on the connection
+is encapsulated and protected
+until the TLS session is terminated.
+This includes reverse-direction operations
+(i.e., RPC requests initiated on the server-end of the connection).
+A reverse-direction operation sent on a connection outside
+of its existing TLS session MUST fail with a reject_stat of AUTH_ERROR.
+</t>
+<t>
+An RPC peer terminates a TLS session by sending a TLS closure alert,
 or by closing the underlying TCP socket.
 After TLS session termination,
-any subsequent RPC request over the same socket
+any subsequent RPC request over the same connection
 MUST fail with a reject_stat of AUTH_ERROR.
 </t>
-
 </section>
 
 <section
