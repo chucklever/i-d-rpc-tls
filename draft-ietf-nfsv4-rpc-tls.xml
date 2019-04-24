@@ -718,34 +718,6 @@ Readers are advised to note that other implementations may exist.
 </t>
 
 <section
- title="Linux NFS server and client"
- anchor="section:BF03B3A2-4483-4404-9E7A-F60FCD850F31">
-<t>
-<list style="hanging" hangIndent="11">
-<t hangText="Organization:">
-The Linux Foundation
-</t>
-<t hangText="URL:">
-https://www.kernel.org
-</t>
-<t hangText="Maturity:">
-Prototype software based on early versions of this document.
-</t>
-<t hangText="Coverage:">
-The bulk of this specification is implemented.
-The use of DTLS functionality is not implemented.
-</t>
-<t hangText="Licensing:">
-GPLv2
-</t>
-<t hangText="Implementation experience:">
-No comments from implementors.
-</t>
-</list>
-</t>
-</section>
-
-<section
  title="DESY NFS server"
  anchor="section:94AA7844-E393-4353-A35D-DA01D13C909B">
 <t>
@@ -765,6 +737,62 @@ The use of DTLS functionality is not implemented.
 </t>
 <t hangText="Licensing:">
 Freely distributable with acknowledgment.
+</t>
+<t hangText="Implementation experience:">
+No comments from implementors.
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="Hammerspace NFS server"
+ anchor="section:B387F281-958F-470D-B4D4-1D85907B89F1">
+<t>
+<list style="hanging" hangIndent="11">
+<t hangText="Organization:">
+Hammerspace
+</t>
+<t hangText="URL:">
+https://hammerspace.com
+</t>
+<t hangText="Maturity:">
+Prototype software based on early versions of this document.
+</t>
+<t hangText="Coverage:">
+The bulk of this specification is implemented.
+The use of DTLS functionality is not implemented.
+</t>
+<t hangText="Licensing:">
+Proprietary
+</t>
+<t hangText="Implementation experience:">
+No comments from implementors.
+</t>
+</list>
+</t>
+</section>
+
+<section
+ title="Linux NFS server and client"
+ anchor="section:BF03B3A2-4483-4404-9E7A-F60FCD850F31">
+<t>
+<list style="hanging" hangIndent="11">
+<t hangText="Organization:">
+The Linux Foundation
+</t>
+<t hangText="URL:">
+https://www.kernel.org
+</t>
+<t hangText="Maturity:">
+Prototype software based on early versions of this document.
+</t>
+<t hangText="Coverage:">
+The bulk of this specification is implemented.
+The use of DTLS functionality is not implemented.
+</t>
+<t hangText="Licensing:">
+GPLv2
 </t>
 <t hangText="Implementation experience:">
 No comments from implementors.
