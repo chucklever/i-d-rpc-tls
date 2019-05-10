@@ -191,17 +191,13 @@ can be significantly ameliorated.
 </list>
 </t>
 <t>
-This document proposes the use of TLS to introduce
-an opportunistic security approach,
-as defined by
-<xref target="RFC7435"/>,
-to RPC.
-As long as there is still a significant fleet of RPC deployments
-that lack support for TLS,
-an opportunistic approach can help eliminate the challenges
-that prevent the broad use of encryption with RPC
-(and its most popular consumer, NFS)
-until a more thorough approach can be provided.
+This document specifies the use of RPC on a TLS-protected transport
+in a fashion that is transparent to upper layer protocols based on RPC.
+It also provides opportunistic policies, in line with
+<xref target="RFC7435"/>
+that enable RPC-on-TLS to be deployed in environments with implementations that do not support it.
+Specifications for RPC-based upper layer protocols are free to require stricter policies
+to guarantee that TLS is used for each connection.
 </t>
 </section>
 
