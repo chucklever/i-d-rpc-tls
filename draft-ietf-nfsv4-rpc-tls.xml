@@ -741,7 +741,7 @@ The bulk of this specification is implemented.
 The use of DTLS functionality is not implemented.
 </t>
 <t hangText="Licensing:">
-Freely distributable with acknowledgment.
+LGPL
 </t>
 <t hangText="Implementation experience:">
 No comments from implementors.
