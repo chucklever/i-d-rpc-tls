@@ -178,7 +178,6 @@ transport encryption mechanism that is also employed
 by other very common network protocols
 makes it likely that a hardware encryption implementation
 will be available to offload encryption and decryption.
-A single key protects all messages associated with one TLS session.
 </t>
 <t hangText="Securing AUTH_SYS">
 <vspace/>
@@ -193,7 +192,7 @@ can be significantly ameliorated.
 <t>
 This document specifies the use of RPC on a TLS-protected transport
 in a fashion that is transparent to upper layer protocols based on RPC.
-It also provides opportunistic policies, in line with
+It also provides opportunistic policies in line with
 <xref target="RFC7435"/>
 that enable RPC-on-TLS to be deployed in environments with implementations that do not support it.
 Specifications for RPC-based upper layer protocols are free to require stricter policies
@@ -234,7 +233,7 @@ where other Internet communities use "confidentiality".
 In this document the two terms are synonymous.
 </t>
 <t>
-We cleave to the convention that a "client"
+We adhere to the convention that a "client"
 is a network host that actively initiates an association,
 and
 a "server" is a network host that passively accepts an association request.
@@ -372,8 +371,7 @@ We also want to handle TLS such that an RPC implementation can
 make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
-Depending on its configuration,
-an RPC server MAY request a TLS peer identity from each client
+An RPC server SHOULD request a TLS peer identity from each client
 upon first contact.
 This permits two different modes of deployment:
 <list style="hanging">
@@ -394,9 +392,9 @@ both the server and its clients possess unique identities
 (e.g., certificates).
 As part of the TLS handshake, both peers SHOULD authenticate
 using the presented TLS identities.
-Should authentication of either peer fail,
-or should authorization based on those identities block access
-to the server, the client association MAY be rejected.
+If authentication of either peer fails,
+or if authorization based on those identities blocks access
+to the server, the client association SHOULD be rejected.
 </t>
 </list>
 </t>
@@ -417,13 +415,14 @@ integrity
 or
 privacy (also known as confidentiality) services.
 When operating over a TLS session, these services become redundant.
-Each RPC implementation is responsible for using channel binding
+A TLS-capable RPC implementation uses GSS channel binding
 for detecting when GSS integrity or privacy is unnecessary and can
 therefore be disabled.
 See Section 2.5 of <xref target="RFC7861"/> for details.
 </t>
 <t>
-Note that a GSS service principal is still required on the server,
+When employing GSS above TLS,
+a GSS service principal is still required on the server,
 and mutual GSS authentication of server and client still occurs after
 the TLS session is established.
 </t>
@@ -485,15 +484,16 @@ is encapsulated and protected
 until the TLS session is terminated.
 This includes reverse-direction operations
 (i.e., RPC requests initiated on the server-end of the connection).
-A reverse-direction operation sent on a connection outside
-of its existing TLS session MUST fail with a reject_stat of AUTH_ERROR.
+An RPC client receiving a reverse-direction operation
+on a connection outside of an existing TLS session MUST reject
+the request with a reject_stat of AUTH_ERROR.
 </t>
 <t>
 An RPC peer terminates a TLS session by sending a TLS closure alert,
 or by closing the underlying TCP socket.
 After TLS session termination,
-any subsequent RPC request over the same connection
-MUST fail with a reject_stat of AUTH_ERROR.
+a recipient MUST reject any subsequent RPC requests over the
+same connection with a reject_stat of AUTH_ERROR.
 </t>
 </section>
 
@@ -825,6 +825,17 @@ Implementers should familiarize themselves with these materials.
 </t>
 
 <section
+ title="Multiple User Identity Realms"
+ anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
+<t>
+In circumstances where the RPC users on a single client belong
+to multiple distinct security realms,
+the client MUST establish an independent TLS session
+for each user identity realm.
+</t>
+</section>
+
+<section
  title="Limitations of an Opportunistic Approach"
  anchor="section:51737BB5-2B65-441E-AD1D-7EBF5123C079">
 <t>
@@ -842,7 +853,6 @@ Implementations must take care to accurately represent
 to all RPC consumers
 the level of security that is actually in effect.
 </t>
-</section>
 
 <section
  title="STRIPTLS Attacks"
@@ -874,6 +884,8 @@ the client disconnects and reports the problem.
 </t>
 </section>
 
+</section>
+
 <section
  title="Implications for AUTH_SYS"
  anchor="section:552b02a0-f19e-4b46-809c-672a6ae931a1">
@@ -898,30 +910,19 @@ where it has been impractical to deploy RPCSEC GSS,
 better NFSv4 security can nevertheless be achieved.
 </t>
 <t>
-When AUTH_SYS is used with TLS and no client certificate is available,
+When AUTH_SYS is used with TLS but the RPC client is unauthenticated,
 the RPC server is still acting on RPC requests for which there is
 no trustworthy authentication.
-In-transit traffic is protected, but the client itself can still
-misrepresent user identity without detection.
-This is an improvement from AUTH_SYS without encryption, but it
-leaves a critical security exposure.
+In-transit traffic is protected, but the RPC client itself can still
+misrepresent user identity without server detection.
+This is an improvement from AUTH_SYS without encryption,
+but it leaves a critical security exposure.
 </t>
 <t>
 Therefore, the RECOMMENDED deployment mode is that
-clients have certificate material configured and used
-so that servers can have a degree of trust
-that clients are acting responsibly.
-</t>
-</section>
-
-<section
- title="Multiple User Identity Realms"
- anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
-<t>
-In circumstances where the RPC users on a single client belong
-to multiple distinct security realms,
-the client MUST establish an independent TLS session
-for each user identity realm.
+RPC clients present authentication material
+so that RPC servers they contact can have a degree of trust
+that the clients are acting responsibly.
 </t>
 </section>
 
