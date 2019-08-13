@@ -823,6 +823,19 @@ contains a detailed discussion
 of technologies used in conjunction with TLS.
 Implementers should familiarize themselves with these materials.
 </t>
+<t>
+The use of TLS with encryption protects against
+eavesdropping,
+replay,
+and
+message insertion/deletion/modification attacks.
+The use of TLS with encryption and host authentication
+can additionally protect against man-in-the-middle attacks.
+TLS in either form does not provide
+non-repudiation for RPC requests.
+TLS does not improve the resilience of RPC servers against denial of service attacks.
+TLS does not protect against compromise of the RPC client or server host.
+</t>
 
 <section
  title="Multiple User Identity Realms"
@@ -921,8 +934,8 @@ but it leaves a critical security exposure.
 <t>
 Therefore, the RECOMMENDED deployment mode is that
 RPC clients present authentication material
-so that RPC servers they contact can have a degree of trust
-that the clients are acting responsibly.
+necessary for RPC servers they contact to have a degree
+of trust that the clients are acting responsibly.
 </t>
 </section>
 
