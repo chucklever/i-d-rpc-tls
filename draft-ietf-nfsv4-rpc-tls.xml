@@ -823,30 +823,6 @@ contains a detailed discussion
 of technologies used in conjunction with TLS.
 Implementers should familiarize themselves with these materials.
 </t>
-<t>
-The use of TLS with encryption protects against
-eavesdropping,
-replay,
-and
-message insertion/deletion/modification attacks.
-The use of TLS with encryption and host authentication
-can additionally protect against man-in-the-middle attacks.
-TLS in either form does not provide
-non-repudiation for RPC requests.
-TLS does not improve the resilience of RPC servers against denial of service attacks.
-TLS does not protect against compromise of the RPC client or server host.
-</t>
-
-<section
- title="Multiple User Identity Realms"
- anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
-<t>
-In circumstances where the RPC users on a single client belong
-to multiple distinct security realms,
-the client MUST establish an independent TLS session
-for each user identity realm.
-</t>
-</section>
 
 <section
  title="Limitations of an Opportunistic Approach"
@@ -900,29 +876,44 @@ the client disconnects and reports the problem.
 </section>
 
 <section
- title="Implications for AUTH_SYS"
+ title="Multiple User Identity Realms"
+ anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
+<t>
+To maintain the privacy of RPC users on a single client belong
+to multiple distinct security realms,
+the client MUST establish an independent TLS session
+for each user identity domain.
+</t>
+<t>
+For example, suppose there is host with an NFS client and
+NFS users that reside in identity domain A, and some that reside in domain B.
+The NFS client must establish at least two TLS sessions
+and
+transmit requests on behalf of users in domain A on one of those sessions,
+and requests on behalf of users in domain B on the other session.
+</t>
+</section>
+
+<section
+ title="Security Considerations for AUTH_SYS on TLS"
  anchor="section:552b02a0-f19e-4b46-809c-672a6ae931a1">
 <t>
-Ever since the IETF NFSV4 Working Group took over
-the maintenance of the NFSv4 family of protocols
-(currently specified in
-<xref target="RFC7530"/>,
-<xref target="RFC5661"/>,
-and
-<xref target="RFC7863"/>,
-among others),
-it has encouraged the use of RPCSEC GSS rather than AUTH_SYS.
-For various reasons, AUTH_SYS continues to be
-the primary authentication mechanism deployed by NFS administrators.
-As a result, NFS security remains in an unsatisfactory state.
+The use of a TLS-protected transport when
+the AUTH_SYS authentication flavor is in use
+addresses a number of longstanding weaknesses
+(as detailed in
+<xref target="section:c7fb9db5-5f4f-45ad-8bf7-74ffca08bebb"/>).
+TLS augments AUTH_SYS by providing both integrity protection
+and a privacy service that AUTH_SYS lacks.
+This protects data payloads, RPC headers, and
+user identities against monitoring or alteration while in transit.
+TLS guards against the insertion or deletion of messages,
+thus also ensuring the integrity of the message stream
+between RPC client and server.
 </t>
 <t>
-A deeper purpose of this document is to attempt to address
-some of the shortcomings of AUTH_SYS so that,
-where it has been impractical to deploy RPCSEC GSS,
-better NFSv4 security can nevertheless be achieved.
-</t>
-<t>
+The use of TLS enables strong authentication of the communicating
+RPC peers, providing a degree of non-repudiation.
 When AUTH_SYS is used with TLS but the RPC client is unauthenticated,
 the RPC server is still acting on RPC requests for which there is
 no trustworthy authentication.
@@ -936,6 +927,13 @@ Therefore, the RECOMMENDED deployment mode is that
 RPC clients present authentication material
 necessary for RPC servers they contact to have a degree
 of trust that the clients are acting responsibly.
+</t>
+<t>
+The use of TLS does not enable detection of compromise on RPC clients
+that leads to impersonation of RPC users.
+There continues to be a requirement that the mapping of 32-bit user
+and group ID values to user identities is the same on both the RPC
+client and server.
 </t>
 </section>
 
@@ -1006,6 +1004,82 @@ Please replace RFC-TBD with the RFC number assigned to this document.
 <?rfc include="reference.RFC.8471.xml"?>
 
 </references>
+
+<section
+ title="Known Weaknesses of the AUTH_SYS Authentication Flavor"
+ anchor="section:c7fb9db5-5f4f-45ad-8bf7-74ffca08bebb">
+<t>
+The ONC RPC protocol as specified in
+<xref target="RFC5531"/>
+provides several modes of security, traditionally
+referred to as "authentication flavors",
+though some of these flavors provide much more than an authentication service.
+We will refer to these as authentication flavors,
+security flavors, or simply, flavors.
+One of the earliest and most basic flavor is
+AUTH_SYS, also known as AUTH_UNIX.
+AUTH_SYS is currently specified in Appendix A of
+<xref target="RFC5531"/>.
+</t>
+<t>
+AUTH_SYS assumes that both the RPC client and server use POSIX-style
+user and group identifiers
+(each user and group can be distinctly represented as a 32-bit unsigned integer),
+and that both client and server use the same mapping of user and group to integer.
+One user ID, one main group ID, and up to 16 supplemental group IDs
+are associated with each RPC request.
+The combination of these identify the entity on the client that is making
+the request.
+</t>
+<t>
+Peers are identified by a string in each RPC request.
+RFC 5531 does not specify any requirements for this string other
+than that is no longer than 255 octets.
+It does not have to be the same from request to request,
+nor does it have to match the name of the sending host.
+For these reasons, though most implementations do fill in their
+hostname in this field, receivers typically ignore its content.
+</t>
+<t>
+RFC 5531 Appendix A contains a brief explanation of security
+considerations:
+<list style="none">
+<t>
+It should be noted that use of this flavor of authentication does not
+guarantee any security for the users or providers of a service, in
+itself.  The authentication provided by this scheme can be considered
+legitimate only when applications using this scheme and the network
+can be secured externally, and privileged transport addresses are
+used for the communicating end-points (an example of this is the use
+of privileged TCP/UDP ports in UNIX systems -- note that not all
+systems enforce privileged transport address mechanisms).
+</t>
+</list>
+</t>
+<t>
+AUTH_SYS therefore by itself offers little to no communication security:
+<list style="numbers">
+<t>
+It does not protect the privacy or integrity of RPC requests, users,
+or payloads, relying instead on "external" security.
+</t>
+<t>
+It also does not provide real authentication of RPC peer machines, other
+than an unprotected domain name.
+</t>
+<t>
+The use of 32-bit unsigned integers as user and group identifiers
+is problematic because these simple data types are
+not signed or otherwise verified by any authority.
+</t>
+<t>
+Because the user and group ID fields are not integrity-protected,
+AUTH_SYS does not offer non-repudiation.
+</t>
+</list>
+</t>
+
+</section>
 
 <section
  title="Acknowledgments"
