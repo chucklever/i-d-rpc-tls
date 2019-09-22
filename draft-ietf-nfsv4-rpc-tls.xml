@@ -192,11 +192,15 @@ can be significantly ameliorated.
 <t>
 This document specifies the use of RPC on a TLS-protected transport
 in a fashion that is transparent to upper layer protocols based on RPC.
-It also provides opportunistic policies in line with
+It provides policies in line with
 <xref target="RFC7435"/>
-that enable RPC-on-TLS to be deployed in environments with implementations that do not support it.
+that enable RPC-on-TLS to be deployed opportunistically in environments with RPC implementations that do not support TLS.
 Specifications for RPC-based upper layer protocols are free to require stricter policies
-to guarantee that TLS is used for each connection.
+to guarantee that
+TLS with encryption
+or
+TLS with host authentication and encryption
+is used for every connection.
 </t>
 </section>
 
@@ -371,26 +375,26 @@ We also want to handle TLS such that an RPC implementation can
 make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
-An RPC server SHOULD request a TLS peer identity from each client
+Each RPC server that supports RPC-over-TLS MUST possess a unique global identity
+(e.g., a certificate that is signed by a well-known trust anchor).
+Such an RPC server MUST request a TLS peer identity from each client
 upon first contact.
-This permits two different modes of deployment:
+There are two different modes of client deployment:
 <list style="hanging">
 <t hangText="Server-only Host Authentication">
 <vspace/>
-A server possesses a unique global identity
-(e.g., a certificate that is signed by a well-known trust anchor)
-while its clients are anonymous
-(i.e., present no identifier).
-In this situation, the client SHOULD authenticate the server host
-using the presented TLS identity,
-but the server cannot authenticate clients.
+In this type of deployment, RPC-over-TLS clients are essentially anonymous;
+i.e., they present no globally unique identifier to the server peer.
+In this situation, the client can authenticate the server host
+using the presented server peer TLS identity,
+but the server cannot authenticate the client.
 </t>
 <t hangText="Mutual Host Authentication">
 <vspace/>
 In this type of deployment,
-both the server and its clients possess unique identities
-(e.g., certificates).
-As part of the TLS handshake, both peers SHOULD authenticate
+the client possesses a unique global identities
+(e.g., a certificate).
+As part of the TLS handshake, both peers authenticate
 using the presented TLS identities.
 If authentication of either peer fails,
 or if authorization based on those identities blocks access
@@ -417,7 +421,7 @@ privacy (also known as confidentiality) services.
 When operating over a TLS session, these services become redundant.
 A TLS-capable RPC implementation uses GSS channel binding
 for detecting when GSS integrity or privacy is unnecessary and can
-therefore be disabled.
+therefore be avoided.
 See Section 2.5 of <xref target="RFC7861"/> for details.
 </t>
 <t>
@@ -527,13 +531,21 @@ will no longer be protected until a new TLS session is established.
 </section>
 
 <section
- title="Operation on an RDMA Transport"
+ title="Operation on Other Transports"
  anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F">
 <t>
-RPC-over-RDMA
-can make use of Transport Layer Security below the RDMA transport layer
+RPC-over-RDMA can make use of Transport Layer Security
+below the RDMA transport layer
 <xref target="RFC8166"/>.
 The exact mechanism is not within the scope of this document.
+Because there might not be provisions to exchange client and server certificates,
+authentication material could be provided by facilites within a future
+RPC-over-RDMA transport.
+</t>
+<t>
+Transports that provide intrinsic TLS-level security (e.g., QUIC) would
+need to be accommodated separately from the current document.
+In such cases, use of TLS might not be opportunitic as it is for TCP or UDP.
 </t>
 </section>
 
@@ -855,19 +867,19 @@ Clients implementers can choose from the following to mitigate
 STRIPTLS attacks:
 <list style="symbols">
 <t>
-Client security policy can be configured to require
-that a TLS session is established on every connection.
-If an attacker spoofs the handshake, the client disconnects
-and reports the problem.
-This approach is RECOMMENDED.
-</t>
-<t>
 A TLSA record
 <xref target="RFC6698"/>
 can alert clients that TLS is expected to work, and
 provides a binding of hostname to x.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
+</t>
+<t>
+Client security policy can be configured to require
+that a TLS session is established on every connection.
+If an attacker spoofs the handshake, the client disconnects
+and reports the problem.
+If TLSA records are not available, this approach is strongly encouraged.
 </t>
 </list>
 </t>
@@ -879,18 +891,13 @@ the client disconnects and reports the problem.
  title="Multiple User Identity Realms"
  anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
 <t>
-To maintain the privacy of RPC users on a single client belong
+To maintain the privacy of RPC users on a single client belonging
 to multiple distinct security realms,
 the client MUST establish an independent TLS session
-for each user identity domain.
-</t>
-<t>
-For example, suppose there is host with an NFS client and
-NFS users that reside in identity domain A, and some that reside in domain B.
-The NFS client must establish at least two TLS sessions
-and
-transmit requests on behalf of users in domain A on one of those sessions,
-and requests on behalf of users in domain B on the other session.
+for each user identity domain, each using a distinct globally unique identity.
+The purpose of this separation is to prevent even privileged users in each
+security realm from monitoring RPC traffic emitted on behalf of users in
+other security realms on the same peer.
 </t>
 </section>
 
@@ -923,7 +930,7 @@ This is an improvement from AUTH_SYS without encryption,
 but it leaves a critical security exposure.
 </t>
 <t>
-Therefore, the RECOMMENDED deployment mode is that
+In light of the above, it is RECOMMENDED that when AUTH_SYS is used,
 RPC clients present authentication material
 necessary for RPC servers they contact to have a degree
 of trust that the clients are acting responsibly.
@@ -931,7 +938,7 @@ of trust that the clients are acting responsibly.
 <t>
 The use of TLS does not enable detection of compromise on RPC clients
 that leads to impersonation of RPC users.
-There continues to be a requirement that the mapping of 32-bit user
+In addition, there continues to be a requirement that the mapping of 32-bit user
 and group ID values to user identities is the same on both the RPC
 client and server.
 </t>
@@ -1057,14 +1064,15 @@ systems enforce privileged transport address mechanisms).
 </list>
 </t>
 <t>
-AUTH_SYS therefore by itself offers little to no communication security:
+It should be clear, therefore, that AUTH_SYS by itself offers little
+to no communication security:
 <list style="numbers">
 <t>
 It does not protect the privacy or integrity of RPC requests, users,
 or payloads, relying instead on "external" security.
 </t>
 <t>
-It also does not provide real authentication of RPC peer machines, other
+It also does not provide actual authentication of RPC peer machines, other
 than an unprotected domain name.
 </t>
 <t>
