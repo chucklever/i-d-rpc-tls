@@ -660,11 +660,8 @@ by the fingerprint of the presented certificate.
 Implementations SHOULD allow the configuration of a list
 of trusted certificates,
 identified via fingerprint of the DER encoded certificate octets.
-Implementations MUST support SHA-1 as the hash algorithm for the
-fingerprint.
-To prevent attacks based on hash collisions,
-support for a more contemporary hash function,
-such as SHA-256, is RECOMMENDED.
+Implementations MUST support SHA-256 or newer
+as the hash algorithm for the fingerprint.
 </t>
 </section>
 
