@@ -837,19 +837,27 @@ Implementers should familiarize themselves with these materials.
  title="Limitations of an Opportunistic Approach"
  anchor="section:51737BB5-2B65-441E-AD1D-7EBF5123C079">
 <t>
-A range of options is allowed by the opportunistic approach
-described in this document,
+The purpose of using an explicitly opportunistic approach
+is to enable interoperation with implementations that do not
+support RPC-over-TLS.
+A range of options is allowed by this approach,
 from
 "no peer authentication or encryption"
 to
 "server-only authentication with encryption"
 to
 "mutual authentication with encryption".
-The security level may indeed be selected
-without user intervention based on a policy.
-Implementations must take care to accurately represent
-to all RPC consumers
+The actual security level may indeed be selected
+based on a policy and without user intervention.
+</t>
+<t>
+In cases where interoperability is a priority,
+the security benefits of TLS are partially or entirely waived.
+Implementations of the mechanism described in this document
+must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect.
+In addition, implementations are REQUIRED to provide an audit log
+of RPC-over-TLS security mode selection.
 </t>
 
 <section
