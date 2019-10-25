@@ -1147,6 +1147,11 @@ Many thanks to Tigran Mkrtchyan for his work on the DESY prototype
 and resulting feedback to this document.
 </t>
 <t>
+Thanks to Derrell Piper for numerous suggestions that
+improved both the security of this simple mechanism and
+the security-related discussion in this document.
+</t>
+<t>
 The authors are grateful to
 Bill Baker,
 David Black,
