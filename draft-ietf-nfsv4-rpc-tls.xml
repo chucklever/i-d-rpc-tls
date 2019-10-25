@@ -202,6 +202,11 @@ or
 TLS with host authentication and encryption
 is used for every connection.
 </t>
+<t>
+Note that the protocol specification in this document assumes that
+support for RPC, TLS, PKI, GSS-API, and/or DNSSEC is
+already available in an implementation where RPC-on-TLS is to be added.
+</t>
 </section>
 
 <section
@@ -398,7 +403,7 @@ As part of the TLS handshake, both peers authenticate
 using the presented TLS identities.
 If authentication of either peer fails,
 or if authorization based on those identities blocks access
-to the server, the client association SHOULD be rejected.
+to the server, the client association MUST be rejected.
 </t>
 </list>
 </t>
@@ -406,8 +411,11 @@ to the server, the client association SHOULD be rejected.
 In either of these modes, RPC user authentication is not affected
 by the use of transport layer security.
 Once a TLS session is established,
-the server MUST NOT utilize the client peer's TLS identity
-for the purpose of authorizing individual RPC requests.
+the server MUST NOT substitute RPC_AUTH_TLS,
+or the remote identity used for TLS peer authentication,
+for existing forms of per-request RPC user authentication
+specified by
+<xref target="RFC5531"/>.
 </t>
 
 <section
@@ -621,7 +629,7 @@ should expose as many details of the presented certificate to the
 administrator as possible so that the trust model can be implemented
 by the administrator.
 As a suggestion, at least the following
-parameters of the X.509 client certificate should be exposed:
+parameters of the X.509 client certificate SHOULD be exposed:
 <list style="symbols">
 <t>
 Originating IP address
@@ -674,7 +682,7 @@ In this mode, an RPC peer is uniquely identified by key material
 that has been shared out-of-band or by a previous TLS-protected
 connection (see
 <xref target="RFC8446"/> Section 2.2).
-At least the following parameters of the TLS connection should be exposed:
+At least the following parameters of the TLS connection SHOULD be exposed:
 <list style="symbols">
 <t>
 Originating IP address
