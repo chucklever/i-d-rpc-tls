@@ -20,7 +20,7 @@
 <front>
 
 <title abbrev="RPC-Over-TLS">
-Remote Procedure Call Encryption By Default
+Towards Remote Procedure Call Encryption By Default
 </title>
 
 <author initials="T.M." surname="Myklebust" fullname="Trond Myklebust">
