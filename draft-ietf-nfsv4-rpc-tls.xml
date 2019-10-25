@@ -957,6 +957,34 @@ client and server.
 </t>
 </section>
 
+<section
+ title="Best Security Policy Practices"
+ anchor="section:55D006D3-8CA6-4D7F-AF0D-BFB0FFEF7595">
+<t>
+To achieve the strongest possible security with RPC-over-TLS,
+RPC-over-TLS implementations and deployments are
+strongly encouraged
+to adhere to these policies:
+<list style="hanging">
+<t hangText="When using AUTH_NULL or AUTH_SYS:">
+<vspace/>
+Both peers are required to have DNS TLSA records and certificate material;
+a policy that requires mutual peer authentication and
+rejection of a connection when host authentication fails.
+</t>
+<t hangText="When using RPCSEC_GSS:">
+<vspace/>
+GSS/Kerberos provides adequate host authentication already;
+a policy that requires GSS mutual authentication and
+rejection of a connection when host authentication fails.
+GSS integrity and privacy services should be disabled
+in favor of TLS encryption without peer authentication.
+</t>
+</list>
+</t>
+
+</section>
+
 </section>
 
 <section
