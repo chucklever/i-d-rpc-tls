@@ -814,8 +814,8 @@ https://www.kernel.org
 Prototype software based on early versions of this document.
 </t>
 <t hangText="Coverage:">
-The bulk of this specification is implemented.
-The use of DTLS functionality is not implemented.
+The bulk of this specification has yet to be implemented.
+The use of DTLS functionality is not planned.
 </t>
 <t hangText="Licensing:">
 GPLv2
