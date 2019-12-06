@@ -438,7 +438,7 @@ See Section 2.5 of <xref target="RFC7861"/> for details.
 <t>
 When employing GSS above TLS,
 a GSS service principal is still required on the server,
-and mutual GSS authentication of server and client still occurs after
+and GSS mutual authentication still occurs after
 the TLS session is established.
 </t>
 </section>
@@ -549,14 +549,14 @@ RPC-over-RDMA can make use of Transport Layer Security
 below the RDMA transport layer
 <xref target="RFC8166"/>.
 The exact mechanism is not within the scope of this document.
-Because there might not be provisions to exchange client and server certificates,
-authentication material could be provided by facilites within a future
+Because there might not be other provisions to exchange client and server certificates,
+authentication material would need to be provided by facilites within a future
 RPC-over-RDMA transport.
 </t>
 <t>
 Transports that provide intrinsic TLS-level security (e.g., QUIC) would
-need to be accommodated separately from the current document.
-In such cases, use of TLS might not be opportunitic as it is for TCP or UDP.
+need to be addressed separately from the current document.
+In such cases, use of TLS would not be opportunitic as it is for TCP or UDP.
 </t>
 </section>
 
@@ -948,9 +948,10 @@ but it leaves a critical security exposure.
 </t>
 <t>
 In light of the above, it is RECOMMENDED that when AUTH_SYS is used,
-RPC clients present authentication material
-necessary for RPC servers they contact to have a degree
-of trust that the clients are acting responsibly.
+each RPC client should present host authentication material
+to RPC servers to prove that the client is a known one.
+The server can then make a determination whether the UIDs and GIDs
+in AUTH_SYS requests from that client can be accepted.
 </t>
 <t>
 The use of TLS does not enable detection of compromise on RPC clients
