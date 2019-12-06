@@ -1043,12 +1043,14 @@ Please replace RFC-TBD with the RFC number assigned to this document.
  anchor="SHA2">
 <front>
 <title>
-Secure Hash Standard, Federal Information Processing Standards Publication FIPS PUB 180-4
+Secure Hash Standard
 </title>
-<author></author>
+<author>
+</author>
 <date month="August" year="2015"/>
 </front>
 <seriesInfo name="National" value="Institute of Standards and Technology"/>
+<seriesInfo name="Federal Information Processing Standards Publication" value="FIPS PUB 180-4"/>
 <format type="PDF" target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf"/>
 </reference>
 
@@ -1056,17 +1058,12 @@ Secure Hash Standard, Federal Information Processing Standards Publication FIPS 
 
 <references title="Informative References">
 
-<?rfc include="reference.RFC.1813.xml"?>
 <?rfc include="reference.RFC.2203.xml"?>
 <?rfc include="reference.RFC.2818.xml"?>
-<?rfc include="reference.RFC.5661.xml"?>
 <?rfc include="reference.RFC.6698.xml"?>
 <?rfc include="reference.RFC.6973.xml"?>
 <?rfc include="reference.RFC.7435.xml"?>
 <?rfc include="reference.RFC.7525.xml"?>
-<?rfc include="reference.RFC.7530.xml"?>
-<?rfc include="reference.RFC.7862.xml"?>
-<?rfc include="reference.RFC.7863.xml"?>
 <?rfc include="reference.RFC.8166.xml"?>
 <?rfc include="reference.RFC.8471.xml"?>
 
