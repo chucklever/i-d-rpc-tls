@@ -413,12 +413,13 @@ to the server, the client association MUST be rejected.
 <t>
 In either of these modes, RPC user authentication is not affected
 by the use of transport layer security.
-Once a TLS session is established,
-the server MUST NOT substitute RPC_AUTH_TLS,
-or the remote identity used for TLS peer authentication,
-for existing forms of per-request RPC user authentication
-specified by
-<xref target="RFC5531"/>.
+In fact, when a client presents a TLS peer identity to an RPC server,
+the protocol extension described in the current document
+provides no way for the server to know whether
+that identity represents one user on that client,
+or is shared amongst users.
+Therefore, a server implementation must not utilize the remote TLS peer identity
+for the purpose of RPC user authentication.
 </t>
 
 <section
