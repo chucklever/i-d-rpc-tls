@@ -494,10 +494,13 @@ it uses the mechanism described in
 to discover TLS support and then negotiate a TLS session.
 </t>
 <t>
-After the TLS session is established,
-all traffic on the connection
-is encapsulated and protected
-until the TLS session is terminated.
+Subsequent to a successful TLS handshake, an RPC server MUST reject all
+subsequent RPC requests over the same connection that are outside of a
+TLS session with a reject_stat of AUTH_ERROR. Likewise, an RPC client
+MUST discard all subsequent RPC replies over the same connection that are
+outside of a TLS session without processing them.
+</t>
+<t>
 This includes reverse-direction operations
 (i.e., RPC requests initiated on the server-end of the connection).
 An RPC client receiving a reverse-direction operation
@@ -507,9 +510,6 @@ the request with a reject_stat of AUTH_ERROR.
 <t>
 An RPC peer terminates a TLS session by sending a TLS closure alert,
 or by closing the underlying TCP socket.
-After TLS session termination,
-a recipient MUST reject any subsequent RPC requests over the
-same connection with a reject_stat of AUTH_ERROR.
 </t>
 </section>
 
@@ -906,16 +906,30 @@ If TLSA records are not available, this approach is strongly encouraged.
 </section>
 
 <section
- title="Multiple User Identity Realms"
+ title="TLS Identity Management on Clients"
  anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
 <t>
-To maintain the privacy of RPC users on a single client belonging
-to multiple distinct security realms,
-the client MUST establish an independent TLS session
-for each user identity domain, each using a distinct globally unique identity.
-The purpose of this separation is to prevent even privileged users in each
-security realm from monitoring RPC traffic emitted on behalf of users in
-other security realms on the same peer.
+The goal of the RPC-on-TLS protocol extension  is
+to hide the content of RPC requests while they are in-transit.
+The RPC-on-TLS protocol by itself cannot protect against
+exposure of a user's RPC requests to other users on the same client.
+</t>
+<t>
+Moreover, client implementations are free to transmit RPC requests
+for more than one RPC user using the same transport connection and
+TLS session.
+Depending on the details of the client RPC implementation,
+this means that the client's TLS identity material is potentially
+visible to every RPC user that shares a TLS session.
+Privileged users may also be able to access this TLS identity.
+</t>
+<t>
+To close this gap,
+client implementations need to carefully segregate access
+to TLS identity material so that
+local access to that material is restricted
+to only the local users that are authorized to perform operations
+on the remote RPC server.
 </t>
 </section>
 
