@@ -75,7 +75,7 @@ This document updates RFC 5531.
 
 <section
  title="Introduction"
- anchor="section:8f035331-8eb8-4fbc-973a-673fba5fe952">
+ anchor="section:8F035331-8EB8-4FBC-973A-673FBA5FE952">
 
 <t>
 In 2014 the IETF published
@@ -214,7 +214,7 @@ already available in an implementation where RPC-on-TLS is to be added.
 
 <section
  title="Requirements Language"
- anchor="section:024237c9-5504-49b4-a2d3-2d2a5efbb967">
+ anchor="section:024237C9-5504-49B4-A2D3-2D2A5EFBB967">
 <t>
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY",
@@ -228,7 +228,7 @@ when, and only when, they appear in all capitals, as shown here.
 
 <section
  title="Terminology"
- anchor="section:0eb1100e-daa8-4b2c-98ae-94258cfdcb1b">
+ anchor="section:0EB1100E-DAA8-4B2C-98AE-94258CFDCB1B">
 <t>
 This document adopts the terminology introduced in Section 3 of
 <xref target="RFC6973"/>
@@ -269,11 +269,11 @@ fields in each RPC Call.
 
 <section
  title="RPC-Over-TLS in Operation"
- anchor="section:ec3feed5-1de0-454b-9ab3-ce47ba901583">
+ anchor="section:EC3FEED5-1DE0-454B-9AB3-CE47BA901583">
 
 <section
  title="Discovering Server-side TLS Support"
- anchor="section:0a03673b-14ba-4228-8a8a-f76aa318ca73">
+ anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73">
 <t>
 The mechanism described in this document interoperates
 fully with RPC implementations that do not support TLS.
@@ -371,7 +371,7 @@ already been negotiated, the server MUST silently discard it.
 
 <section
  title="Authentication"
- anchor="section:6edef553-c95a-47d7-abba-0b537fe3a959">
+ anchor="section:6EDEF553-C95A-47D7-ABBA-0B537FE3A959">
 <t>
 Both RPC and TLS have their own variants of authentication,
 and there is some overlap in capability.
@@ -424,7 +424,7 @@ for the purpose of RPC user authentication.
 
 <section
  title="Using TLS with RPCSEC GSS"
- anchor="section:12d92596-f310-48c8-a4e0-b6ca038524e5">
+ anchor="section:12D92596-F310-48C8-A4E0-B6CA038524E5">
 <t>
 RPCSEC GSS can provide per-request
 integrity
@@ -467,7 +467,7 @@ Support for TLS-PSK mutual authentication
 <xref target="RFC4279"/>
 is OPTIONAL.
 See
-<xref target="section:6edef553-c95a-47d7-abba-0b537fe3a959"/>
+<xref target="section:6EDEF553-C95A-47D7-ABBA-0B537FE3A959"/>
 for further details.
 </t>
 <t>
@@ -480,7 +480,7 @@ Support for and negotiation of compression is OPTIONAL.
 
 <section
  title="Base Transport Considerations"
- anchor="section:cc204592-f561-49bd-b1c9-de0ff7f0e7ab">
+ anchor="section:CC204592-F561-49BD-B1C9-DE0FF7F0E7AB">
 
 <section
  title="Operation on TCP"
@@ -490,7 +490,7 @@ RPC over TCP is protected by using TLS
 <xref target="RFC8446"/>.
 As soon as a client completes the TCP handshake,
 it uses the mechanism described in
-<xref target="section:0a03673b-14ba-4228-8a8a-f76aa318ca73"/>
+<xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
 to discover TLS support and then negotiate a TLS session.
 </t>
 <t>
@@ -522,7 +522,7 @@ RPC over UDP is protected using DTLS
 As soon as a client initializes a socket for use with
 an unfamiliar server,
 it uses the mechanism described in
-<xref target="section:0a03673b-14ba-4228-8a8a-f76aa318ca73"/>
+<xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
 to discover DTLS support and then negotiate a DTLS session.
 Connected operation is RECOMMENDED.
 </t>
@@ -565,7 +565,7 @@ In such cases, use of TLS would not be opportunitic as it is for TCP or UDP.
 
 <section
  title="TLS Peer Authentication"
- anchor="section:936921ed-67bb-46bf-b316-6740e07f6652">
+ anchor="section:936921ED-67BB-46BF-B316-6740E07F6652">
 <t>
 Peer authentication can be performed by TLS using any of the
 following mechanisms:
@@ -832,7 +832,7 @@ No comments from implementors.
 
 <section
  title="Security Considerations"
- anchor="section:2ae49383-e6b2-4830-8407-995febf727f2">
+ anchor="section:2AE49383-E6B2-4830-8407-995FEBF727F2">
 <t>
 One purpose of the mechanism described in this document
 is to protect RPC-based applications against threats to
@@ -875,7 +875,7 @@ of RPC-over-TLS security mode selection.
 
 <section
  title="STRIPTLS Attacks"
- anchor="section:8894bdd2-0e0b-47a3-a2cb-70e4d93b55b0">
+ anchor="section:8894BDD2-0E0B-47A3-A2CB-70E4D93B55B0">
 <t>
 A classic form of attack on network protocols that initiate an association
 in plain-text to discover support for TLS is a man-in-the-middle
@@ -935,13 +935,13 @@ on the remote RPC server.
 
 <section
  title="Security Considerations for AUTH_SYS on TLS"
- anchor="section:552b02a0-f19e-4b46-809c-672a6ae931a1">
+ anchor="section:552B02A0-F19E-4B46-809C-672A6AE931A1">
 <t>
 The use of a TLS-protected transport when
 the AUTH_SYS authentication flavor is in use
 addresses a number of longstanding weaknesses
 (as detailed in
-<xref target="section:c7fb9db5-5f4f-45ad-8bf7-74ffca08bebb"/>).
+<xref target="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB"/>).
 TLS augments AUTH_SYS by providing both integrity protection
 and a privacy service that AUTH_SYS lacks.
 This protects data payloads, RPC headers, and
@@ -1009,7 +1009,7 @@ in favor of TLS encryption without peer authentication.
 
 <section
  title="IANA Considerations"
- anchor="section:7b126473-2a13-453b-9bca-66bc11b7b018">
+ anchor="section:7B126473-2A13-453B-9BCA-66BC11B7B018">
 <t>
 In accordance with Section 6 of
 <xref target="RFC7301"/>,
@@ -1086,7 +1086,7 @@ Secure Hash Standard
 
 <section
  title="Known Weaknesses of the AUTH_SYS Authentication Flavor"
- anchor="section:c7fb9db5-5f4f-45ad-8bf7-74ffca08bebb">
+ anchor="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB">
 <t>
 The ONC RPC protocol as specified in
 <xref target="RFC5531"/>
@@ -1163,7 +1163,7 @@ AUTH_SYS does not offer non-repudiation.
 
 <section
  title="Acknowledgments"
- anchor="section:4959412f-37ad-42b8-9169-d477148f81a8"
+ anchor="section:4959412F-37AD-42B8-9169-D477148F81A8"
  numbered="no">
 <t>
 Special mention goes to Charles Fisher, author of
