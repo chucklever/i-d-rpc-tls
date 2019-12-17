@@ -91,7 +91,7 @@ Typically this mitigation is done by encrypting data in transit.
 <t>
 The Remote Procedure Call version 2 protocol
 has been a Proposed Standard for three decades
-(see <xref target="RFC5531"/> and its antecedants).
+(see <xref target="RFC5531"/> and its antecedents).
 Over twenty years ago,
 Eisler et al. first introduced RPCSEC GSS
 as an in-transit encryption mechanism for RPC
@@ -107,7 +107,7 @@ constituting a significant security exposure.
 <t>
 On-host cryptographic manipulation of data payloads can
 exact a significant CPU and memory bandwidth cost on RPC peers.
-Offloadng does not appear to be practical using GSS privacy
+Offloading does not appear to be practical using GSS privacy
 since each message is encrypted using its own key
 based on the issuing RPC user.
 </t>
@@ -180,7 +180,7 @@ can be significantly ameliorated.
 <t hangText="Decoupled User and Host Identities">
 <vspace/>
 TLS can be used to authenticate peer hosts
-while other security mechanisms can handle user authentictation.
+while other security mechanisms can handle user authentication.
 Cryptographic authentication of hosts can be provided while
 safely using simpler user authentication flavors such as AUTH_SYS.
 </t>
@@ -551,13 +551,13 @@ below the RDMA transport layer
 <xref target="RFC8166"/>.
 The exact mechanism is not within the scope of this document.
 Because there might not be other provisions to exchange client and server certificates,
-authentication material exchange would need to be provided by facilites within a future
+authentication material exchange would need to be provided by facilities within a future
 RPC-over-RDMA transport.
 </t>
 <t>
 Transports that provide intrinsic TLS-level security (e.g., QUIC) would
 need to be addressed separately from the current document.
-In such cases, use of TLS would not be opportunitic as it is for TCP or UDP.
+In such cases, use of TLS would not be opportunistic as it is for TCP or UDP.
 </t>
 </section>
 
