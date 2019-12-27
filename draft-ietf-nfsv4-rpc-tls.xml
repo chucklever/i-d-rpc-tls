@@ -1156,7 +1156,7 @@ than an unprotected domain name.
 <t>
 The use of 32-bit unsigned integers as user and group identifiers
 is problematic because these simple data types are
-not signed or otherwise verified by any authority.
+not cryptographically signed or otherwise verified by any authority.
 </t>
 <t>
 Because the user and group ID fields are not integrity-protected,
