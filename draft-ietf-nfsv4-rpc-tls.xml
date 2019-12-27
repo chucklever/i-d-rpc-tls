@@ -673,7 +673,7 @@ Implementations SHOULD allow the configuration of a list
 of trusted certificates,
 identified via fingerprint of the DER encoded certificate octets.
 Implementations MUST support SHA-256
-<xref target="SHA2"/>
+<xref target="FIPS.180-4"/>
 or stronger as the hash algorithm for the fingerprint.
 </t>
 </section>
@@ -1058,17 +1058,20 @@ Please replace RFC-TBD with the RFC number assigned to this document.
 <?rfc include="reference.RFC.8446.xml"?>
 
 <reference
- anchor="SHA2">
+ anchor="FIPS.180-4">
 <front>
 <title>
-Secure Hash Standard
+Secure Hash Standard,
+Federal Information Processing Standards Publication FIPS PUB 180-4
 </title>
 <author>
+<organization>
+National Institute of Standards and Technology
+</organization>
 </author>
 <date month="August" year="2015"/>
 </front>
-<seriesInfo name="National" value="Institute of Standards and Technology"/>
-<seriesInfo name="Federal Information Processing Standards Publication" value="FIPS PUB 180-4"/>
+<seriesInfo name="FIPS PUB" value="180-4"/>
 <format type="PDF" target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf"/>
 </reference>
 
