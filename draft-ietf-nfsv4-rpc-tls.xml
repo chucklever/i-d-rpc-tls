@@ -76,28 +76,30 @@ This document updates RFC 5531.
 <section
  title="Introduction"
  anchor="section:8F035331-8EB8-4FBC-973A-673FBA5FE952">
-
 <t>
 In 2014 the IETF published
-<xref target="RFC7258"/>
+<xref target="RFC7258"/>,
 which recognized that unauthorized observation
-of network traffic had become widespread and
-was a subversive threat to all who
-make use of the Internet at large.
-It strongly recommended that newly defined Internet
-protocols make a real effort to mitigate monitoring attacks.
+of network traffic had become widespread
+and
+was a subversive threat
+to all who make use of the Internet at large.
+It strongly recommended that newly defined Internet protocols
+should make a genuine effort to mitigate monitoring attacks.
 Typically this mitigation is done by encrypting data in transit.
 </t>
 <t>
 The Remote Procedure Call version 2 protocol
 has been a Proposed Standard for three decades
-(see <xref target="RFC5531"/> and its antecedents).
+(see
+<xref target="RFC5531"/>
+and its antecedents).
 Over twenty years ago,
 Eisler et al. first introduced RPCSEC GSS
 as an in-transit encryption mechanism for RPC
 <xref target="RFC2203"/>.
-However, experience has shown that
-RPCSEC GSS with in-transit encryption
+However, experience has shown
+that RPCSEC GSS with in-transit encryption
 can be challenging to use in practice:
 <list style="symbols">
 <t>
@@ -105,11 +107,10 @@ Parts of each RPC header remain in clear-text,
 constituting a significant security exposure.
 </t>
 <t>
-On-host cryptographic manipulation of data payloads can
-exact a significant CPU and memory bandwidth cost on RPC peers.
-Offloading does not appear to be practical using GSS privacy
-since each message is encrypted using its own key
-based on the issuing RPC user.
+Offloading GSS privacy is not practical
+in large multi-user deployments
+since each message is encrypted using a key based
+on the issuing RPC user.
 </t>
 </list>
 However strong a privacy service is,
@@ -117,98 +118,96 @@ it cannot provide any security if the challenges
 of using it result in choosing not to deploy it at all.
 </t>
 <t>
-Moreover, the use of AUTH_SYS remains common
-despite the negative effects
+Moreover, the use of AUTH_SYS
+remains common despite the adverse effects
 that acceptance of UIDs and GIDs
 from unauthenticated clients brings with it.
-This is in part because:
+Continued use is in part because:
 <list style="symbols">
 <t>
 Per-client deployment and administrative costs
 are not scalable.
-Keying material must be provided for each RPC client,
-including transient clients.
+Administrators must provide keying material
+for each RPC client, including transient clients.
 </t>
 <t>
 Host identity management and user identity management
-must be carried out in the same security realm.
-In certain environments, different authorities
-might be responsible for provisioning client systems versus
+must be enforced in the same security realm.
+In certain environments,
+different authorities might be responsible
+for provisioning client systems
+versus
 provisioning new users.
 </t>
 </list>
 </t>
 <t>
-The alternative described in this document is to employ a
-transport layer security mechanism that can protect the privacy
-of each RPC connection transparently to RPC and Upper Layer protocols.
+The alternative described in the current document is
+to employ a transport layer security mechanism
+that can protect the privacy of each RPC connection
+transparently to RPC and upper-layer protocols.
 The Transport Layer Security protocol
 <xref target="RFC8446"/>
-(TLS) is a well-established Internet building block that
-protects many common Internet protocols such as
-the Hypertext Transport Protocol (http)
+(TLS) is a well-established Internet building block
+that protects many standard Internet protocols
+such as the Hypertext Transport Protocol (HTTP)
 <xref target="RFC2818"/>.
 </t>
 <t>
-Encrypting at the RPC transport layer enables several significant benefits.
+Encrypting at the RPC transport layer accords several significant benefits:
 <list style="hanging">
-<t hangText="Encryption By Default">
-<vspace/>
-In-transit encryption by itself may be enabled
-without additional administrative actions such as
+<t hangText="Encryption By Default:">
+Transport encryption can be enabled
+without additional administrative tasks such as
 identifying client systems to a trust authority,
-generating additional key material, or
+generating additional keying material,
+or
 provisioning a secure network tunnel.
 </t>
-<t hangText="Encryption Offload">
-<vspace/>
-Whereas hardware support for GSS privacy has not appeared
-in the marketplace, the use of a well-established
-transport encryption mechanism that is also employed
-by other very common network protocols
-makes it likely that a hardware encryption implementation
-will be available to offload encryption and decryption.
+<t hangText="Encryption Offload:">
+Hardware support for GSS privacy has not appeared in the marketplace.
+However, the use of a well-established transport encryption mechanism
+that is employed by other ubiquitous network protocols
+makes it more likely that encryption offload for RPC
+is practicable.
 </t>
-<t hangText="Securing AUTH_SYS">
-<vspace/>
-Most critically, several security issues inherent
-in the current widespread use of AUTH_SYS
+<t hangText="Securing AUTH_SYS:">
+Most critically, transport encryption can
+significantly reduce several security issues
+inherent in the current widespread use of AUTH_SYS
 (i.e., acceptance of UIDs and GIDs
-generated by an unauthenticated client)
-can be significantly ameliorated.
+generated by an unauthenticated client).
 </t>
-<t hangText="Decoupled User and Host Identities">
-<vspace/>
+<t hangText="Decoupled User and Host Identities:">
 TLS can be used to authenticate peer hosts
 while other security mechanisms can handle user authentication.
-Cryptographic authentication of hosts can be provided while
-safely using simpler user authentication flavors such as AUTH_SYS.
 </t>
 </list>
 </t>
 <t>
-This document specifies the use of RPC on a TLS-protected transport
-in a fashion that is transparent to upper layer protocols based on RPC.
-The imposition of encryption at the transport layer protects
-any Upper Layer protocol that employs RPC,
+The current document specifies the implementation of RPC on an encrypted transport
+in a fashion that is transparent to upper-layer protocols based on RPC.
+The imposition of encryption at the transport layer
+protects any upper-layer protocol that employs RPC,
 without alteration of that protocol.
 </t>
 <t>
-In addition, this document provides policies in line with
+Further, the current document defines policies in line with
 <xref target="RFC7435"/>
-that enable RPC-on-TLS to be deployed opportunistically
+which enable RPC-on-TLS to be deployed opportunistically
 in environments with RPC implementations that do not support TLS.
-Specifications for RPC-based upper layer protocols
+Specifications for RPC-based upper-layer protocols
 are free to require stricter policies to guarantee that
-TLS with encryption
+encryption
 or
-TLS with host authentication and encryption
-is used for every connection.
+host authentication
+is in use on every connection.
 </t>
 <t>
-Note that the protocol specification in this document assumes that
-support for RPC, TLS, PKI, GSS-API, and/or DNSSEC is
-already available in an implementation where RPC-on-TLS is to be added.
+The protocol specification in the current document assumes
+that support for RPC, TLS, PKI, GSS-API, and DNSSEC
+is already available in an RPC implementation
+where TLS support is to be added.
 </t>
 </section>
 
@@ -242,7 +241,7 @@ the Transport Layer Security (TLS) version 1.3 protocol
 <t>
 Note also that the NFS community uses the term "privacy"
 where other Internet communities use "confidentiality".
-In this document the two terms are synonymous.
+In the current document the two terms are synonymous.
 </t>
 <t>
 We adhere to the convention that a "client"
@@ -255,7 +254,7 @@ RPC documentation historically refers to
 the authentication of a connecting host as "machine authentication"
 or "host authentication".
 TLS documentation refers to the same as "peer authentication".
-In this document there is little distinction between these terms.
+In the current document there is little distinction between these terms.
 </t>
 <t>
 The term "user authentication" in this document refers specifically
@@ -275,16 +274,17 @@ fields in each RPC Call.
  title="Discovering Server-side TLS Support"
  anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73">
 <t>
-The mechanism described in this document interoperates
-fully with RPC implementations that do not support TLS.
+The mechanism described in this document
+interoperates fully with RPC implementations
+that do not support TLS.
 The use of TLS is automatically disabled in these cases.
 </t>
 <t>
 To achieve this, we introduce a new RPC authentication flavor called AUTH_TLS.
-This new flavor is used to signal that the client wants to initiate
-TLS negotiation if the server supports it.
+This new flavor signals that the client wants
+to initiate TLS negotiation if the server supports it.
 Except for the modifications described in this section,
-the RPC protocol is largely unaware of security encapsulation.
+the RPC protocol is unaware of security encapsulation.
 <figure align="left">
 <artwork xml:space="preserve" align="left">
 &lt;CODE BEGINS&gt;
@@ -325,26 +325,27 @@ The NULL request is made to the same port as if TLS were not in use.
 The RPC server can respond in one of three ways:
 <list style="symbols">
 <t>
-If the RPC server does not recognise the AUTH_TLS authentication flavor,
+If the RPC server does not recognize the AUTH_TLS authentication flavor,
 it responds with a reject_stat of AUTH_ERROR.
 The RPC client then knows that this server does not support TLS.
 </t>
 <t>
-If the RPC server accepts the NULL RPC procedure,
-but fails to return an AUTH_NONE verifier containing the
-string "STARTTLS",
+If the RPC server accepts the NULL RPC procedure
+but fails to return an AUTH_NONE verifier
+containing the string "STARTTLS",
 the RPC client knows that this server does not support TLS.
 </t>
 <t>
-If the RPC server accepts the NULL RPC procedure,
-and returns an AUTH_NONE verifier containing the string "STARTTLS",
+If the RPC server accepts the NULL RPC procedure
+and returns an AUTH_NONE verifier
+containing the string "STARTTLS",
 the RPC client SHOULD send a STARTTLS.
 </t>
 </list>
 </t>
 <t>
 Once the TLS handshake is complete,
-the RPC client and server will have established
+the RPC client and server have established
 a secure channel for communicating.
 The client MUST switch to a security flavor other than AUTH_TLS
 within that channel, presumably after negotiating down
@@ -353,19 +354,19 @@ and applying channel binding
 <xref target="RFC7861"/>.
 </t>
 <t>
-If TLS negotiation fails for any reason --
-say, the RPC server rejects the certificate presented by the RPC client,
-or the RPC client fails to authenticate the RPC server --
-the RPC client reports this failure to the calling application
+If TLS negotiation fails for any reason,
+the RPC client reports this failure to the upper-layer application
 the same way it would report an AUTH_ERROR rejection from the RPC server.
 </t>
 <t>
 If an RPC client attempts to use AUTH_TLS
 for anything other than the NULL RPC procedure,
 the RPC server MUST respond with a reject_stat of AUTH_ERROR.
-If the client sends a STARTTLS after it has sent other
-non-encrypted RPC traffic or after a TLS session has
-already been negotiated, the server MUST silently discard it.
+If the client sends a STARTTLS
+after it has sent other non-encrypted RPC traffic
+or
+after a TLS session already in place,
+the server MUST silently discard it.
 </t>
 </section>
 
@@ -373,14 +374,15 @@ already been negotiated, the server MUST silently discard it.
  title="Authentication"
  anchor="section:6EDEF553-C95A-47D7-ABBA-0B537FE3A959">
 <t>
-Both RPC and TLS have their own variants of authentication,
-and there is some overlap in capability.
-The goal of interoperability with implementations that do not
-support TLS requires that we limit the
-combinations that are allowed and precisely specify the
-role that each layer plays.
-We also want to handle TLS such that an RPC implementation can
-make the use of TLS invisible to existing RPC consumer applications.
+Both RPC and TLS have peer and user authentication,
+with some overlap in capability between RPC and TLS.
+The goal of interoperability with implementations
+that do not support TLS requires
+limiting the combinations that are allowed
+and
+precisely specifying the role that each layer plays.
+We also want to handle TLS such that an RPC implementation
+can make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
 Each RPC server that supports RPC-over-TLS MUST possess a unique global identity
@@ -389,37 +391,37 @@ Such an RPC server MUST request a TLS peer identity from each client
 upon first contact.
 There are two different modes of client deployment:
 <list style="hanging">
-<t hangText="Server-only Host Authentication">
-<vspace/>
-In this type of deployment, RPC-over-TLS clients are essentially anonymous;
-i.e., they present no globally unique identifier to the server peer.
-In this situation, the client can authenticate the server host
+<t hangText="Server-only Host Authentication"><vspace blankLines="0"/>
+In this type of deployment,
+the client can authenticate the server host
 using the presented server peer TLS identity,
 but the server cannot authenticate the client.
+In this situation,
+RPC-over-TLS clients are anonymous.
+They present no globally unique identifier to the server peer.
 </t>
-<t hangText="Mutual Host Authentication">
-<vspace/>
+<t hangText="Mutual Host Authentication"><vspace blankLines="0"/>
 In this type of deployment,
-the client possesses a unique global identity
-(e.g., a certificate).
-As part of the TLS handshake, both peers authenticate
-using the presented TLS identities.
+the client possesses a unique global identity (e.g., a certificate).
+As part of the TLS handshake, both peers authenticate using the presented TLS identities.
 If authentication of either peer fails,
-or if authorization based on those identities blocks access
-to the server, the client association MUST be rejected.
+or
+if authorization based on those identities blocks access to the server,
+the peers MUST reject the association.
 </t>
 </list>
 </t>
 <t>
 In either of these modes, RPC user authentication is not affected
 by the use of transport layer security.
-In fact, when a client presents a TLS peer identity to an RPC server,
+When a client presents a TLS peer identity to an RPC server,
 the protocol extension described in the current document
-provides no way for the server to know whether
-that identity represents one user on that client,
-or is shared amongst users.
-Therefore, a server implementation must not utilize the remote TLS peer identity
-for the purpose of RPC user authentication.
+provides no way for the server to know
+whether that identity represents one RPC user on that client,
+or
+is shared amongst many RPC users.
+Therefore, a server implementation must not
+utilize the remote TLS peer identity for RPC user authentication.
 </t>
 
 <section
@@ -429,18 +431,20 @@ for the purpose of RPC user authentication.
 RPCSEC GSS can provide per-request
 integrity
 or
-privacy (also known as confidentiality) services.
-When operating over a TLS session, these services become redundant.
+privacy (also known as confidentiality)
+services.
+When operating over a TLS session, the GSS services become redundant.
 A TLS-capable RPC implementation uses GSS channel binding
-for detecting when GSS integrity or privacy is unnecessary and can
-therefore be avoided.
-See Section 2.5 of <xref target="RFC7861"/> for details.
+to determine when GSS integrity or privacy is unnecessary.
+See Section 2.5 of
+<xref target="RFC7861"/>
+for details.
 </t>
 <t>
-When employing GSS above TLS,
-a GSS service principal is still required on the server,
-and GSS mutual authentication still occurs after
-the TLS session is established.
+When using GSS on a TLS session,
+the RPC server is still required to possess a GSS service principal.
+GSS mutual authentication still occurs
+after a TLS session has been established.
 </t>
 </section>
 
@@ -452,14 +456,14 @@ the TLS session is established.
  title="TLS Requirements"
  anchor="section:D93526DA-7B9D-419B-BE84-4AD8DA48577E">
 <t>
-When a TLS session is negotiated for the purpose of transporting RPC,
+When peers negotiate a TLS session that is to transport RPC,
 the following restrictions apply:
 <list style="symbols">
 <t>
 Implementations MUST NOT negotiate TLS versions prior to v1.3
 <xref target="RFC8446"/>.
-Support for mandatory-to-implement ciphersuites for
-the negotiated TLS version is REQUIRED.
+Support for mandatory-to-implement ciphersuites
+for the negotiated TLS version is REQUIRED.
 </t>
 <t>
 Implementations MUST support certificate-based mutual authentication.
@@ -471,7 +475,7 @@ See
 for further details.
 </t>
 <t>
-Negotiation of a ciphersuite providing for confidentiality as
+Negotiation of a ciphersuite providing confidentiality as
 well as integrity protection is REQUIRED.
 Support for and negotiation of compression is OPTIONAL.
 </t>
@@ -486,26 +490,29 @@ Support for and negotiation of compression is OPTIONAL.
  title="Operation on TCP"
  anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8">
 <t>
-RPC over TCP is protected by using TLS
-<xref target="RFC8446"/>.
+The use of TLS
+<xref target="RFC8446"/>
+protects RPC on TCP connections.
 As soon as a client completes the TCP handshake,
 it uses the mechanism described in
-<xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
+<xref target="RFC8446"/>.
 to discover TLS support and then negotiate a TLS session.
 </t>
 <t>
-Subsequent to a successful TLS handshake, an RPC server MUST reject all
-subsequent RPC requests over the same connection that are outside of a
-TLS session with a reject_stat of AUTH_ERROR. Likewise, an RPC client
-MUST discard all subsequent RPC replies over the same connection that are
-outside of a TLS session without processing them.
+After establishing a TLS session,
+an RPC server MUST reject with a reject_stat of AUTH_ERROR
+any subsequent RPC requests over the connection
+that are outside of a TLS session.
+Likewise, an RPC client MUST silently discard
+any subsequent RPC replies over the connection
+that are outside of a TLS session.
 </t>
 <t>
-This includes reverse-direction operations
-(i.e., RPC requests initiated on the server-end of the connection).
-An RPC client receiving a reverse-direction operation
-on a connection outside of an existing TLS session MUST reject
-the request with a reject_stat of AUTH_ERROR.
+This restriction includes reverse-direction operations
+(i.e., RPC calls initiated on the server-end of the connection).
+An RPC client receiving a reverse-direction call
+on a connection outside of an existing TLS session
+MUST reject the request with a reject_stat of AUTH_ERROR.
 </t>
 <t>
 An RPC peer terminates a TLS session by sending a TLS closure alert,
@@ -519,26 +526,31 @@ or by closing the underlying TCP socket.
 <t>
 RPC over UDP is protected using DTLS
 <xref target="RFC6347"/>.
-As soon as a client initializes a socket for use with
-an unfamiliar server,
+As soon as a client initializes a socket
+for use with an unfamiliar server,
 it uses the mechanism described in
 <xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
 to discover DTLS support and then negotiate a DTLS session.
 Connected operation is RECOMMENDED.
 </t>
 <t>
-Using a DTLS transport does not introduce reliable or in-order
+Using a DTLS transport does not introduce
+reliable
+or
+in-order
 semantics to RPC on UDP.
 Also, DTLS does not support fragmentation of RPC messages.
-One RPC message fits in a single DTLS datagram.
-DTLS encapsulation has overhead which reduces the effective
-Path MTU (PMTU) and thus the maximum RPC payload size.
+Each RPC message MUST fit in a single DTLS datagram.
+DTLS encapsulation has overhead,
+which reduces the effective Path MTU (PMTU)
+and thus the maximum RPC payload size.
 </t>
 <t>
 DTLS does not detect STARTTLS replay.
-A DTLS session can be terminated by sending a TLS closure alert.
-Subsequent RPC messages passing between the client and server
-will no longer be protected until a new TLS session is established.
+Sending a TLS closure alert terminates a DTLS session.
+Subsequent RPC messages
+passing between the client and server
+are no longer protected until a new TLS session is established.
 </t>
 </section>
 
@@ -550,14 +562,16 @@ RPC-over-RDMA can make use of Transport Layer Security
 below the RDMA transport layer
 <xref target="RFC8166"/>.
 The exact mechanism is not within the scope of this document.
-Because there might not be other provisions to exchange client and server certificates,
-authentication material exchange would need to be provided by facilities within a future
-RPC-over-RDMA transport.
+Because there might not be other provisions
+to exchange client and server certificates,
+authentication material exchange
+would need to be provided by facilities within a future RPC-over-RDMA transport.
 </t>
 <t>
-Transports that provide intrinsic TLS-level security (e.g., QUIC) would
-need to be addressed separately from the current document.
-In such cases, use of TLS would not be opportunistic as it is for TCP or UDP.
+Transports that provide intrinsic TLS-level security
+(e.g., QUIC)
+would need to be addressed separately from the current document.
+In such cases, the use of TLS would not be opportunistic as it is for TCP or UDP.
 </t>
 </section>
 
@@ -567,8 +581,8 @@ In such cases, use of TLS would not be opportunistic as it is for TCP or UDP.
  title="TLS Peer Authentication"
  anchor="section:936921ED-67BB-46BF-B316-6740E07F6652">
 <t>
-Peer authentication can be performed by TLS using any of the
-following mechanisms:
+TLS can perform peer authentication
+using any of the following mechanisms:
 </t>
 
 <section
@@ -576,12 +590,14 @@ following mechanisms:
  anchor="section:7A68F518-2C02-4705-8218-4F13E51372F4">
 <t>
 Implementations are REQUIRED to support this mechanism.
-In this mode, an RPC peer is uniquely identified
-by the tuple (serial number of presented certificate;Issuer).
+In this mode, the tuple
+(serial number of the presented certificate; Issuer)
+uniquely identifies the RPC peer.
 <list style="symbols">
 <t>
-Implementations MUST allow the configuration of a list of
-trusted Certification Authorities for incoming connections.
+Implementations MUST allow the configuration
+of a list of trusted Certification Authorities
+for incoming connections.
 </t>
 <t>
 Certificate validation MUST include the verification rules as per
@@ -592,48 +608,49 @@ Implementations SHOULD indicate their trusted Certification
 Authorities (CAs).
 </t>
 <t>
-Peer validation always includes a check on whether the
-locally configured expected DNS name or IP address of the
-server that is contacted matches its presented certificate.
-DNS names and IP addresses can be contained in the Common
-Name (CN) or subjectAltName entries.
+Peer validation always includes a check
+on whether the locally configured expected
+DNS name
+or
+IP address of the server that is contacted
+matches its presented certificate.
+DNS names and IP addresses can be contained
+in the Common Name (CN) or subjectAltName entries.
 For verification, only one of these entries is to be considered.
-The following precedence applies: for DNS name validation,
-subjectAltName:DNS has precedence over CN; for IP address
-validation, subjectAltName:iPAddr has precedence over CN.
-Implementors of this specification are advised to read
-Section 6 of
+The following precedence applies:
+for DNS name validation, subjectAltName:DNS has precedence over CN;
+for IP address validation, subjectAltName:iPAddr has precedence over CN.
+Implementors of this specification are advised to read Section 6 of
 <xref target="RFC6125"/>
 for more details on DNS name validation.
 </t>
 <t>
-Implementations MAY allow the configuration of a set of
-additional properties of the certificate to check for a
-peer's authorization to communicate
+Implementations MAY allow the configuration
+of a set of additional properties of the certificate
+to check for a peer's authorization to communicate
 (e.g., a set of allowed values in subjectAltName:URI
 or a set of allowed X509v3 Certificate Policies).
 </t>
 <t>
-When the configured trust base changes (e.g., removal of a
-CA from the list of trusted CAs; issuance of a new CRL for
-a given CA), implementations MAY renegotiate the TLS
-session to reassess the connecting peer's continued
-authorization.
+When the configured trust base changes
+(e.g., removal of a CA from the list of trusted CAs;
+issuance of a new CRL for a given CA),
+implementations MAY renegotiate the TLS session
+to reassess the connecting peer's continued authorization.
 </t>
 </list>
 </t>
 <t>
-Authenticating a connecting entity does not mean the
-RPC server necessarily wants to communicate with that client.
+Authenticating a connecting entity does not mean
+the RPC server necessarily wants to communicate with that client.
 For example, if the Issuer is not in a trusted set of Issuers,
-the RPC server may decline to perform RPC transactions
-with this client.
+the RPC server may decline to perform RPC transactions with this client.
 Implementations that want to support a wide variety of trust models
-should expose as many details of the presented certificate to the
-administrator as possible so that the trust model can be implemented
-by the administrator.
-As a suggestion, at least the following
-parameters of the X.509 client certificate SHOULD be exposed:
+should expose as many details of the presented certificate
+to the administrator as possible
+so that the administrator can implement the trust model.
+As a suggestion, at least the following parameters
+of the X.509 client certificate SHOULD be exposed:
 <list style="symbols">
 <t>
 Originating IP address
@@ -665,13 +682,13 @@ all X509v3 Certificate Policies
  anchor="section:15B9BEE9-9D2F-49B7-900E-0BA9BCE9CB27">
 <t>
 This mechanism is OPTIONAL to implement.
-In this mode, an RPC peer is uniquely identified
-by the fingerprint of the presented certificate.
+In this mode, the fingerprint of the presented certificate
+uniquely identifies the RPC peer.
 </t>
 <t>
-Implementations SHOULD allow the configuration of a list
-of trusted certificates,
-identified via fingerprint of the DER encoded certificate octets.
+Implementations SHOULD allow the configuration
+of a list of trusted certificates,
+identified via fingerprint of the DER-encoded certificate octets.
 Implementations MUST support SHA-256
 <xref target="FIPS.180-4"/>
 or stronger as the hash algorithm for the fingerprint.
@@ -683,10 +700,11 @@ or stronger as the hash algorithm for the fingerprint.
  anchor="section:6DA9ED5F-BAD9-4126-95B7-E2331655A01E">
 <t>
 This mechanism is OPTIONAL to implement.
-In this mode, an RPC peer is uniquely identified by key material
-that has been shared out-of-band or by a previous TLS-protected
-connection (see
-<xref target="RFC8446"/> Section 2.2).
+In this mode, the RPC peer is uniquely identified
+by keying material that has been shared out-of-band
+or
+by a previous TLS-protected connection (see Section 2.2 of
+<xref target="RFC8446"/>).
 At least the following parameters of the TLS connection SHOULD be exposed:
 <list style="symbols">
 <t>
@@ -704,12 +722,12 @@ TLS Identifier
  anchor="section:CBA3E016-B160-4C37-85CA-8D467A6AFE83">
 <t>
 This mechanism is OPTIONAL to implement.
-In this mode, an RPC peer is uniquely identified by a token.
+In this mode, a token uniquely identifies the RPC peer.
 </t>
 <t>
-Versions of TLS subsequent to TLS 1.2 feature a token binding
-mechanism which is nominally more secure than using certificates.
-This is discussed in further detail in
+Versions of TLS after TLS 1.2 contain a token binding mechanism
+that is more secure than using certificates.
+This mechanism is detailed in
 <xref target="RFC8471"/>.
 </t>
 </section>
@@ -834,12 +852,14 @@ No comments from implementors.
  title="Security Considerations"
  anchor="section:2AE49383-E6B2-4830-8407-995FEBF727F2">
 <t>
-One purpose of the mechanism described in this document
-is to protect RPC-based applications against threats to
-the privacy of RPC transactions and RPC user identities.
+One purpose of the mechanism described in the current document
+is to protect RPC-based applications against threats
+to the privacy of RPC transactions
+and
+RPC user identities.
 A taxonomy of these threats appears in Section 5 of
 <xref target="RFC6973"/>.
-In addition, Section 6 of
+Also, Section 6 of
 <xref target="RFC7525"/>
 contains a detailed discussion
 of technologies used in conjunction with TLS.
@@ -851,25 +871,24 @@ Implementers should familiarize themselves with these materials.
  anchor="section:51737BB5-2B65-441E-AD1D-7EBF5123C079">
 <t>
 The purpose of using an explicitly opportunistic approach
-is to enable interoperation with implementations that do not
-support RPC-over-TLS.
+is to enable interoperation
+with implementations that do not support RPC-over-TLS.
 A range of options is allowed by this approach,
-from
-"no peer authentication or encryption"
+from "no peer authentication or encryption"
 to
 "server-only authentication with encryption"
 to
 "mutual authentication with encryption".
-The actual security level may indeed be selected
-based on a policy and without user intervention.
+The actual security level may indeed
+be selected based on policy and without user intervention.
 </t>
 <t>
 In cases where interoperability is a priority,
 the security benefits of TLS are partially or entirely waived.
-Implementations of the mechanism described in this document
+Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect.
-In addition, implementations are REQUIRED to provide an audit log
+Implementations are REQUIRED to provide an audit log
 of RPC-over-TLS security mode selection.
 </t>
 
@@ -885,18 +904,16 @@ Clients implementers can choose from the following to mitigate
 STRIPTLS attacks:
 <list style="symbols">
 <t>
-A TLSA record
-<xref target="RFC6698"/>
-can alert clients that TLS is expected to work, and
-provides a binding of hostname to x.509 identity.
+A TLSA record [RFC6698] can alert clients that TLS is expected to work,
+and provide a binding of hostname to x.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
 </t>
 <t>
-Client security policy can be configured to require
+Client security policy can require
 that a TLS session is established on every connection.
-If an attacker spoofs the handshake, the client disconnects
-and reports the problem.
+If an attacker spoofs the handshake,
+the client disconnects and reports the problem.
 If TLSA records are not available, this approach is strongly encouraged.
 </t>
 </list>
@@ -909,27 +926,25 @@ If TLSA records are not available, this approach is strongly encouraged.
  title="TLS Identity Management on Clients"
  anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
 <t>
-The goal of the RPC-on-TLS protocol extension  is
-to hide the content of RPC requests while they are in-transit.
-The RPC-on-TLS protocol by itself cannot protect against
-exposure of a user's RPC requests to other users on the same client.
+The goal of the RPC-on-TLS protocol extension
+is to hide the content of RPC requests while they are in transit.
+The RPC-on-TLS protocol by itself cannot protect
+against exposure of a user's RPC requests to other users on the same client.
 </t>
 <t>
 Moreover, client implementations are free to transmit RPC requests
-for more than one RPC user using the same transport connection and
-TLS session.
+for more than one RPC user using the same TLS session.
 Depending on the details of the client RPC implementation,
-this means that the client's TLS identity material is potentially
-visible to every RPC user that shares a TLS session.
+this means that the client's TLS identity material
+is potentially visible to every RPC user that shares a TLS session.
 Privileged users may also be able to access this TLS identity.
 </t>
 <t>
-To close this gap,
-client implementations need to carefully segregate access
-to TLS identity material so that
-local access to that material is restricted
-to only the local users that are authorized to perform operations
-on the remote RPC server.
+As a result,
+client implementations need to carefully segregate
+TLS identity material so that local access to it
+is restricted to only the local users that are authorized
+to perform operations on the remote RPC server.
 </t>
 </section>
 
@@ -937,15 +952,22 @@ on the remote RPC server.
  title="Security Considerations for AUTH_SYS on TLS"
  anchor="section:552B02A0-F19E-4B46-809C-672A6AE931A1">
 <t>
-The use of a TLS-protected transport when
-the AUTH_SYS authentication flavor is in use
-addresses a number of longstanding weaknesses
+Using a TLS-protected transport
+when the AUTH_SYS authentication flavor is in use
+addresses several longstanding weaknesses
 (as detailed in
 <xref target="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB"/>).
-TLS augments AUTH_SYS by providing both integrity protection
-and a privacy service that AUTH_SYS lacks.
-This protects data payloads, RPC headers, and
-user identities against monitoring or alteration while in transit.
+TLS augments AUTH_SYS by providing both
+integrity protection
+and
+a privacy service
+that AUTH_SYS lacks.
+TLS protects
+data payloads,
+RPC headers,
+and
+user identities
+against monitoring and alteration while in transit.
 TLS guards against the insertion or deletion of messages,
 thus also ensuring the integrity of the message stream
 between RPC client and server.
@@ -954,29 +976,34 @@ protects receiving XDR decoders from deserializing untrusted data,
 a common coding vulnerability.
 </t>
 <t>
-The use of TLS enables strong authentication of the communicating
-RPC peers, providing a degree of non-repudiation.
-When AUTH_SYS is used with TLS but the RPC client is unauthenticated,
-the RPC server is still acting on RPC requests for which there is
-no trustworthy authentication.
-In-transit traffic is protected, but the RPC client itself can still
-misrepresent user identity without server detection.
-This is an improvement from AUTH_SYS without encryption,
+The use of TLS enables strong authentication
+of the communicating RPC peers,
+providing a degree of non-repudiation.
+When AUTH_SYS is used with TLS,
+but the RPC client is unauthenticated,
+the RPC server still acts on RPC requests
+for which there is no trustworthy authentication.
+In-transit traffic is protected, but the RPC client itself
+can still misrepresent user identity without server detection.
+TLS without authentication is an improvement
+from AUTH_SYS without encryption,
 but it leaves a critical security exposure.
 </t>
 <t>
-In light of the above, it is RECOMMENDED that when AUTH_SYS is used,
-each RPC client should present host authentication material
+In light of the above,
+it is RECOMMENDED that when AUTH_SYS is used,
+every RPC client should present host authentication material
 to RPC servers to prove that the client is a known one.
-The server can then make a determination whether the UIDs and GIDs
+The server can then determine whether the UIDs and GIDs
 in AUTH_SYS requests from that client can be accepted.
 </t>
 <t>
-The use of TLS does not enable detection of compromise on RPC clients
-that leads to impersonation of RPC users.
-In addition, there continues to be a requirement that the mapping of 32-bit user
-and group ID values to user identities is the same on both the RPC
-client and server.
+The use of TLS does not enable RPC clients to detect compromise
+that leads to the impersonation of RPC users.
+Also, there continues to be a requirement
+that the mapping of 32-bit user and group ID values
+to user identities
+is the same on both the RPC client and server.
 </t>
 </section>
 
@@ -984,24 +1011,29 @@ client and server.
  title="Best Security Policy Practices"
  anchor="section:55D006D3-8CA6-4D7F-AF0D-BFB0FFEF7595">
 <t>
-To achieve the strongest possible security with RPC-over-TLS,
-RPC-over-TLS implementations and deployments are
-strongly encouraged
-to adhere to these policies:
-<list style="hanging">
-<t hangText="When using AUTH_NULL or AUTH_SYS:">
-<vspace/>
-Both peers are required to have DNS TLSA records and certificate material;
-a policy that requires mutual peer authentication and
+RPC-over-TLS implementations and deployments
+are strongly encouraged to adhere to the following policies
+to achieve the strongest possible security with RPC-over-TLS.
+<list style="symbols">
+<t>
+When using AUTH_NULL or AUTH_SYS,
+both peers are required to have
+DNS TLSA records
+and
+certificate material,
+and a policy that requires
+mutual peer authentication
+and
 rejection of a connection when host authentication fails.
 </t>
-<t hangText="When using RPCSEC_GSS:">
-<vspace/>
-GSS/Kerberos provides adequate host authentication already;
+<t>
+When using RPCSEC_GSS,
+GSS/Kerberos provides adequate host authentication
+and
 a policy that requires GSS mutual authentication and
 rejection of a connection when host authentication fails.
-GSS integrity and privacy services should be disabled
-in favor of TLS encryption without peer authentication.
+GSS integrity and privacy services, therefore, can be disabled
+in favor of TLS encryption with peer authentication.
 </t>
 </list>
 </t>
@@ -1014,9 +1046,9 @@ in favor of TLS encryption without peer authentication.
  title="IANA Considerations"
  anchor="section:7B126473-2A13-453B-9BCA-66BC11B7B018">
 <t>
-In accordance with Section 6 of
+Following Section 6 of
 <xref target="RFC7301"/>,
-the authors request that IANA allocate the following value
+the authors request the allocation of the following value
 in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry.
 The "sunrpc" string identifies SunRPC when used over TLS.
 <list style="hanging">
@@ -1094,40 +1126,49 @@ National Institute of Standards and Technology
  title="Known Weaknesses of the AUTH_SYS Authentication Flavor"
  anchor="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB">
 <t>
-The ONC RPC protocol as specified in
+The ONC RPC protocol, as specified in
+<xref target="RFC5531"/>,
+provides several modes of security,
+traditionally referred to as "authentication flavors".
+Some of these flavors provide much more than an authentication service.
+We refer to these as
+authentication flavors,
+security flavors,
+or simply,
+flavors.
+One of the earliest and most basic flavors is AUTH_SYS,
+also known as AUTH_UNIX.
+Appendix A of
 <xref target="RFC5531"/>
-provides several modes of security, traditionally
-referred to as "authentication flavors",
-though some of these flavors provide much more than an authentication service.
-We will refer to these as authentication flavors,
-security flavors, or simply, flavors.
-One of the earliest and most basic flavor is
-AUTH_SYS, also known as AUTH_UNIX.
-AUTH_SYS is currently specified in Appendix A of
-<xref target="RFC5531"/>.
+specifies AUTH_SYS.
 </t>
 <t>
-AUTH_SYS assumes that both the RPC client and server use POSIX-style
-user and group identifiers
-(each user and group can be distinctly represented as a 32-bit unsigned integer),
-and that both client and server use the same mapping of user and group to integer.
-One user ID, one main group ID, and up to 16 supplemental group IDs
+AUTH_SYS assumes that the RPC client and server
+both use POSIX-style user and group identifiers
+(each user and group can be distinctly represented
+as a 32-bit unsigned integer).
+It also assumes that the client and server
+both use the same mapping of user and group to an integer.
+One user ID, one primary group ID, and up to 16 supplemental group IDs
 are associated with each RPC request.
-The combination of these identify the entity on the client that is making
-the request.
+The combination of these identifies the entity on the client
+that is making the request.
 </t>
 <t>
-Peers are identified by a string in each RPC request.
-RFC 5531 does not specify any requirements for this string other
-than that is no longer than 255 octets.
-It does not have to be the same from request to request,
-nor does it have to match the name of the sending host.
-For these reasons, though most implementations do fill in their
-hostname in this field, receivers typically ignore its content.
+A string identifies peers (hosts) in each RPC request.
+<xref target="RFC5531"/>
+does not specify any requirements for this string
+other than that is no longer than 255 octets.
+It does not have to be the same from request to request.
+Also, it does not have to match the DNS hostname of the sending host.
+For these reasons,
+even though most implementations fill in their hostname in this field,
+receivers typically ignore its content.
 </t>
 <t>
-RFC 5531 Appendix A contains a brief explanation of security
-considerations:
+Appendix A of
+<xref target="RFC5531"/>
+contains a brief explanation of security considerations:
 <list style="none">
 <t>
 It should be noted that use of this flavor of authentication does not
@@ -1146,21 +1187,25 @@ It should be clear, therefore, that AUTH_SYS by itself offers little
 to no communication security:
 <list style="numbers">
 <t>
-It does not protect the privacy or integrity of RPC requests, users,
-or payloads, relying instead on "external" security.
+It does not protect the privacy or integrity of
+RPC requests,
+users,
+or
+payloads,
+relying instead on "external" security.
 </t>
 <t>
-It also does not provide actual authentication of RPC peer machines, other
-than an unprotected domain name.
+It does not provide authentication of RPC peer machines,
+other than inclusion of an unprotected domain name.
 </t>
 <t>
 The use of 32-bit unsigned integers as user and group identifiers
-is problematic because these simple data types are
+is problematic because these data types are
 not cryptographically signed or otherwise verified by any authority.
 </t>
 <t>
 Because the user and group ID fields are not integrity-protected,
-AUTH_SYS does not offer non-repudiation.
+AUTH_SYS does not provide non-repudiation.
 </t>
 </list>
 </t>
@@ -1181,12 +1226,13 @@ His article inspired the mechanism described in this document.
 </t>
 <t>
 Many thanks to Tigran Mkrtchyan for his work on the DESY prototype
-and resulting feedback to this document.
+and his feedback on the current document.
 </t>
 <t>
-Thanks to Derrell Piper for numerous suggestions that
-improved both the security of this simple mechanism and
-the security-related discussion in this document.
+Thanks to Derrell Piper for numerous suggestions that improved both
+this simple mechanism
+and
+the current document's security-related discussion.
 </t>
 <t>
 The authors are grateful to
