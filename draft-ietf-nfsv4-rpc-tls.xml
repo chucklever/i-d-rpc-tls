@@ -74,8 +74,8 @@ This document updates RFC 5531.
 <middle>
 
 <section
- title="Introduction"
- anchor="section:8F035331-8EB8-4FBC-973A-673FBA5FE952">
+ anchor="section:8F035331-8EB8-4FBC-973A-673FBA5FE952"
+ title="Introduction">
 <t>
 In 2014 the IETF published
 <xref target="RFC7258"/>,
@@ -212,8 +212,8 @@ where TLS support is to be added.
 </section>
 
 <section
- title="Requirements Language"
- anchor="section:024237C9-5504-49B4-A2D3-2D2A5EFBB967">
+ anchor="section:024237C9-5504-49B4-A2D3-2D2A5EFBB967"
+ title="Requirements Language">
 <t>
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY",
@@ -226,8 +226,8 @@ when, and only when, they appear in all capitals, as shown here.
 </section>
 
 <section
- title="Terminology"
- anchor="section:0EB1100E-DAA8-4B2C-98AE-94258CFDCB1B">
+ anchor="section:0EB1100E-DAA8-4B2C-98AE-94258CFDCB1B"
+ title="Terminology">
 <t>
 This document adopts the terminology introduced in Section 3 of
 <xref target="RFC6973"/>
@@ -267,12 +267,12 @@ fields in each RPC Call.
 </section>
 
 <section
- title="RPC-Over-TLS in Operation"
- anchor="section:EC3FEED5-1DE0-454B-9AB3-CE47BA901583">
+ anchor="section:EC3FEED5-1DE0-454B-9AB3-CE47BA901583"
+ title="RPC-Over-TLS in Operation">
 
 <section
- title="Discovering Server-side TLS Support"
- anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73">
+ anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"
+ title="Discovering Server-side TLS Support">
 <t>
 The mechanism described in this document
 interoperates fully with RPC implementations
@@ -371,8 +371,8 @@ the server MUST silently discard it.
 </section>
 
 <section
- title="Authentication"
- anchor="section:6EDEF553-C95A-47D7-ABBA-0B537FE3A959">
+ anchor="section:6EDEF553-C95A-47D7-ABBA-0B537FE3A959"
+ title="Authentication">
 <t>
 Both RPC and TLS have peer and user authentication,
 with some overlap in capability between RPC and TLS.
@@ -425,8 +425,8 @@ utilize the remote TLS peer identity for RPC user authentication.
 </t>
 
 <section
- title="Using TLS with RPCSEC GSS"
- anchor="section:12D92596-F310-48C8-A4E0-B6CA038524E5">
+ anchor="section:12D92596-F310-48C8-A4E0-B6CA038524E5"
+ title="Using TLS with RPCSEC GSS">
 <t>
 RPCSEC GSS can provide per-request
 integrity
@@ -453,8 +453,8 @@ after a TLS session has been established.
 </section>
 
 <section
- title="TLS Requirements"
- anchor="section:D93526DA-7B9D-419B-BE84-4AD8DA48577E">
+ anchor="section:D93526DA-7B9D-419B-BE84-4AD8DA48577E"
+ title="TLS Requirements">
 <t>
 When peers negotiate a TLS session that is to transport RPC,
 the following restrictions apply:
@@ -483,12 +483,12 @@ Support for and negotiation of compression is OPTIONAL.
 </t>
 
 <section
- title="Base Transport Considerations"
- anchor="section:CC204592-F561-49BD-B1C9-DE0FF7F0E7AB">
+ anchor="section:CC204592-F561-49BD-B1C9-DE0FF7F0E7AB"
+ title="Base Transport Considerations">
 
 <section
- title="Operation on TCP"
- anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8">
+ anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8"
+ title="Operation on TCP">
 <t>
 The use of TLS
 <xref target="RFC8446"/>
@@ -521,8 +521,8 @@ or by closing the underlying TCP socket.
 </section>
 
 <section
- title="Operation on UDP"
- anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75">
+ anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75"
+ title="Operation on UDP">
 <t>
 RPC over UDP is protected using DTLS
 <xref target="RFC6347"/>.
@@ -555,8 +555,8 @@ are no longer protected until a new TLS session is established.
 </section>
 
 <section
- title="Operation on Other Transports"
- anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F">
+ anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F"
+ title="Operation on Other Transports">
 <t>
 RPC-over-RDMA can make use of Transport Layer Security
 below the RDMA transport layer
@@ -578,16 +578,16 @@ In such cases, the use of TLS would not be opportunistic as it is for TCP or UDP
 </section>
 
 <section
- title="TLS Peer Authentication"
- anchor="section:936921ED-67BB-46BF-B316-6740E07F6652">
+ anchor="section:936921ED-67BB-46BF-B316-6740E07F6652"
+ title="TLS Peer Authentication">
 <t>
 TLS can perform peer authentication
 using any of the following mechanisms:
 </t>
 
 <section
- title="X.509 Certificates Using PKIX trust"
- anchor="section:7A68F518-2C02-4705-8218-4F13E51372F4">
+ anchor="section:7A68F518-2C02-4705-8218-4F13E51372F4"
+ title="X.509 Certificates Using PKIX trust">
 <t>
 Implementations are REQUIRED to support this mechanism.
 In this mode, the tuple
@@ -678,8 +678,8 @@ all X509v3 Certificate Policies
 </section>
 
 <section
- title="X.509 Certificates Using Fingerprints"
- anchor="section:15B9BEE9-9D2F-49B7-900E-0BA9BCE9CB27">
+ anchor="section:15B9BEE9-9D2F-49B7-900E-0BA9BCE9CB27"
+ title="X.509 Certificates Using Fingerprints">
 <t>
 This mechanism is OPTIONAL to implement.
 In this mode, the fingerprint of the presented certificate
@@ -696,8 +696,8 @@ or stronger as the hash algorithm for the fingerprint.
 </section>
 
 <section
- title="Pre-Shared Keys"
- anchor="section:6DA9ED5F-BAD9-4126-95B7-E2331655A01E">
+ anchor="section:6DA9ED5F-BAD9-4126-95B7-E2331655A01E"
+ title="Pre-Shared Keys">
 <t>
 This mechanism is OPTIONAL to implement.
 In this mode, the RPC peer is uniquely identified
@@ -718,8 +718,8 @@ TLS Identifier
 </section>
 
 <section
- title="Token Binding"
- anchor="section:CBA3E016-B160-4C37-85CA-8D467A6AFE83">
+ anchor="section:CBA3E016-B160-4C37-85CA-8D467A6AFE83"
+ title="Token Binding">
 <t>
 This mechanism is OPTIONAL to implement.
 In this mode, a token uniquely identifies the RPC peer.
@@ -741,8 +741,8 @@ Please remove the following section and the reference to RFC 7942
 before this document is published.
 -->
 <section
- title="Implementation Status"
- anchor="section:88BBA4D6-ED42-4FE6-A208-9D277B68729A">
+ anchor="section:88BBA4D6-ED42-4FE6-A208-9D277B68729A"
+ title="Implementation Status">
 <t>
 This section records the status of known implementations of the
 protocol defined by this specification at the time of posting of
@@ -763,8 +763,8 @@ Readers are advised to note that other implementations may exist.
 </t>
 
 <section
- title="DESY NFS server"
- anchor="section:94AA7844-E393-4353-A35D-DA01D13C909B">
+ anchor="section:94AA7844-E393-4353-A35D-DA01D13C909B"
+ title="DESY NFS server">
 <t>
 <list style="hanging" hangIndent="11">
 <t hangText="Organization:">
@@ -791,8 +791,8 @@ No comments from implementors.
 </section>
 
 <section
- title="Hammerspace NFS server"
- anchor="section:B387F281-958F-470D-B4D4-1D85907B89F1">
+ anchor="section:B387F281-958F-470D-B4D4-1D85907B89F1"
+ title="Hammerspace NFS server">
 <t>
 <list style="hanging" hangIndent="11">
 <t hangText="Organization:">
@@ -819,8 +819,8 @@ No comments from implementors.
 </section>
 
 <section
- title="Linux NFS server and client"
- anchor="section:BF03B3A2-4483-4404-9E7A-F60FCD850F31">
+ anchor="section:BF03B3A2-4483-4404-9E7A-F60FCD850F31"
+ title="Linux NFS server and client">
 <t>
 <list style="hanging" hangIndent="11">
 <t hangText="Organization:">
@@ -849,8 +849,8 @@ No comments from implementors.
 </section>
 
 <section
- title="Security Considerations"
- anchor="section:2AE49383-E6B2-4830-8407-995FEBF727F2">
+ anchor="section:2AE49383-E6B2-4830-8407-995FEBF727F2"
+ title="Security Considerations">
 <t>
 One purpose of the mechanism described in the current document
 is to protect RPC-based applications against threats
@@ -867,8 +867,8 @@ Implementers should familiarize themselves with these materials.
 </t>
 
 <section
- title="Limitations of an Opportunistic Approach"
- anchor="section:51737BB5-2B65-441E-AD1D-7EBF5123C079">
+ anchor="section:51737BB5-2B65-441E-AD1D-7EBF5123C079"
+ title="Limitations of an Opportunistic Approach">
 <t>
 The purpose of using an explicitly opportunistic approach
 is to enable interoperation
@@ -893,8 +893,8 @@ of RPC-over-TLS security mode selection.
 </t>
 
 <section
- title="STRIPTLS Attacks"
- anchor="section:8894BDD2-0E0B-47A3-A2CB-70E4D93B55B0">
+ anchor="section:8894BDD2-0E0B-47A3-A2CB-70E4D93B55B0"
+ title="STRIPTLS Attacks">
 <t>
 A classic form of attack on network protocols that initiate an association
 in plain-text to discover support for TLS is a man-in-the-middle
@@ -923,8 +923,8 @@ If TLSA records are not available, this approach is strongly encouraged.
 </section>
 
 <section
- title="TLS Identity Management on Clients"
- anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001">
+ anchor="section:B9F8A982-CB0E-40FC-9460-680E89DB0001"
+ title="TLS Identity Management on Clients">
 <t>
 The goal of the RPC-on-TLS protocol extension
 is to hide the content of RPC requests while they are in transit.
@@ -949,8 +949,8 @@ to perform operations on the remote RPC server.
 </section>
 
 <section
- title="Security Considerations for AUTH_SYS on TLS"
- anchor="section:552B02A0-F19E-4B46-809C-672A6AE931A1">
+ anchor="section:552B02A0-F19E-4B46-809C-672A6AE931A1"
+ title="Security Considerations for AUTH_SYS on TLS">
 <t>
 Using a TLS-protected transport
 when the AUTH_SYS authentication flavor is in use
@@ -1008,8 +1008,8 @@ is the same on both the RPC client and server.
 </section>
 
 <section
- title="Best Security Policy Practices"
- anchor="section:55D006D3-8CA6-4D7F-AF0D-BFB0FFEF7595">
+ anchor="section:55D006D3-8CA6-4D7F-AF0D-BFB0FFEF7595"
+ title="Best Security Policy Practices">
 <t>
 RPC-over-TLS implementations and deployments
 are strongly encouraged to adhere to the following policies
@@ -1043,8 +1043,8 @@ in favor of TLS encryption with peer authentication.
 </section>
 
 <section
- title="IANA Considerations"
- anchor="section:7B126473-2A13-453B-9BCA-66BC11B7B018">
+ anchor="section:7B126473-2A13-453B-9BCA-66BC11B7B018"
+ title="IANA Considerations">
 <t>
 Following Section 6 of
 <xref target="RFC7301"/>,
@@ -1052,16 +1052,13 @@ the authors request the allocation of the following value
 in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry.
 The "sunrpc" string identifies SunRPC when used over TLS.
 <list style="hanging">
-<t hangText="Protocol:">
-<vspace/>
+<t hangText="Protocol:"><vspace blankLines="0"/>
 SunRPC
 </t>
-<t hangText="Identification Sequence:">
-<vspace/>
+<t hangText="Identification Sequence:"><vspace blankLines="0"/>
 0x73 0x75 0x6e 0x72 0x70 0x63 ("sunrpc")
 </t>
-<t hangText="Reference:">
-<vspace/>
+<t hangText="Reference:"><vspace blankLines="0"/>
 RFC-TBD
 </t>
 </list>
@@ -1123,8 +1120,8 @@ National Institute of Standards and Technology
 </references>
 
 <section
- title="Known Weaknesses of the AUTH_SYS Authentication Flavor"
- anchor="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB">
+ anchor="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB"
+ title="Known Weaknesses of the AUTH_SYS Authentication Flavor">
 <t>
 The ONC RPC protocol, as specified in
 <xref target="RFC5531"/>,
@@ -1213,9 +1210,9 @@ AUTH_SYS does not provide non-repudiation.
 </section>
 
 <section
- title="Acknowledgments"
  anchor="section:4959412F-37AD-42B8-9169-D477148F81A8"
- numbered="no">
+ numbered="no"
+ title="Acknowledgments">
 <t>
 Special mention goes to Charles Fisher, author of
 <eref
