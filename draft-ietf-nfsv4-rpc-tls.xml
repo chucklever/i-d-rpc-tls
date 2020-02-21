@@ -620,7 +620,7 @@ in the Common Name (CN) or subjectAltName entries.
 For verification, only one of these entries is to be considered.
 The following precedence applies:
 for DNS name validation, subjectAltName:DNS has precedence over CN;
-for IP address validation, subjectAltName:iPAddr has precedence over CN.
+for IP address validation, subjectAltName:iPAddress has precedence over CN.
 Implementors of this specification are advised to read Section 6 of
 <xref target="RFC6125"/>
 for more details on DNS name validation.
