@@ -13,7 +13,7 @@
  docName="draft-ietf-nfsv4-rpc-tls-latest"
  category="std"
  updates="5531"
- ipr="pre5378Trust200902"
+ ipr="trust200902"
  submissionType="IETF"
  xml:lang="en">
 
@@ -1081,26 +1081,67 @@ in favor of TLS encryption with peer authentication.
  anchor="section:7B126473-2A13-453B-9BCA-66BC11B7B018"
  title="IANA Considerations">
 <t>
+RFC Editor: In the following subsections,
+please replace RFC-TBD with the RFC number assigned to this document.
+</t>
+
+<section
+ anchor="section:2CD51855-CE40-4B8D-A220-F211C477964F"
+ title="RPC Authentication Flavor">
+<t>
+Following Appendix B of
+<xref target="RFC5531"/>,
+the authors request a single new entry
+in the RPC Authentication Flavor Numbers registry.
+The purpose of the new authentication flavor
+is to signal the use of TLS with RPC.
+This new flavor is not a pseudo-flavor.
+</t>
+<t>
+The fields in the new entry are assigned as follows:
+<list style="hanging">
+<t hangText="Identifier String:">
+AUTH_TLS
+</t>
+<t hangText="Flavor Name:">
+TLS
+</t>
+<t hangText="Value:">
+7
+</t>
+<t hangText="Description:">
+Signals the use of TLS to protect RPC messages on socket-based transports
+</t>
+<t hangText="Reference:">
+RFC-TBD
+</t>
+</list>
+</t>
+</section>
+
+<section
+ anchor="section:58905D7A-06B1-4469-964A-DAC607DAC500"
+ title="ALPN Identifier for SUNRPC">
+<t>
 Following Section 6 of
 <xref target="RFC7301"/>,
 the authors request the allocation of the following value
 in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry.
 The "sunrpc" string identifies SunRPC when used over TLS.
 <list style="hanging">
-<t hangText="Protocol:"><vspace blankLines="0"/>
+<t hangText="Protocol:">
 SunRPC
 </t>
-<t hangText="Identification Sequence:"><vspace blankLines="0"/>
+<t hangText="Identification Sequence:">
 0x73 0x75 0x6e 0x72 0x70 0x63 ("sunrpc")
 </t>
-<t hangText="Reference:"><vspace blankLines="0"/>
+<t hangText="Reference:">
 RFC-TBD
 </t>
 </list>
 </t>
-<!-- RFC Editor:
-Please replace RFC-TBD with the RFC number assigned to this document.
--->
+</section>
+
 </section>
 
 </middle>
