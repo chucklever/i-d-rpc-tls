@@ -291,26 +291,8 @@ This new flavor signals that the client wants
 to initiate TLS negotiation if the server supports it.
 Except for the modifications described in this section,
 the RPC protocol is unaware of security encapsulation.
-<figure align="left">
-<artwork xml:space="preserve" align="left">
-&lt;CODE BEGINS&gt;
-
-enum auth_flavor {
-        AUTH_NONE       = 0,
-        AUTH_SYS        = 1,
-        AUTH_SHORT      = 2,
-        AUTH_DH         = 3,
-        AUTH_KERB       = 4,
-        AUTH_RSA        = 5,
-        RPCSEC_GSS      = 6,
-        AUTH_TLS        = 7,
-
-        /* and more to be defined */
-};
-
-&lt;CODE ENDS&gt;
-</artwork>
-</figure>
+</t>
+<t>
 The length of the opaque data constituting the credential
 sent in the call message MUST be zero.
 The verifier accompanying the credential MUST be an AUTH_NONE
@@ -326,6 +308,8 @@ The bytes of the verifier's body field encode the ASCII characters
 <t>
 When an RPC client is ready to begin sending encrypted traffic to a server,
 it starts with a NULL RPC request with an auth_flavor of AUTH_TLS.
+The value of AUTH_TLS is defined in
+<xref target="section:2CD51855-CE40-4B8D-A220-F211C477964F"/>A.
 The NULL request is made to the same port as if TLS were not in use.
 </t>
 <t>
