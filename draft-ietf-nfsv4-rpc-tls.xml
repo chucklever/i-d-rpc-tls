@@ -299,7 +299,7 @@ The verifier accompanying the credential MUST be an AUTH_NONE
 verifier of length zero.
 </t>
 <t>
-The flavor value of the verifier received in the reply message
+The flavor value of the verifier received in the RPC Reply message
 from the server MUST be AUTH_NONE.
 The length of the verifier's body field is eight.
 The bytes of the verifier's body field encode the ASCII characters
@@ -332,7 +332,7 @@ and returns an AUTH_NONE verifier
 containing the "STARTTLS" token in the NULL Reply,
 the RPC client immediately initiates a TLS session.
 This NULL Reply signals that the RPC server is prepared
-for the client to begin TLS session negotiation.
+for the client to send a "ClientHello" message.
 </t>
 </list>
 </t>
@@ -515,17 +515,17 @@ to discover TLS support.
 It can then negotiate a TLS session on that connection.
 </t>
 <t>
-After establishing a TLS session,
+After establishing a TLS session on a connection,
 an RPC server MUST reject with a reject_stat of AUTH_ERROR
-any subsequent RPC requests over a TLS-protected connection
-that are outside of a TLS session.
+any subsequent RPC Calls over a TLS-protected connection
+that are outside of the TLS session on that connection.
 Likewise, an RPC client MUST silently discard
-any subsequent RPC replies over the connection
+any subsequent RPC Replies over the connection
 that are outside of a TLS session.
 </t>
 <t>
 This restriction includes reverse-direction RPC operations
-(i.e., RPC calls initiated on the server-end of the connection).
+(i.e., RPC Calls initiated on the server-end of the connection).
 An RPC client receiving a reverse-direction call
 on a connection outside of an existing TLS session
 MUST reject the request with a reject_stat of AUTH_ERROR.
