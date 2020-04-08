@@ -342,9 +342,7 @@ the RPC client and server have established
 a secure channel for communicating.
 The client MUST switch to a security flavor other than AUTH_TLS
 within that channel, presumably after negotiating down
-redundant RPCSEC_GSS privacy and integrity services
-and applying channel binding
-<xref target="RFC7861"/>.
+redundant RPCSEC_GSS privacy and integrity services.
 </t>
 <t>
 If TLS negotiation fails for any reason,
@@ -416,20 +414,21 @@ utilize the remote TLS peer identity for RPC user authentication.
  anchor="section:12D92596-F310-48C8-A4E0-B6CA038524E5"
  title="Using TLS with RPCSEC GSS">
 <t>
-RPCSEC GSS can protect per-request integrity or confidentiality.
-When operating over a TLS session, the GSS services become redundant.
-A TLS-capable RPC implementation uses GSS channel binding
-to determine when the use of the GSS integrity or privacy services
-are redundant.
-See Section 2.5 of
-<xref target="RFC7861"/>
-for details.
+To use GSS, an RPC server has to possess a GSS service principal.
+On a TLS session, GSS mutual (peer) authentication occurs as usual,
+but only after a TLS session has been established for communication.
+Authentication of GSS users is unchanged by the use of TLS.
 </t>
 <t>
-When using GSS on a TLS session,
-the RPC server is still required to possess a GSS service principal.
-GSS mutual authentication still occurs
-after a TLS session has been established.
+RPCSEC GSS can also protect per-request integrity or confidentiality.
+When operating over a TLS session, these GSS services become redundant.
+An RPC implementation capable of concurrently using TLS and RPCSEC GSS
+can use GSS channel binding, as defined in
+<xref target="RFC5056"/>,
+to determine when an underlying transport provides a sufficient degree
+of confidentiality.
+Channel bindings for the TLS channel type are defined in
+<xref target="RFC5929"/>.
 </t>
 </section>
 
@@ -1137,13 +1136,14 @@ RFC-TBD
 <references title="Normative References">
 <?rfc include="reference.RFC.2119.xml"?>
 <?rfc include="reference.RFC.4279.xml"?>
+<?rfc include="reference.RFC.5056.xml"?>
 <?rfc include="reference.RFC.5280.xml"?>
 <?rfc include="reference.RFC.5531.xml"?>
+<?rfc include="reference.RFC.5929.xml"?>
 <?rfc include="reference.RFC.6125.xml"?>
 <?rfc include="reference.RFC.6347.xml"?>
 <?rfc include="reference.RFC.7258.xml"?>
 <?rfc include="reference.RFC.7301.xml"?>
-<?rfc include="reference.RFC.7861.xml"?>
 <?rfc include="reference.RFC.7942.xml"?>.
 <?rfc include="reference.RFC.8174.xml"?>
 <?rfc include="reference.RFC.8446.xml"?>
