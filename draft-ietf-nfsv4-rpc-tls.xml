@@ -746,13 +746,14 @@ This mechanism is detailed in
 
 </section>
 
-<!-- RFC Editor:
-Please remove the following section and the reference to RFC 7942
-before this document is published.
--->
 <section
  anchor="section:88BBA4D6-ED42-4FE6-A208-9D277B68729A"
  title="Implementation Status">
+<t>
+RFC Editor:
+Please remove this section and the reference to RFC 7942
+before this document is published.
+</t>
 <t>
 This section records the status of known implementations of the
 protocol defined by this specification at the time of posting of
