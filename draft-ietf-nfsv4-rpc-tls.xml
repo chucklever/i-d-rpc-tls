@@ -107,13 +107,13 @@ Parts of each RPC header remain in clear-text,
 constituting a significant security exposure.
 </t>
 <t>
-Offloading GSS privacy is not practical
+Offloading the GSS privacy service is not practical
 in large multi-user deployments
 since each message is encrypted using a key based
 on the issuing RPC user.
 </t>
 </list>
-However strong a privacy service is,
+However strong GSS-provided confidentiality is,
 it cannot provide any security if the challenges
 of using it result in choosing not to deploy it at all.
 </t>
@@ -144,7 +144,7 @@ provisioning new users.
 <t>
 The alternative described in the current document is
 to employ a transport layer security mechanism
-that can protect the privacy of each RPC connection
+that can protect the confidentiality of each RPC connection
 transparently to RPC and upper-layer protocols.
 The Transport Layer Security protocol
 <xref target="RFC8446"/>
@@ -165,7 +165,7 @@ or
 provisioning a secure network tunnel.
 </t>
 <t hangText="Encryption Offload:">
-Hardware support for GSS privacy has not appeared in the marketplace.
+Hardware support for the GSS privacy service has not appeared in the marketplace.
 However, the use of a well-established transport encryption mechanism
 that is employed by other ubiquitous network protocols
 makes it more likely that encryption offload for RPC
@@ -239,9 +239,15 @@ the Transport Layer Security (TLS) version 1.3 protocol
 <xref target="RFC8446"/>.
 </t>
 <t>
-Note also that the NFS community uses the term "privacy"
-where other Internet communities use "confidentiality".
-In the current document the two terms are synonymous.
+Note also that the NFS community long ago adopted the
+use of the term "privacy" from documents such as
+<xref target="RFC2203"/>.
+In the current document, the authors use the term
+"privacy" only when referring specifically
+to the historic GSS privacy service defined in
+<xref target="RFC2203"/>.
+Otherwise, the authors use the term "confidentiality",
+following the practices of contemporary security communities.
 </t>
 <t>
 We adhere to the convention that a "client"
@@ -426,14 +432,11 @@ utilize the remote TLS peer identity for RPC user authentication.
  anchor="section:12D92596-F310-48C8-A4E0-B6CA038524E5"
  title="Using TLS with RPCSEC GSS">
 <t>
-RPCSEC GSS can provide per-request
-integrity
-or
-privacy (also known as confidentiality)
-services.
+RPCSEC GSS can protect per-request integrity or confidentiality.
 When operating over a TLS session, the GSS services become redundant.
 A TLS-capable RPC implementation uses GSS channel binding
-to determine when GSS integrity or privacy is unnecessary.
+to determine when the use of the GSS integrity or privacy services
+are redundant.
 See Section 2.5 of
 <xref target="RFC7861"/>
 for details.
@@ -889,7 +892,7 @@ Implementers have read and commented on this document.
 <t>
 One purpose of the mechanism described in the current document
 is to protect RPC-based applications against threats
-to the privacy of RPC transactions
+to the confidentiality of RPC transactions
 and
 RPC user identities.
 A taxonomy of these threats appears in Section 5 of
@@ -993,9 +996,7 @@ addresses several longstanding weaknesses
 (as detailed in
 <xref target="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB"/>).
 TLS augments AUTH_SYS by providing both
-integrity protection
-and
-a privacy service
+integrity protection and confidentiality
 that AUTH_SYS lacks.
 TLS protects
 data payloads,
@@ -1260,7 +1261,7 @@ It should be clear, therefore, that AUTH_SYS by itself offers little
 to no communication security:
 <list style="numbers">
 <t>
-It does not protect the privacy or integrity of
+It does not protect the confidentiality or integrity of
 RPC requests,
 users,
 or
