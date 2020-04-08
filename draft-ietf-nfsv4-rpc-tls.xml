@@ -465,6 +465,33 @@ Support for and negotiation of compression is OPTIONAL.
 </t>
 </list>
 </t>
+<t>
+Client implementations MUST include the
+"application_layer_protocol_negotiation(16)" extension
+in their "ClientHello" message
+and MUST include the protocol identifier
+defined in
+<xref target="section:58905D7A-06B1-4469-964A-DAC607DAC500"/>
+in that message's ProtocolNameList value.
+</t>
+<t>
+Similary, in response to the "ClientHello" message,
+server implementations MUST include the
+"application_layer_protocol_negotiation(16)" extension
+in their "ServerHello" message
+and MUST include only the protocol identifier
+defined in
+<xref target="section:58905D7A-06B1-4469-964A-DAC607DAC500"/>
+in that message's ProtocolNameList value.
+</t>
+<t>
+If the server responds incorrectly,
+the client MUST NOT establish a TLS session for use with RPC
+on this connection.
+See
+<xref target="RFC7301"/>
+for further details about how to form these messages properly.
+</t>
 
 <section
  anchor="section:CC204592-F561-49BD-B1C9-DE0FF7F0E7AB"
