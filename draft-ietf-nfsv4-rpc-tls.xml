@@ -445,7 +445,9 @@ the following restrictions apply:
 <list style="symbols">
 <t>
 Implementations MUST NOT negotiate TLS versions prior to v1.3
-<xref target="RFC8446"/>.
+(<xref target="RFC8446"/>
+or
+<xref target="I-D.ietf-tls-dtls13"/>).
 Support for mandatory-to-implement ciphersuites
 for the negotiated TLS version is REQUIRED.
 </t>
@@ -539,7 +541,7 @@ or by closing the TLS-protected TCP connection.
  title="Operation on UDP">
 <t>
 RPC over UDP is protected using DTLS
-<xref target="RFC6347"/>.
+<xref target="I-D.ietf-tls-dtls13"/>.
 As soon as a client initializes a socket
 for use with an unfamiliar server,
 it uses the mechanism described in
@@ -1161,19 +1163,6 @@ RFC-TBD
 <back>
 
 <references title="Normative References">
-<?rfc include="reference.RFC.2119.xml"?>
-<?rfc include="reference.RFC.4279.xml"?>
-<?rfc include="reference.RFC.5056.xml"?>
-<?rfc include="reference.RFC.5280.xml"?>
-<?rfc include="reference.RFC.5531.xml"?>
-<?rfc include="reference.RFC.5929.xml"?>
-<?rfc include="reference.RFC.6125.xml"?>
-<?rfc include="reference.RFC.6347.xml"?>
-<?rfc include="reference.RFC.7258.xml"?>
-<?rfc include="reference.RFC.7301.xml"?>
-<?rfc include="reference.RFC.7942.xml"?>.
-<?rfc include="reference.RFC.8174.xml"?>
-<?rfc include="reference.RFC.8446.xml"?>
 
 <reference
  anchor="FIPS.180-4">
@@ -1192,6 +1181,21 @@ National Institute of Standards and Technology
 <seriesInfo name="FIPS PUB" value="180-4"/>
 <format type="PDF" target="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf"/>
 </reference>
+
+<?rfc include="reference.I-D.ietf-tls-dtls13.xml"?>
+
+<?rfc include="reference.RFC.2119.xml"?>
+<?rfc include="reference.RFC.4279.xml"?>
+<?rfc include="reference.RFC.5056.xml"?>
+<?rfc include="reference.RFC.5280.xml"?>
+<?rfc include="reference.RFC.5531.xml"?>
+<?rfc include="reference.RFC.5929.xml"?>
+<?rfc include="reference.RFC.6125.xml"?>
+<?rfc include="reference.RFC.7258.xml"?>
+<?rfc include="reference.RFC.7301.xml"?>
+<?rfc include="reference.RFC.7942.xml"?>.
+<?rfc include="reference.RFC.8174.xml"?>
+<?rfc include="reference.RFC.8446.xml"?>
 
 </references>
 
