@@ -388,7 +388,7 @@ They present no globally unique identifier to the server peer.
 </t>
 <t hangText="Mutual Host Authentication"><vspace blankLines="0"/>
 In this type of deployment,
-the client possesses a unique global identity (e.g., a certificate).
+the client possesses an identity (e.g. a certificate) that is backed by a trusted entity.
 As part of the TLS handshake, both peers authenticate using the presented TLS identities.
 If authentication of either peer fails,
 or
