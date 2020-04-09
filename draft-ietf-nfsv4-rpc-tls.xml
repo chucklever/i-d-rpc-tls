@@ -971,6 +971,43 @@ If TLSA records are not available, this approach is strongly encouraged.
 </t>
 </section>
 
+<section
+ anchor="section:9C03417D-1D3D-4D43-BC43-6F7387736AF7"
+ title="Privacy Leakage Before Session Establishment">
+<t>
+As mentioned earlier,
+communication between an RPC client and server
+appears in the clear on the network
+prior to the establishment of a TLS session.
+This clear-text information includes
+transport connection handshake exchanges,
+the RPC NULL procedure probing support for TLS,
+and the initial parts of TLS session establishment.
+Appendix C of
+<xref target="RFC8446"/>
+discusses precautions that can mitigate exposure during
+the exchange of connnection handshake information
+and
+TLS certificate material that might enable attackers
+to track the RPC client.
+</t>
+<t>
+For RPC-on-TLS, an additional exposure is
+the RPC NULL procedure that acts as a STARTTLS message.
+This RPC NULL procedure contains no arguments or results,
+and the AUTH_TLS authentication flavor it uses
+does not contain user information.
+</t>
+<t>
+However, the NULL procedure can indicate to an attacker
+which RPC program is to be wrapped in the TLS session
+associated with the communicating RPC client/server pair.
+This would suggest the type of content being exchanged,
+information that an attacker can use to improve her chances
+of breaking transport channel encryption.
+</t>
+</section>
+
 </section>
 
 <section
