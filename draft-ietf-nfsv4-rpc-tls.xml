@@ -1315,8 +1315,8 @@ Special mention goes to Charles Fisher, author of
 His article inspired the mechanism described in this document.
 </t>
 <t>
-Many thanks to Tigran Mkrtchyan for his work on the DESY prototype
-and his feedback on the current document.
+Many thanks to Tigran Mkrtchyan and Rick Macklem for their work
+on prototype implementations and feedback on the current document.
 </t>
 <t>
 Thanks to Derrell Piper for numerous suggestions that improved both
@@ -1325,7 +1325,13 @@ and
 the current document's security-related discussion.
 </t>
 <t>
-The authors are grateful to
+Many thanks to
+Transport Area Director Magnus Westerlund
+for his sharp questions and careful reading
+of the final revisions of the current document.
+</t>
+<t>
+The authors are additionally grateful to
 Bill Baker,
 David Black,
 Alan DeKok,
@@ -1341,9 +1347,9 @@ Martin Thomson
 for their input and support of this work.
 </t>
 <t>
-Lastly, special thanks to
+Finally, special thanks to
+NFSV4 Working Group Chair and
 document shepherd David Noveck,
-Transport Area Director Magnus Westerlund,
 NFSV4 Working Group Chairs
 Spencer Shepler
 and
