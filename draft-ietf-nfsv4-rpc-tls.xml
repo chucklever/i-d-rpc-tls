@@ -186,22 +186,26 @@ while other security mechanisms can handle user authentication.
 </t>
 <t>
 The current document specifies the implementation of RPC on an encrypted transport
-in a fashion that is transparent to upper-layer protocols based on RPC.
+in a manner that is transparent to upper-layer protocols based on RPC.
 The imposition of encryption at the transport layer
 protects any upper-layer protocol that employs RPC,
 without alteration of that protocol.
 </t>
 <t>
-Further, the current document defines policies in line with
+Further,
+<xref target="section:2AE49383-E6B2-4830-8407-995FEBF727F2"/>
+of the current document defines policies in line with
 <xref target="RFC7435"/>
 which enable RPC-on-TLS to be deployed opportunistically
-in environments with RPC implementations that do not support TLS.
-Specifications for RPC-based upper-layer protocols
-are free to require stricter policies to guarantee that
+in environments that contain RPC implementations that do not support TLS.
+However, specifications for RPC-based upper-layer protocols
+should choose to require even stricter policies that guarantee
 encryption
-or
+and
 host authentication
-is in use on every connection.
+is used for all RPC transactions.
+Enforcing the use of RPC-on-TLS is of particular importance
+for existing upper-layer protocols whose security infrastructure is weak.
 </t>
 <t>
 The protocol specification in the current document assumes
@@ -934,13 +938,21 @@ The actual security level may indeed
 be selected based on policy and without user intervention.
 </t>
 <t>
-In cases where interoperability is a priority,
+In environments where interoperability is a priority,
 the security benefits of TLS are partially or entirely waived.
 Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
-the level of security that is actually in effect.
-Implementations are REQUIRED to provide an audit log
+the level of security that is actually in effect,
+and are REQUIRED to provide an audit log
 of RPC-over-TLS security mode selection.
+</t>
+<t>
+In all other cases,
+the adoption, implementation, and deployment of
+RPC-based upper-layer protocols that enforce the use of
+TLS authentication and encryption
+(when similar RPCSEC GSS services are not in use)
+is strongly encouraged.
 </t>
 
 <section
