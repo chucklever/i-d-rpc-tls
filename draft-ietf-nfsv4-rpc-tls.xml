@@ -284,79 +284,79 @@ fields in each RPC Call.
  anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"
  title="Discovering Server-side TLS Support">
 <t>
-The mechanism described in this document
+The mechanism described in the current document
 interoperates fully with RPC implementations
 that do not support TLS.
-The use of TLS is automatically disabled in these cases.
+Policy settings on the RPC-on-TLS-enabled peer determine
+whether RPC operation continues without the use of TLS
+or RPC operation is not permitted.
 </t>
 <t>
 To achieve this, we introduce a new RPC authentication flavor called AUTH_TLS.
 This new flavor signals that the client wants
 to initiate TLS negotiation if the server supports it.
 Except for the modifications described in this section,
-the RPC protocol is unaware of security encapsulation.
+the RPC protocol is unaware of security encapsulation
+at the transport layer.
+</t>
+<t>
+When an RPC client is ready to begin a TLS session,
+it sends a NULL RPC procedure with an auth_flavor of AUTH_TLS.
+The value of AUTH_TLS is defined in
+<xref target="section:2CD51855-CE40-4B8D-A220-F211C477964F"/>.
+The NULL request is made to the same port as if TLS were not in use.
 </t>
 <t>
 The length of the opaque data constituting the credential
-sent in the call message MUST be zero.
+sent in the RPC Call message MUST be zero.
 The verifier accompanying the credential MUST be an AUTH_NONE
 verifier of length zero.
 </t>
 <t>
-The flavor value of the verifier received in the RPC Reply message
-from the server MUST be AUTH_NONE.
+The flavor value of the verifier in the RPC Reply message
+received from the server MUST be AUTH_NONE.
 The length of the verifier's body field is eight.
 The bytes of the verifier's body field encode the ASCII characters
 "STARTTLS" as a fixed-length opaque.
 </t>
 <t>
-When an RPC client is ready to begin sending encrypted traffic to a server,
-it starts with a NULL RPC request with an auth_flavor of AUTH_TLS.
-The value of AUTH_TLS is defined in
-<xref target="section:2CD51855-CE40-4B8D-A220-F211C477964F"/>A.
-The NULL request is made to the same port as if TLS were not in use.
-</t>
-<t>
-The RPC server can respond in one of three ways:
-<list style="symbols">
-<t>
-If the RPC server does not recognize the AUTH_TLS authentication flavor,
-it responds with a reject_stat of AUTH_ERROR.
-The RPC client then knows that this server does not support TLS.
-</t>
-<t>
-If the RPC server accepts the NULL RPC procedure
-but fails to return an AUTH_NONE verifier
-containing the "STARTTLS" token in the NULL Reply,
-the RPC client knows that this server does not support TLS.
-</t>
-<t>
-If the RPC server accepts the NULL RPC procedure
-and returns an AUTH_NONE verifier
-containing the "STARTTLS" token in the NULL Reply,
-the RPC client immediately initiates a TLS session.
-This NULL Reply signals that the RPC server is prepared
-for the client to send a "ClientHello" message.
-</t>
-</list>
-</t>
-<t>
+If the RPC server replies with
+a reply_stat of MSG_ACCEPTED
+and
+an AUTH_NONE verifier containing the "STARTTLS" token,
+the RPC client follows with a "ClientHello" message.
+The client MAY proceed with TLS session establishment
+even if the Reply's accept_stat is not SUCCESS
+(for example, if the accept_stat is PROG_UNAVAIL).
 Once the TLS handshake is complete,
 the RPC client and server have established
 a secure channel for communicating.
-The client MUST switch to a security flavor other than AUTH_TLS
-within that channel, presumably after negotiating down
-redundant RPCSEC_GSS privacy and integrity services.
 </t>
 <t>
-If TLS negotiation fails for any reason,
-the RPC client reports this failure to the upper-layer application
-the same way it would report an AUTH_ERROR rejection from the RPC server.
+If the Reply's reply_stat is MSG_ACCEPTED
+but the verifier does not contain the "STARTTLS" token,
+or if the Reply's reply_stat is MSG_DENIED,
+the RPC client MUST NOT send a "ClientHello" message.
+RPC operation can continue, but in the clear.
 </t>
 <t>
-If an RPC client attempts to use AUTH_TLS
-for anything other than the NULL RPC procedure,
-the RPC server MUST respond with a reject_stat of AUTH_ERROR.
+If, after a successful RPC AUTH_TLS probe,
+the subsequent TLS handshake should fail for any reason,
+the RPC client reports this failure
+to the upper-layer application
+the same way it reports an AUTH_ERROR rejection
+from the RPC server.
+</t>
+<t>
+If an RPC client uses the AUTH_TLS authentication flavor
+on any procedure other than the NULL procedure,
+or an RPC client sends an RPC AUTH_TLS probe within
+an existing TLS session,
+the RPC server MUST reject that RPC Call by setting
+the reply_stat field to MSG_DENIED,
+the reject_stat field to AUTH_ERROR,
+and
+the auth_stat field to AUTH_BADCRED.
 </t>
 </section>
 
@@ -502,97 +502,140 @@ for further details about how to form these messages properly.
 <section
  anchor="section:CC204592-F561-49BD-B1C9-DE0FF7F0E7AB"
  title="Base Transport Considerations">
+<t>
+There is traditionally a strong association between an RPC program
+and a destination port number.
+The use of TLS or DTLS does not change that association.
+Thus it is frequently --
+though not always --
+the case that a single TLS session
+carries traffic for only one RPC program.
+</t>
 
 <section
  anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8"
- title="Operation on TCP">
+ title="RPC-on-TLS Operation on TCP">
 <t>
-The use of TLS
+The use of the Transport Layer Security (TLS) protocol
 <xref target="RFC8446"/>
 protects RPC on TCP connections.
 Typically,
-once a client completes the TCP handshake
-and performs RPC service discovery via NULL RPC operations,
+once an RPC client completes the TCP handshake,
 it uses the mechanism described in
 <xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
-to discover TLS support.
-It can then negotiate a TLS session on that connection.
+to discover RPC-on-TLS support for that connection.
+If spurious traffic appears on a TCP connection
+between the initial clear-text AUTH_TLS probe
+and
+the TLS session handshake,
+receivers MUST discard that data without response
+and then SHOULD drop the connection.
 </t>
 <t>
-After establishing a TLS session on a connection,
-an RPC server MUST reject with a reject_stat of AUTH_ERROR
-any subsequent RPC Calls over a TLS-protected connection
-that are outside of the TLS session on that connection.
-Likewise, an RPC client MUST silently discard
-any subsequent RPC Replies over the connection
-that are outside of a TLS session.
+The protocol convention specified in the current document
+assumes there can be no more than one concurrent TLS session
+per TCP connection.
+This is true of current generations of TLS,
+but might be different in a future version of TLS.
 </t>
 <t>
-This restriction includes reverse-direction RPC operations
-(i.e., RPC Calls initiated on the server-end of the connection).
-An RPC client receiving a reverse-direction call
-on a connection outside of an existing TLS session
-MUST reject the request with a reject_stat of AUTH_ERROR.
+Once a TLS session is established on a TCP connection,
+no further clear-text communication can occur on that connection
+until the session is terminated.
+The use of TLS does not alter RPC record framing used on TCP transports.
 </t>
 <t>
-An RPC peer terminates a TLS session by sending a TLS closure alert,
-or by closing the TLS-protected TCP connection.
+Furthermore,
+if an RPC server responds with PROG_UNAVAIL
+to an RPC Call within an established TLS session,
+that does not imply that RPC server will subsequently
+reject the same RPC program on a different TCP connection.
+</t>
+<t>
+Backchannel operation occurs only on connected transports such as TCP.
+To protect backchannel operations,
+an RPC server uses the existing TLS session on that connection to send
+backchannel operations.
+The server does not attempt
+to establish a TLS session on a TCP connection for backchannel operation.
+</t>
+<t>
+When operation is complete,
+an RPC peer terminates a TLS session by sending a TLS Closure Alert
+and may then close the TCP connection.
 </t>
 </section>
 
 <section
  anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75"
- title="Operation on UDP">
+ title="RPC-on-TLS Operation on UDP">
 <t>
-RPC over UDP is protected using DTLS
+RPC over UDP is protected using
+the Datagram Transport Layer Security (DTLS) protocol
 <xref target="I-D.ietf-tls-dtls13"/>.
-As soon as a client initializes a socket
-for use with an unfamiliar server,
-it uses the mechanism described in
-<xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
-to discover DTLS support and then negotiate a DTLS session.
-Connected operation is RECOMMENDED.
 </t>
 <t>
-Using a DTLS transport does not introduce
+Using DTLS does not introduce
 reliable
 or
 in-order
 semantics to RPC on UDP.
-Also, DTLS does not support fragmentation of RPC messages.
-Each RPC message MUST fit in a single DTLS datagram.
+Each RPC message MUST fit in a single DTLS record.
 DTLS encapsulation has overhead,
 which reduces the effective Path MTU (PMTU)
 and thus the maximum RPC payload size.
+The use of DTLS record replay protection is REQUIRED
+when transporting RPC traffic.
 </t>
 <t>
-DTLS does not detect STARTTLS replay.
-Sending a TLS closure alert terminates a DTLS session.
-Subsequent RPC messages
-passing between the client and server
-are no longer protected until a new TLS session is established.
+As soon as a client initializes a UDP socket
+for use with an RPC server,
+it uses the mechanism described in
+<xref target="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"/>
+to discover DTLS support for an RPC program on a particular port.
+It then negotiates a DTLS session.
+</t>
+<t>
+When using connectionless operation,
+each DTLS session endpoint is identified
+by its 5-tuple --
+the source and destination IP address and port numbers,
+along with the UDP transport protocol number (17).
+When using connected operation,
+the DTLS session endpoints are identified
+by connection ID (CID), as described in
+<xref target="I-D.ietf-tls-dtls-connection-id"/>.
+Connected operation is strongly RECOMMENDED.
+</t>
+<t>
+Sending a TLS Closure Alert terminates a DTLS session.
+Subsequent RPC messages exchanged between the RPC client and server
+are no longer protected until a new DTLS session is established.
 </t>
 </section>
 
 <section
  anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F"
- title="Operation on Other Transports">
+ title="RPC-on-TLS Operation on Other Transports">
 <t>
-RPC-over-RDMA can make use of Transport Layer Security
+Transports that provide intrinsic TLS-level security
+(e.g., QUIC)
+need to be addressed separately from the current document.
+In such cases, the use of TLS is not opportunistic
+as it can be for TCP or UDP.
+</t>
+<t>
+RPC-over-RDMA can make use of transport layer security
 below the RDMA transport layer
 <xref target="RFC8166"/>.
 The exact mechanism is not within the scope of this document.
 Because there might not be other provisions
 to exchange client and server certificates,
 authentication material exchange
-would need to be provided by facilities within a future RPC-over-RDMA transport.
+needs to be provided by facilities
+within a future RPC-over-RDMA transport protocol.
 </t>
-<t>
-Transports that provide intrinsic TLS-level security
-(e.g., QUIC)
-would need to be addressed separately from the current document.
-In such cases, the use of TLS would not be opportunistic as it is for TCP or UDP.
-</t>
+
 </section>
 
 </section>
@@ -991,7 +1034,7 @@ As mentioned earlier,
 communication between an RPC client and server
 appears in the clear on the network
 prior to the establishment of a TLS session.
-This clear-text information includes
+This clear-text information usually includes
 transport connection handshake exchanges,
 the RPC NULL procedure probing support for TLS,
 and the initial parts of TLS session establishment.
@@ -1004,19 +1047,19 @@ TLS certificate material that might enable attackers
 to track the RPC client.
 </t>
 <t>
-For RPC-on-TLS, an additional exposure is
-the RPC NULL procedure that acts as a STARTTLS message.
+Any RPC traffic that appears on the network before
+a TLS session has been established is vulnerable to
+monitoring or undetected modification.
+A secure client implementation limits or prevents
+any RPC exchanges that are not protected.
+</t>
+<t>
+The exception to this edict is
+the initial RPC NULL procedure that acts as a STARTTLS message,
+which cannot be protected.
 This RPC NULL procedure contains no arguments or results,
 and the AUTH_TLS authentication flavor it uses
 does not contain user information.
-</t>
-<t>
-However, the NULL procedure can indicate to an attacker
-which RPC program is to be wrapped in the TLS session
-associated with the communicating RPC client/server pair.
-This would suggest the type of content being exchanged,
-information that an attacker can use to improve her chances
-of breaking transport channel encryption.
 </t>
 </section>
 
@@ -1232,6 +1275,7 @@ National Institute of Standards and Technology
 </reference>
 
 <?rfc include="reference.I-D.ietf-tls-dtls13.xml"?>
+<?rfc include="reference.I-D.ietf-tls-dtls-connection-id"?>
 
 <?rfc include="reference.RFC.2119.xml"?>
 <?rfc include="reference.RFC.4279.xml"?>
@@ -1322,8 +1366,9 @@ systems enforce privileged transport address mechanisms).
 </list>
 </t>
 <t>
-It should be clear, therefore, that AUTH_SYS by itself offers little
-to no communication security:
+It should be clear, therefore, that AUTH_SYS by itself
+(i.e., without strong client authentication)
+offers little to no communication security:
 <list style="numbers">
 <t>
 It does not protect the confidentiality or integrity of
