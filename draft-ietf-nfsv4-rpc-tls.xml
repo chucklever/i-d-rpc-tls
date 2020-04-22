@@ -337,7 +337,9 @@ If the Reply's reply_stat is MSG_ACCEPTED
 but the verifier does not contain the "STARTTLS" token,
 or if the Reply's reply_stat is MSG_DENIED,
 the RPC client MUST NOT send a "ClientHello" message.
-RPC operation can continue, but in the clear.
+RPC operation can continue,
+however it will be without any confidentiality,
+integrity or authentication protection from (D)TLS.
 </t>
 <t>
 If, after a successful RPC AUTH_TLS probe,
@@ -424,7 +426,8 @@ but only after a TLS session has been established for communication.
 Authentication of GSS users is unchanged by the use of TLS.
 </t>
 <t>
-RPCSEC GSS can also protect per-request integrity or confidentiality.
+RPCSEC GSS can also perform
+per-request integrity or confidentiality protection.
 When operating over a TLS session, these GSS services become redundant.
 An RPC implementation capable of concurrently using TLS and RPCSEC GSS
 can use GSS channel binding, as defined in
@@ -449,9 +452,11 @@ the following restrictions apply:
 <list style="symbols">
 <t>
 Implementations MUST NOT negotiate TLS versions prior to v1.3
-(<xref target="RFC8446"/>
-or
-<xref target="I-D.ietf-tls-dtls13"/>).
+(for TLS
+<xref target="RFC8446"/>
+or DTLS
+<xref target="I-D.ietf-tls-dtls13"/>
+respectively).
 Support for mandatory-to-implement ciphersuites
 for the negotiated TLS version is REQUIRED.
 </t>
@@ -474,6 +479,7 @@ Support for and negotiation of compression is OPTIONAL.
 <t>
 Client implementations MUST include the
 "application_layer_protocol_negotiation(16)" extension
+<xref target="RFC7301"/>
 in their "ClientHello" message
 and MUST include the protocol identifier
 defined in
@@ -484,6 +490,7 @@ in that message's ProtocolNameList value.
 Similary, in response to the "ClientHello" message,
 server implementations MUST include the
 "application_layer_protocol_negotiation(16)" extension
+<xref target="RFC7301"/>
 in their "ServerHello" message
 and MUST include only the protocol identifier
 defined in
