@@ -85,7 +85,7 @@ before this document is published.
 The source for this draft is maintained in GitHub.
 Suggested changes should be submitted as pull requests at
 <eref
-target="https://github.com/chucklever/i-d-rpc-tls">
+ target="https://github.com/chucklever/i-d-rpc-tls">
 https://github.com/chucklever/i-d-rpc-tls
 </eref>.
 Instructions are on that page as well.
@@ -865,7 +865,10 @@ Readers are advised to note that other implementations may exist.
 DESY
 </t>
 <t hangText="URL:">
+<eref
+ target="https://desy.de">
 https://desy.de
+</eref>
 </t>
 <t hangText="Maturity:">
 Implementation will be based on mature versions of the current document.
@@ -893,7 +896,10 @@ The implementer has read and commented on the current document.
 Hammerspace
 </t>
 <t hangText="URL:">
+<eref
+ target="https://hammerspace.com">
 https://hammerspace.com
+</eref>
 </t>
 <t hangText="Maturity:">
 Prototype software based on early versions of this document.
@@ -921,7 +927,10 @@ No comments from implementors.
 The Linux Foundation
 </t>
 <t hangText="URL:">
+<eref
+ target="https://www.kernel.org">
 https://www.kernel.org
+</eref>
 </t>
 <t hangText="Maturity:">
 Prototype software based on early versions of this document.
@@ -949,7 +958,10 @@ No comments from the implementor.
 The FreeBSD Project
 </t>
 <t hangText="URL:">
+<eref
+ target="https://www.freebsd.org">
 https://www.freebsd.org
+</eref>
 </t>
 <t hangText="Maturity:">
 Prototype software based on early versions of this document.
