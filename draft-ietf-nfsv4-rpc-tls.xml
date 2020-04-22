@@ -77,6 +77,23 @@ This document updates RFC 5531.
  anchor="section:8F035331-8EB8-4FBC-973A-673FBA5FE952"
  title="Introduction">
 <t>
+RFC Editor:
+Please remove the following paragraph
+before this document is published.
+</t>
+<t>
+The source for this draft is maintained in GitHub.
+Suggested changes should be submitted as pull requests at
+<eref
+target="https://github.com/chucklever/i-d-rpc-tls">
+https://github.com/chucklever/i-d-rpc-tls
+</eref>.
+Instructions are on that page as well.
+Editorial changes can be managed in GitHub,
+but any substantive change should
+be discussed on the nfsv4@ietf.org mailing list.
+</t>
+<t>
 In 2014 the IETF published
 <xref target="RFC7258"/>,
 which recognized that unauthorized observation
