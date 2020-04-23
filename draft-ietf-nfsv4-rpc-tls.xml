@@ -874,8 +874,7 @@ https://desy.de
 Implementation will be based on mature versions of the current document.
 </t>
 <t hangText="Coverage:">
-The implementation is under way.
-The use of DTLS functionality is not implemented.
+The bulk of this specification is implemented including DTLS.
 </t>
 <t hangText="Licensing:">
 LGPL
