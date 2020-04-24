@@ -284,7 +284,7 @@ TLS documentation refers to the same as "peer authentication".
 In the current document there is little distinction between these terms.
 </t>
 <t>
-The term "user authentication" in this document refers specifically
+The term "user authentication" in the current document refers specifically
 to the RPC caller's credential, provided in the
 "cred"
 and
@@ -538,7 +538,7 @@ carries traffic for only one RPC program.
 
 <section
  anchor="section:74B43C7E-5ADC-4FBD-B4EA-FF8F470994A8"
- title="RPC-on-TLS Operation on TCP">
+ title="Protected Operation on TCP">
 <t>
 The use of the Transport Layer Security (TLS) protocol
 <xref target="RFC8446"/>
@@ -592,7 +592,7 @@ and may then close the TCP connection.
 
 <section
  anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75"
- title="RPC-on-TLS Operation on UDP">
+ title="Protected Operation on UDP">
 <t>
 RPC over UDP is protected using
 the Datagram Transport Layer Security (DTLS) protocol
@@ -620,16 +620,15 @@ to discover DTLS support for an RPC program on a particular port.
 It then negotiates a DTLS session.
 </t>
 <t>
-When using connectionless operation,
-each DTLS session endpoint is identified
-by its 5-tuple --
-the source and destination IP address and port numbers,
-along with the UDP transport protocol number (17).
-When using connected operation,
-the DTLS session endpoints are identified
-by connection ID (CID), as described in
-<xref target="I-D.ietf-tls-dtls-connection-id"/>.
-Connected operation is strongly RECOMMENDED.
+For RPC-on-DTLS,
+each DTLS handshake MUST include the connection_id extension
+described in Section 9 of
+<xref target="I-D.ietf-tls-dtls13"/>.
+RPC-on-DTLS peer endpoints SHOULD provide a ConnectionID
+with a non-zero length.
+Endpoints implementing RPC programs
+that expect a significant number of concurrent clients
+should employ ConnectionIDs of at least 4 bytes in length.
 </t>
 <t>
 Sending a TLS Closure Alert terminates a DTLS session.
@@ -640,7 +639,7 @@ are no longer protected until a new DTLS session is established.
 
 <section
  anchor="section:BFCC24B1-E6D4-4ABC-A5F3-B71E8E96878F"
- title="RPC-on-TLS Operation on Other Transports">
+ title="Protected Operation on Other Transports">
 <t>
 Transports that provide intrinsic TLS-level security
 (e.g., QUIC)
@@ -652,12 +651,13 @@ as it can be for TCP or UDP.
 RPC-over-RDMA can make use of transport layer security
 below the RDMA transport layer
 <xref target="RFC8166"/>.
-The exact mechanism is not within the scope of this document.
+The exact mechanism is not within the scope of the current document.
 Because there might not be other provisions
 to exchange client and server certificates,
 authentication material exchange
 needs to be provided by facilities
-within a future RPC-over-RDMA transport protocol.
+within a future version
+of the RPC-over-RDMA transport protocol.
 </t>
 
 </section>
@@ -901,7 +901,7 @@ https://hammerspace.com
 </eref>
 </t>
 <t hangText="Maturity:">
-Prototype software based on early versions of this document.
+Prototype software based on early versions of the current document.
 </t>
 <t hangText="Coverage:">
 The bulk of this specification is implemented.
@@ -932,7 +932,7 @@ https://www.kernel.org
 </eref>
 </t>
 <t hangText="Maturity:">
-Prototype software based on early versions of this document.
+Prototype software based on early versions of the current document.
 </t>
 <t hangText="Coverage:">
 The bulk of this specification has yet to be implemented.
@@ -963,7 +963,7 @@ https://www.freebsd.org
 </eref>
 </t>
 <t hangText="Maturity:">
-Prototype software based on early versions of this document.
+Prototype software based on early versions of the current document.
 </t>
 <t hangText="Coverage:">
 The bulk of this specification is implemented.
@@ -973,7 +973,7 @@ The use of DTLS functionality is not planned.
 BSD
 </t>
 <t hangText="Implementation experience:">
-Implementers have read and commented on this document.
+Implementers have read and commented on the current document.
 </t>
 </list>
 </t>
@@ -1310,7 +1310,6 @@ National Institute of Standards and Technology
 </reference>
 
 <?rfc include="reference.I-D.ietf-tls-dtls13.xml"?>
-<?rfc include="reference.I-D.ietf-tls-dtls-connection-id"?>
 
 <?rfc include="reference.RFC.2119.xml"?>
 <?rfc include="reference.RFC.4279.xml"?>
@@ -1441,7 +1440,7 @@ Special mention goes to Charles Fisher, author of
  target="https://www.linuxjournal.com/content/encrypting-nfsv4-stunnel-tls">
 "Encrypting NFSv4 with Stunnel TLS"
 </eref>.
-His article inspired the mechanism described in this document.
+His article inspired the mechanism described in the current document.
 </t>
 <t>
 Many thanks to Tigran Mkrtchyan and Rick Macklem for their work
@@ -1458,6 +1457,9 @@ Many thanks to
 Transport Area Director Magnus Westerlund
 for his sharp questions and careful reading
 of the final revisions of the current document.
+The text of
+<xref target="section:B8BF600E-96DC-4C82-AADF-D593826E9B75"/>
+is mostly his contribution.
 </t>
 <t>
 The authors are additionally grateful to
