@@ -78,7 +78,7 @@ This document updates RFC 5531.
  title="Introduction">
 <t>
 RFC Editor:
-Please remove the following paragraph
+Please remove this Editor's Note and the following paragraph
 before this document is published.
 </t>
 <t>
@@ -594,6 +594,15 @@ and may then close the TCP connection.
  anchor="section:B8BF600E-96DC-4C82-AADF-D593826E9B75"
  title="Protected Operation on UDP">
 <t>
+RFC Editor:
+In the following section,
+please replace TBD with the connection_id extension number
+that is to be assigned in
+<xref target="I-D.ietf-tls-dtls-connection-id"/>.
+And, please remove this Editor's Note
+before this document is published.
+</t>
+<t>
 RPC over UDP is protected using
 the Datagram Transport Layer Security (DTLS) protocol
 <xref target="I-D.ietf-tls-dtls13"/>.
@@ -620,11 +629,14 @@ to discover DTLS support for an RPC program on a particular port.
 It then negotiates a DTLS session.
 </t>
 <t>
-For RPC-on-DTLS,
-each DTLS handshake MUST include the connection_id extension
+Multi-homed RPC clients and servers may send protected RPC messages
+via network interfaces that were not involved in the handshake that
+established the DTLS session.
+Therefore, when protecting RPC traffic,
+each DTLS handshake MUST include the "connection_id(TBD)" extension
 described in Section 9 of
-<xref target="I-D.ietf-tls-dtls13"/>.
-RPC-on-DTLS peer endpoints SHOULD provide a ConnectionID
+<xref target="I-D.ietf-tls-dtls13"/>,
+and RPC-on-DTLS peer endpoints MUST provide a ConnectionID
 with a non-zero length.
 Endpoints implementing RPC programs
 that expect a significant number of concurrent clients
@@ -1224,6 +1236,8 @@ in favor of TLS encryption with peer authentication.
 <t>
 RFC Editor: In the following subsections,
 please replace RFC-TBD with the RFC number assigned to this document.
+And, please remove this Editor's Note
+before this document is published.
 </t>
 
 <section
@@ -1310,6 +1324,7 @@ National Institute of Standards and Technology
 </reference>
 
 <?rfc include="reference.I-D.ietf-tls-dtls13.xml"?>
+<?rfc include="reference.I-D.ietf-tls-dtls-connection-id"?>
 
 <?rfc include="reference.RFC.2119.xml"?>
 <?rfc include="reference.RFC.4279.xml"?>
