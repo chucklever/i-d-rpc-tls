@@ -1178,7 +1178,7 @@ to perform operations on the remote RPC server.
 <t>
 Using a TLS-protected transport
 when the AUTH_SYS authentication flavor is in use
-addresses several longstanding weaknesses
+addresses several longstanding weaknesses in AUTH_SYS
 (as detailed in
 <xref target="section:C7FB9DB5-5F4F-45AD-8BF7-74FFCA08BEBB"/>).
 TLS augments AUTH_SYS by providing both
@@ -1190,10 +1190,14 @@ RPC headers,
 and
 user identities
 against monitoring and alteration while in transit.
-TLS guards against the insertion or deletion of messages,
-thus also ensuring the integrity of the message stream
+</t>
+<t>
+TLS guards against in-transit insertion and deletion of RPC messages,
+thus ensuring the integrity of the message stream
 between RPC client and server.
-Lastly, transport layer encryption plus peer authentication
+DTLS does not provide full message stream protection,
+but it does enable receivers to reject non-participant messages.
+In particular, transport layer encryption plus peer authentication
 protects receiving XDR decoders from deserializing untrusted data,
 a common coding vulnerability.
 </t>
