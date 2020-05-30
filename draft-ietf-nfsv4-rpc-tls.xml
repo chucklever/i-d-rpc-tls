@@ -541,7 +541,8 @@ defined in
 in that message's ProtocolNameList value.
 </t>
 <t>
-If the server responds incorrectly,
+If the server responds incorrectly
+(for instance, if the "ServerHello" message does not conform to the above requirements),
 the client MUST NOT establish a TLS session for use with RPC
 on this connection.
 See
