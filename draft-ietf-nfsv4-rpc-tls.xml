@@ -1299,7 +1299,7 @@ TLS
 7
 </t>
 <t hangText="Description:">
-Signals the use of TLS to protect RPC messages on socket-based transports
+Indicates support for RPC-on-TLS.
 </t>
 <t hangText="Reference:">
 RFC-TBD
