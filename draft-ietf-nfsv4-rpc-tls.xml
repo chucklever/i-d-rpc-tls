@@ -603,12 +603,13 @@ that does not imply that RPC server will subsequently
 reject the same RPC program on a different TCP connection.
 </t>
 <t>
-Backchannel operation occurs only on connected transports such as TCP.
-To protect backchannel operations,
-an RPC server uses the existing TLS session on that connection to send
-backchannel operations.
-The server does not attempt
-to establish a TLS session on a TCP connection for backchannel operation.
+Reverse-direction operation occurs only on connected transports such as TCP
+(see Section 2 of
+<xref target="RFC8166"/>).
+To protect reverse-direction RPC operations,
+the RPC server does not establish a separate TLS session on the TCP connection,
+but instead uses the existing TLS session on that connection to protect
+these operations.
 </t>
 <t>
 When operation is complete,
