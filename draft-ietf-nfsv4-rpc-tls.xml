@@ -1253,13 +1253,9 @@ and
 rejection of a connection when host authentication fails.
 </t>
 <t>
-When using RPCSEC_GSS,
-GSS/Kerberos provides adequate host authentication
-and
-a policy that requires GSS mutual authentication and
-rejection of a connection when host authentication fails.
-GSS integrity and privacy services, therefore, can be disabled
-in favor of TLS encryption with peer authentication.
+RCPSEC_GSS provides integrity and privacy services
+which are redundant when TLS is in use.
+These services should be disabled in that case.
 </t>
 </list>
 </t>
