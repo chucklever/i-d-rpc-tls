@@ -303,25 +303,43 @@ fields in each RPC Call.
 <t>
 The mechanism described in the current document
 interoperates fully with RPC implementations
-that do not support TLS.
+that do not support RPC-on-TLS.
 Policy settings on the RPC-on-TLS-enabled peer determine
 whether RPC operation continues without the use of TLS
 or RPC operation is not permitted.
 </t>
 <t>
-To achieve this, we introduce a new RPC authentication flavor called AUTH_TLS.
-This new flavor signals that the client wants
+To achieve this interoperability,
+we introduce a new RPC authentication flavor called AUTH_TLS.
+The AUTH_TLS authentication flavor signals that the client wants
 to initiate TLS negotiation if the server supports it.
 Except for the modifications described in this section,
 the RPC protocol is unaware of security encapsulation
 at the transport layer.
-</t>
-<t>
-When an RPC client is ready to begin a TLS session,
-it sends a NULL RPC procedure with an auth_flavor of AUTH_TLS.
 The value of AUTH_TLS is defined in
 <xref target="section:2CD51855-CE40-4B8D-A220-F211C477964F"/>.
-The NULL request is made to the same port as if TLS were not in use.
+</t>
+<t>
+An RPC client begins its communication with an RPC server
+by selecting a transport and destination port.
+The choice of transport and port is
+typically based on the RPC program that is to be used.
+The RPC client might query the RPC server's rpcbind service
+to make this selection.
+In all cases, an RPC server MUST listen on the same ports
+for (D)TLS-protected RPC programs
+as the ports used when (D)TLS is not available.
+</t>
+<t>
+To protect RPC traffic to a TCP port,
+the RPC client opens a TCP connection to that port
+and sends a NULL RPC procedure
+with an auth_flavor of AUTH_TLS on that connection.
+To protect RPC traffic to a UDP port,
+the RPC client sends a UDP datagram to that port
+containing a NULL RPC procedure with an auth_flavor of AUTH_TLS.
+The mechanism described in the current document
+does not support RPC transports other than TCP and UDP.
 </t>
 <t>
 The length of the opaque data constituting the credential
@@ -341,18 +359,20 @@ If the RPC server replies with
 a reply_stat of MSG_ACCEPTED
 and
 an AUTH_NONE verifier containing the "STARTTLS" token,
-the RPC client follows with a "ClientHello" message.
-The client MAY proceed with TLS session establishment
-even if the Reply's accept_stat is not SUCCESS
-(for example, if the accept_stat is PROG_UNAVAIL).
-Once the TLS handshake is complete,
-the RPC client and server have established
-a secure channel for communicating.
+the client SHOULD proceed with TLS session establishment,
+even if the Reply's accept_stat is not SUCCESS.
+If the AUTH_TLS probe was done via TCP,
+the RPC client MUST send the "ClientHello" message
+on the same connection.
+If the AUTH_TLS probe was done via UDP,
+the RPC client MUST send the "ClientHello" message
+to the same UDP destination port.
 </t>
 <t>
-If the Reply's reply_stat is MSG_ACCEPTED
-but the verifier does not contain the "STARTTLS" token,
-or if the Reply's reply_stat is MSG_DENIED,
+Conversely,
+if the Reply's reply_stat is not MSG_ACCEPTED,
+if its verifier flavor is not AUTH_NONE,
+or if its verifier does not contain the "STARTTLS" token,
 the RPC client MUST NOT send a "ClientHello" message.
 RPC operation can continue,
 however it will be without any confidentiality,
@@ -360,7 +380,7 @@ integrity or authentication protection from (D)TLS.
 </t>
 <t>
 If, after a successful RPC AUTH_TLS probe,
-the subsequent TLS handshake should fail for any reason,
+the subsequent (D)TLS handshake should fail for any reason,
 the RPC client reports this failure
 to the upper-layer application
 the same way it reports an AUTH_ERROR rejection
@@ -370,12 +390,20 @@ from the RPC server.
 If an RPC client uses the AUTH_TLS authentication flavor
 on any procedure other than the NULL procedure,
 or an RPC client sends an RPC AUTH_TLS probe within
-an existing TLS session,
+an existing (D)TLS session,
 the RPC server MUST reject that RPC Call by setting
 the reply_stat field to MSG_DENIED,
 the reject_stat field to AUTH_ERROR,
 and
 the auth_stat field to AUTH_BADCRED.
+</t>
+<t>
+Once the TLS session handshake is complete,
+the RPC client and server have established
+a secure channel for communicating.
+A successful AUTH_TLS probe on one particular port/transport tuple
+never implies RPC-on-TLS is available on that same server
+using a different port/transport tuple.
 </t>
 </section>
 
