@@ -760,8 +760,8 @@ for more details on DNS name validation.
 <t>
 For services accessed by their network identifiers (netids) and universal
 network addresses (uaddr), the iPAddress subjectAltName SHOULD be present in
-the certificate and must exactly match the address represented by universal
-address.
+the certificate and must exactly match the address represented
+by the universal network address.
 </t>
 <t>
 Implementations MAY allow the configuration
