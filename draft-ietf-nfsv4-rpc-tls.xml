@@ -1091,7 +1091,9 @@ Clients implementers can choose from the following to mitigate
 STRIPTLS attacks:
 <list style="symbols">
 <t>
-A TLSA record [RFC6698] can alert clients that TLS is expected to work,
+A TLSA record
+<xref target="RFC6698"/>
+can alert clients that TLS is expected to work,
 and provide a binding of hostname to X.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
