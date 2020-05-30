@@ -690,11 +690,17 @@ Implementations are REQUIRED to support this mechanism.
 In this mode, the tuple
 (serial number of the presented certificate; Issuer)
 uniquely identifies the RPC peer.
+</t>
+<t>
+X.509 certificates are specified in
+<xref target="X.509"/>
+and extended in
+<xref target="RFC5280"/>.
 <list style="symbols">
 <t>
 Implementations MUST allow the configuration
 of a list of trusted Certification Authorities
-for incoming connections.
+for authorizing incoming connections.
 </t>
 <t>
 Certificate validation MUST include the verification rules as per
@@ -732,7 +738,7 @@ Implementations MAY allow the configuration
 of a set of additional properties of the certificate
 to check for a peer's authorization to communicate
 (e.g., a set of allowed values in subjectAltName:URI
-or a set of allowed X509v3 Certificate Policies).
+or a set of allowed X.509v3 Certificate Policies).
 </t>
 <t>
 When the configured trust base changes
@@ -768,13 +774,13 @@ Issuer
 Subject
 </t>
 <t>
-all X509v3 Extended Key Usage
+all X.509v3 Extended Key Usage
 </t>
 <t>
-all X509v3 Subject Alternative Name
+all X.509v3 Subject Alternative Name
 </t>
 <t>
-all X509v3 Certificate Policies
+all X.509v3 Certificate Policies
 </t>
 </list>
 </t>
@@ -1056,7 +1062,7 @@ STRIPTLS attacks:
 <list style="symbols">
 <t>
 A TLSA record [RFC6698] can alert clients that TLS is expected to work,
-and provide a binding of hostname to x.509 identity.
+and provide a binding of hostname to X.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
 </t>
@@ -1336,6 +1342,35 @@ National Institute of Standards and Technology
 <?rfc include="reference.RFC.7942.xml"?>.
 <?rfc include="reference.RFC.8174.xml"?>
 <?rfc include="reference.RFC.8446.xml"?>
+
+<reference
+ anchor="X.509">
+<front>
+<title>
+ITU-T X.509 - Information technology -
+The Directory: Public-key and attribute certificate frameworks.
+</title>
+<author>
+<organization>
+International Telephone and Telegraph Consultative Committee
+</organization>
+</author>
+<date month="October" year="2019"/>
+<abstract>
+<t>
+Recommendation ITU-T X.509 | ISO/IEC 9594-8 defines frameworks for public-key infrastructure (PKI) and privilege management infrastructure (PMI).
+It introduces the basic concept of asymmetric cryptographic techniques.
+It specifies the following data types: public-key certificate, attribute certificate, certificate revocation list (CRL) and attribute certificate revocation list (ACRL).
+It also defines several certificates and CRL extensions, and it defines directory schema information allowing PKI and PMI related data to be stored in a directory.
+In addition, it defines entity types, such as certification authority (CA), attribute authority (AA), relying party, privilege verifier, trust broker and trust anchor.
+It specifies the principles for certificate validation, validation path, certificate policy, etc.
+It also includes a specification for authorization validation lists that allow for fast validation and restrictions on communications.
+</t>
+</abstract>
+</front>
+<seriesInfo name="CCITT Recommendation" value="X.509"/>
+<seriesInfo name="ISO/IEC" value="9594-8"/>
+</reference>
 
 </references>
 
