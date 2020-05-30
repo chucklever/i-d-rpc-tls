@@ -390,8 +390,6 @@ that do not support TLS requires
 limiting the combinations that are allowed
 and
 precisely specifying the role that each layer plays.
-We also want to handle TLS such that an RPC implementation
-can make the use of TLS invisible to existing RPC consumer applications.
 </t>
 <t>
 Each RPC server that supports RPC-over-TLS MUST possess a unique global identity
