@@ -19,7 +19,7 @@
 
 <front>
 
-<title abbrev="RPC-Over-TLS">
+<title abbrev="RPC-On-TLS">
 Towards Remote Procedure Call Encryption By Default
 </title>
 
@@ -295,7 +295,7 @@ fields in each RPC Call.
 
 <section
  anchor="section:EC3FEED5-1DE0-454B-9AB3-CE47BA901583"
- title="RPC-Over-TLS in Operation">
+ title="RPC-On-TLS in Operation">
 
 <section
  anchor="section:0A03673B-14BA-4228-8A8A-F76AA318CA73"
@@ -420,7 +420,7 @@ and
 precisely specifying the role that each layer plays.
 </t>
 <t>
-Each RPC server that supports RPC-over-TLS MUST possess a unique global identity
+Each RPC server that supports RPC-on-TLS MUST possess a unique global identity
 (e.g., a certificate that is signed by a well-known trust anchor).
 Such an RPC server MUST request a TLS peer identity from each client
 upon first contact.
@@ -432,7 +432,7 @@ the client can authenticate the server host
 using the presented server peer TLS identity,
 but the server cannot authenticate the client.
 In this situation,
-RPC-over-TLS clients are anonymous.
+RPC-on-TLS clients are anonymous.
 They present no globally unique identifier to the server peer.
 </t>
 <t hangText="Mutual Host Authentication"><vspace blankLines="0"/>
@@ -1051,7 +1051,7 @@ Implementers should familiarize themselves with these materials.
 <t>
 The purpose of using an explicitly opportunistic approach
 is to enable interoperation
-with implementations that do not support RPC-over-TLS.
+with implementations that do not support RPC-on-TLS.
 A range of options is allowed by this approach,
 from "no peer authentication or encryption"
 to
@@ -1068,7 +1068,7 @@ Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect,
 and are REQUIRED to provide an audit log
-of RPC-over-TLS security mode selection.
+of RPC-on-TLS security mode selection.
 </t>
 <t>
 In all other cases,
@@ -1237,9 +1237,9 @@ is the same on both the RPC client and server.
  anchor="section:55D006D3-8CA6-4D7F-AF0D-BFB0FFEF7595"
  title="Best Security Policy Practices">
 <t>
-RPC-over-TLS implementations and deployments
+RPC-on-TLS implementations and deployments
 are strongly encouraged to adhere to the following policies
-to achieve the strongest possible security with RPC-over-TLS.
+to achieve the strongest possible security with RPC-on-TLS.
 <list style="symbols">
 <t>
 When using AUTH_NULL or AUTH_SYS,
