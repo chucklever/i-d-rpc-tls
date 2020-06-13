@@ -30,7 +30,7 @@ Towards Remote Procedure Call Encryption By Default
 
 <seriesInfo name="Internet-Draft" value="draft-ietf-nfsv4-rpc-tls-latest"/>
 
-<author initials="T.M." surname="Myklebust" fullname="Trond Myklebust">
+<author initials="T." surname="Myklebust" fullname="Trond Myklebust">
 <organization abbrev="Hammerspace">
 Hammerspace Inc
 </organization>
@@ -46,7 +46,7 @@ Hammerspace Inc
 </address>
 </author>
 
-<author initials="C.L." surname="Lever" fullname="Charles Lever" role="editor">
+<author initials="C." surname="Lever" fullname="Charles Lever" role="editor">
 <organization abbrev="Oracle">Oracle Corporation</organization>
 <address>
 <postal>
