@@ -2,13 +2,6 @@
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt"?>
 
-<?rfc strict="yes"?>
-<?rfc toc="yes"?>
-<?rfc symrefs="yes"?>
-<?rfc sortrefs="yes"?>
-<?rfc compact="yes"?>
-<?rfc subcompact="no"?>
-
 <rfc
  docName="draft-ietf-nfsv4-rpc-tls-latest"
  category="std"
@@ -270,7 +263,7 @@ when, and only when, they appear in all capitals, as shown here.
  toc="default">
 <name>Terminology</name>
 <t>
-This document adopts the terminology introduced in Section 3 of
+This document adopts the terminology introduced in Section&nbsp;3 of
 <xref target="RFC6973" format="default"/>
 and assumes a working knowledge of
 the Remote Procedure Call (RPC) version 2 protocol
@@ -350,7 +343,7 @@ The choice of transport and port is
 typically based on the RPC program that is to be used.
 The RPC client might query the RPC server's rpcbind service
 to make this selection.
-In all cases, an RPC server MUST listen on the same ports
+In all cases, an RPC server <bcp14>MUST</bcp14> listen on the same ports
 for (D)TLS-protected RPC programs
 as the ports used when (D)TLS is not available.
 </t>
@@ -367,13 +360,13 @@ does not support RPC transports other than TCP and UDP.
 </t>
 <t>
 The length of the opaque data constituting the credential
-sent in the RPC Call message MUST be zero.
-The verifier accompanying the credential MUST be an AUTH_NONE
+sent in the RPC Call message <bcp14>MUST</bcp14> be zero.
+The verifier accompanying the credential <bcp14>MUST</bcp14> be an AUTH_NONE
 verifier of length zero.
 </t>
 <t>
 The flavor value of the verifier in the RPC Reply message
-received from the server MUST be AUTH_NONE.
+received from the server <bcp14>MUST</bcp14> be AUTH_NONE.
 The length of the verifier's body field is eight.
 The bytes of the verifier's body field encode the ASCII characters
 "STARTTLS" as a fixed-length opaque.
@@ -383,13 +376,13 @@ If the RPC server replies with
 a reply_stat of MSG_ACCEPTED
 and
 an AUTH_NONE verifier containing the "STARTTLS" token,
-the client SHOULD proceed with TLS session establishment,
+the client <bcp14>SHOULD</bcp14> proceed with TLS session establishment,
 even if the Reply's accept_stat is not SUCCESS.
 If the AUTH_TLS probe was done via TCP,
-the RPC client MUST send the "ClientHello" message
+the RPC client <bcp14>MUST</bcp14> send the "ClientHello" message
 on the same connection.
 If the AUTH_TLS probe was done via UDP,
-the RPC client MUST send the "ClientHello" message
+the RPC client <bcp14>MUST</bcp14> send the "ClientHello" message
 to the same UDP destination port.
 </t>
 <t>
@@ -397,7 +390,7 @@ Conversely,
 if the Reply's reply_stat is not MSG_ACCEPTED,
 if its verifier flavor is not AUTH_NONE,
 or if its verifier does not contain the "STARTTLS" token,
-the RPC client MUST NOT send a "ClientHello" message.
+the RPC client <bcp14>MUST NOT</bcp14> send a "ClientHello" message.
 RPC operation can continue,
 however it will be without any confidentiality,
 integrity or authentication protection from (D)TLS.
@@ -415,7 +408,7 @@ If an RPC client uses the AUTH_TLS authentication flavor
 on any procedure other than the NULL procedure,
 or an RPC client sends an RPC AUTH_TLS probe within
 an existing (D)TLS session,
-the RPC server MUST reject that RPC Call by setting
+the RPC server <bcp14>MUST</bcp14> reject that RPC Call by setting
 the reply_stat field to MSG_DENIED,
 the reject_stat field to AUTH_ERROR,
 and
@@ -446,9 +439,9 @@ and
 precisely specifying the role that each layer plays.
 </t>
 <t>
-Each RPC server that supports RPC-on-TLS MUST possess a unique global identity
+Each RPC server that supports RPC-on-TLS <bcp14>MUST</bcp14> possess a unique global identity
 (e.g., a certificate that is signed by a well-known trust anchor).
-Such an RPC server MUST request a TLS peer identity from each client
+Such an RPC server <bcp14>MUST</bcp14> request a TLS peer identity from each client
 upon first contact.
 There are two different modes of client deployment:
 </t>
@@ -471,7 +464,7 @@ As part of the TLS handshake, both peers authenticate using the presented TLS id
 If authentication of either peer fails,
 or
 if authorization based on those identities blocks access to the server,
-the peers MUST reject the association.
+the peers <bcp14>MUST</bcp14> reject the association.
 </dd>
 </dl>
 <t>
@@ -527,47 +520,47 @@ the following restrictions apply:
 </t>
 <ul spacing="normal">
 <li>
-Implementations MUST NOT negotiate TLS versions prior to v1.3
+Implementations <bcp14>MUST NOT</bcp14> negotiate TLS versions prior to v1.3
 (for TLS
 <xref target="RFC8446" format="default"/>
 or DTLS
 <xref target="I-D.ietf-tls-dtls13" format="default"/>
 respectively).
 Support for mandatory-to-implement ciphersuites
-for the negotiated TLS version is REQUIRED.
+for the negotiated TLS version is <bcp14>REQUIRED</bcp14>.
 </li>
 <li>
-Implementations MUST support certificate-based mutual authentication.
+Implementations <bcp14>MUST</bcp14> support certificate-based mutual authentication.
 Support for TLS-PSK mutual authentication
 <xref target="RFC4279" format="default"/>
-is OPTIONAL.
+is <bcp14>OPTIONAL</bcp14>.
 See
 <xref target="section_6EDEF553-C95A-47D7-ABBA-0B537FE3A959" format="default"/>
 for further details.
 </li>
 <li>
 Negotiation of a ciphersuite providing confidentiality as
-well as integrity protection is REQUIRED.
-Support for and negotiation of compression is OPTIONAL.
+well as integrity protection is <bcp14>REQUIRED</bcp14>.
+Support for and negotiation of compression is <bcp14>OPTIONAL</bcp14>.
 </li>
 </ul>
 <t>
-Client implementations MUST include the
+Client implementations <bcp14>MUST</bcp14> include the
 "application_layer_protocol_negotiation(16)" extension
 <xref target="RFC7301" format="default"/>
 in their "ClientHello" message
-and MUST include the protocol identifier
+and <bcp14>MUST</bcp14> include the protocol identifier
 defined in
 <xref target="section_58905D7A-06B1-4469-964A-DAC607DAC500" format="default"/>
 in that message's ProtocolNameList value.
 </t>
 <t>
 Similary, in response to the "ClientHello" message,
-server implementations MUST include the
+server implementations <bcp14>MUST</bcp14> include the
 "application_layer_protocol_negotiation(16)" extension
 <xref target="RFC7301" format="default"/>
 in their "ServerHello" message
-and MUST include only the protocol identifier
+and <bcp14>MUST</bcp14> include only the protocol identifier
 defined in
 <xref target="section_58905D7A-06B1-4469-964A-DAC607DAC500" format="default"/>
 in that message's ProtocolNameList value.
@@ -575,7 +568,7 @@ in that message's ProtocolNameList value.
 <t>
 If the server responds incorrectly
 (for instance, if the "ServerHello" message does not conform to the above requirements),
-the client MUST NOT establish a TLS session for use with RPC
+the client <bcp14>MUST NOT</bcp14> establish a TLS session for use with RPC
 on this connection.
 See
 <xref target="RFC7301" format="default"/>
@@ -615,8 +608,8 @@ If spurious traffic appears on a TCP connection
 between the initial clear-text AUTH_TLS probe
 and
 the TLS session handshake,
-receivers MUST discard that data without response
-and then SHOULD drop the connection.
+receivers <bcp14>MUST</bcp14> discard that data without response
+and then <bcp14>SHOULD</bcp14> drop the connection.
 </t>
 <t>
 The protocol convention specified in the current document
@@ -640,7 +633,7 @@ reject the same RPC program on a different TCP connection.
 </t>
 <t>
 Reverse-direction operation occurs only on connected transports such as TCP
-(see Section 2 of
+(see Section&nbsp;2 of
 <xref target="RFC8166" format="default"/>).
 To protect reverse-direction RPC operations,
 the RPC server does not establish a separate TLS session on the TCP connection,
@@ -679,11 +672,11 @@ reliable
 or
 in-order
 semantics to RPC on UDP.
-Each RPC message MUST fit in a single DTLS record.
+Each RPC message <bcp14>MUST</bcp14> fit in a single DTLS record.
 DTLS encapsulation has overhead,
 which reduces the effective Path MTU (PMTU)
 and thus the maximum RPC payload size.
-The use of DTLS record replay protection is REQUIRED
+The use of DTLS record replay protection is <bcp14>REQUIRED</bcp14>
 when transporting RPC traffic.
 </t>
 <t>
@@ -699,10 +692,10 @@ Multi-homed RPC clients and servers may send protected RPC messages
 via network interfaces that were not involved in the handshake that
 established the DTLS session.
 Therefore, when protecting RPC traffic,
-each DTLS handshake MUST include the "connection_id(TBD)" extension
-described in Section 9 of
+each DTLS handshake <bcp14>MUST</bcp14> include the "connection_id(TBD)" extension
+described in Section&nbsp;9 of
 <xref target="I-D.ietf-tls-dtls13" format="default"/>,
-and RPC-on-DTLS peer endpoints MUST provide a ConnectionID
+and RPC-on-DTLS peer endpoints <bcp14>MUST</bcp14> provide a ConnectionID
 with a non-zero length.
 Endpoints implementing RPC programs
 that expect a significant number of concurrent clients
@@ -759,7 +752,7 @@ using any of the following mechanisms:
  toc="default">
 <name>X.509 Certificates Using PKIX trust</name>
 <t>
-Implementations are REQUIRED to support this mechanism.
+Implementations are <bcp14>REQUIRED</bcp14> to support this mechanism.
 In this mode, the tuple
 (serial number of the presented certificate; Issuer)
 uniquely identifies the RPC peer.
@@ -772,16 +765,16 @@ and extended in
 </t>
 <ul spacing="normal">
 <li>
-Implementations MUST allow the configuration
+Implementations <bcp14>MUST</bcp14> allow the configuration
 of a list of trusted Certification Authorities
 for authorizing incoming connections.
 </li>
 <li>
-Certificate validation MUST include the verification rules as per
+Certificate validation <bcp14>MUST</bcp14> include the verification rules as per
 <xref target="RFC5280" format="default"/>.
 </li>
 <li>
-Implementations SHOULD indicate their trusted Certification
+Implementations <bcp14>SHOULD</bcp14> indicate their trusted Certification
 Authorities (CAs).
 </li>
 <li>
@@ -797,18 +790,18 @@ For verification, only one of these entries is to be considered.
 The following precedence applies:
 for DNS name validation, subjectAltName:DNS has precedence over CN;
 for IP address validation, subjectAltName:iPAddress has precedence over CN.
-Implementors of this specification are advised to read Section 6 of
+Implementors of this specification are advised to read Section&nbsp;6 of
 <xref target="RFC6125" format="default"/>
 for more details on DNS name validation.
 </li>
 <li>
 For services accessed by their network identifiers (netids) and universal
-network addresses (uaddr), the iPAddress subjectAltName SHOULD be present in
+network addresses (uaddr), the iPAddress subjectAltName <bcp14>SHOULD</bcp14> be present in
 the certificate and must exactly match the address represented
 by the universal network address.
 </li>
 <li>
-Implementations MAY allow the configuration
+Implementations <bcp14>MAY</bcp14> allow the configuration
 of a set of additional properties of the certificate
 to check for a peer's authorization to communicate
 (e.g., a set of allowed values in subjectAltName:URI
@@ -818,7 +811,7 @@ or a set of allowed X.509v3 Certificate Policies).
 When the configured trust base changes
 (e.g., removal of a CA from the list of trusted CAs;
 issuance of a new CRL for a given CA),
-implementations MAY renegotiate the TLS session
+implementations <bcp14>MAY</bcp14> renegotiate the TLS session
 to reassess the connecting peer's continued authorization.
 </li>
 </ul>
@@ -832,7 +825,7 @@ should expose as many details of the presented certificate
 to the administrator as possible
 so that the administrator can implement the trust model.
 As a suggestion, at least the following parameters
-of the X.509 client certificate SHOULD be exposed:
+of the X.509 client certificate <bcp14>SHOULD</bcp14> be exposed:
 </t>
 <ul spacing="normal">
 <li>
@@ -865,7 +858,7 @@ all X.509v3 Certificate Policies
  toc="default">
 <name>X.509 Certificates Using Fingerprints</name>
 <t>
-This mechanism is OPTIONAL to implement.
+This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
 In this mode, the fingerprint of a certificate uniquely identifies the RPC peer.
 </t>
 <t>
@@ -874,7 +867,7 @@ a cryptographic digest of the Distinguished Encoding Rules (DER) form
 <xref target="X.690" format="default"/>
 of an X.509v3 certificate
 <xref target="X.509" format="default"/>.
-Implementations SHOULD allow the configuration
+Implementations <bcp14>SHOULD</bcp14> allow the configuration
 of a list of trusted certificates that is indexed by fingerprint.
 </t>
 </section>
@@ -885,13 +878,13 @@ of a list of trusted certificates that is indexed by fingerprint.
  toc="default">
 <name>Pre-Shared Keys</name>
 <t>
-This mechanism is OPTIONAL to implement.
+This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
 In this mode, the RPC peer is uniquely identified
 by keying material that has been shared out-of-band
 or
-by a previous TLS-protected connection (see Section 2.2 of
+by a previous TLS-protected connection (see Section&nbsp;2.2 of
 <xref target="RFC8446" format="default"/>).
-At least the following parameters of the TLS connection SHOULD be exposed:
+At least the following parameters of the TLS connection <bcp14>SHOULD</bcp14> be exposed:
 </t>
 <ul spacing="normal">
 <li>
@@ -909,7 +902,7 @@ TLS Identifier
  toc="default">
 <name>Token Binding</name>
 <t>
-This mechanism is OPTIONAL to implement.
+This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
 In this mode, a token uniquely identifies the RPC peer.
 </t>
 <t>
@@ -1097,9 +1090,9 @@ is to protect RPC-based applications against threats
 to the confidentiality of RPC transactions
 and
 RPC user identities.
-A taxonomy of these threats appears in Section 5 of
+A taxonomy of these threats appears in Section&nbsp;5 of
 <xref target="RFC6973" format="default"/>.
-Also, Section 6 of
+Also, Section&nbsp;6 of
 <xref target="RFC7525" format="default"/>
 contains a detailed discussion
 of technologies used in conjunction with TLS.
@@ -1130,7 +1123,7 @@ the security benefits of TLS are partially or entirely waived.
 Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect,
-and are REQUIRED to provide an audit log
+and are <bcp14>REQUIRED</bcp14> to provide an audit log
 of RPC-on-TLS security mode selection.
 </t>
 <t>
@@ -1290,7 +1283,7 @@ but it leaves a critical security exposure.
 </t>
 <t>
 In light of the above,
-it is RECOMMENDED that when AUTH_SYS is used,
+it is <bcp14>RECOMMENDED</bcp14> that when AUTH_SYS is used,
 every RPC client should present host authentication material
 to RPC servers to prove that the client is a known one.
 The server can then determine whether the UIDs and GIDs
@@ -1397,7 +1390,7 @@ RFC-TBD
  toc="default">
 <name>ALPN Identifier for SUNRPC</name>
 <t>
-Following Section 6 of
+Following Section&nbsp;6 of
 <xref target="RFC7301" format="default"/>,
 the authors request the allocation of the following value
 in the "Application-Layer Protocol Negotiation (ALPN) Protocol IDs" registry.
@@ -1619,25 +1612,33 @@ AUTH_SYS does not provide non-repudiation.
  toc="default">
 <name>Acknowledgments</name>
 <t>
-Special mention goes to Charles Fisher, author of
+Special mention goes to
+<contact fullname="Charles Fisher"/>,
+author of
 <eref target="https://www.linuxjournal.com/content/encrypting-nfsv4-stunnel-tls">
 "Encrypting NFSv4 with Stunnel TLS"
 </eref>.
 His article inspired the mechanism described in the current document.
 </t>
 <t>
-Many thanks to Tigran Mkrtchyan and Rick Macklem for their work
-on prototype implementations and feedback on the current document.
+Many thanks to
+<contact fullname="Tigran Mkrtchyan"/>
+and
+<contact fullname="Rick Macklem"/>
+for their work on prototype implementations and feedback on the current document.
 </t>
 <t>
-Thanks to Derrell Piper for numerous suggestions that improved both
+Thanks to
+<contact fullname="Derrell Piper"/>
+for numerous suggestions that improved both
 this simple mechanism
 and
 the current document's security-related discussion.
 </t>
 <t>
 Many thanks to
-Transport Area Director Magnus Westerlund
+Transport Area Director
+<contact fullname="Magnus Westerlund"/>
 for his sharp questions and careful reading
 of the final revisions of the current document.
 The text of
@@ -1646,30 +1647,31 @@ is mostly his contribution.
 </t>
 <t>
 The authors are additionally grateful to
-Bill Baker,
-David Black,
-Alan DeKok,
-Lars Eggert,
-Benjamin Kaduk,
-Olga Kornievskaia,
-Greg Marsden,
-Alex McDonald,
-Justin Mazzola Paluska,
-Tom Talpey,
+<contact fullname="Bill Baker"/>,
+<contact fullname="David Black"/>,
+<contact fullname="Alan DeKok"/>,
+<contact fullname="Lars Eggert"/>,
+<contact fullname="Benjamin Kaduk"/>,
+<contact fullname="Olga Kornievskaia"/>,
+<contact fullname="Greg Marsden"/>,
+<contact fullname="Alex McDonald"/>,
+<contact fullname="Justin Mazzola Paluska"/>,
+<contact fullname="Tom Talpey"/>,
 and
-Martin Thomson
+<contact fullname="Martin Thomson"/>
 for their input and support of this work.
 </t>
 <t>
 Finally, special thanks to
-NFSV4 Working Group Chair and
-document shepherd David Noveck,
+NFSV4 Working Group Chair and document shepherd
+<contact fullname="David Noveck"/>,
 NFSV4 Working Group Chairs
-Spencer Shepler
+<contact fullname="Spencer Shepler"/>
 and
-Brian Pawlowski,
+<contact fullname="Brian Pawlowski"/>,
 and
-NFSV4 Working Group Secretary Thomas Haynes
+NFSV4 Working Group Secretary
+<contact fullname="Thomas Haynes"/>
 for their guidance and oversight.
 </t>
 </section>
