@@ -17,7 +17,7 @@
 
 <front>
 
-<title abbrev="RPC-On-TLS">
+<title abbrev="RPC-Over-TLS">
 Towards Remote Procedure Call Encryption By Default
 </title>
 
@@ -222,7 +222,7 @@ Further,
 <xref target="section_2AE49383-E6B2-4830-8407-995FEBF727F2" format="default"/>
 of the current document defines policies in line with
 <xref target="RFC7435" format="default"/>
-which enable RPC-on-TLS to be deployed opportunistically
+which enable RPC-over-TLS to be deployed opportunistically
 in environments that contain RPC implementations that do not support TLS.
 However, specifications for RPC-based upper-layer protocols
 should choose to require even stricter policies that guarantee
@@ -230,7 +230,7 @@ encryption
 and
 host authentication
 is used for all RPC transactions.
-Enforcing the use of RPC-on-TLS is of particular importance
+Enforcing the use of RPC-over-TLS is of particular importance
 for existing upper-layer protocols whose security infrastructure is weak.
 </t>
 <t>
@@ -314,7 +314,7 @@ fields in each RPC Call.
  anchor="section_EC3FEED5-1DE0-454B-9AB3-CE47BA901583"
  numbered="true"
  toc="default">
-<name>RPC-On-TLS in Operation</name>
+<name>RPC-Over-TLS in Operation</name>
 
 <section
  anchor="section_0A03673B-14BA-4228-8A8A-F76AA318CA73"
@@ -324,8 +324,8 @@ fields in each RPC Call.
 <t>
 The mechanism described in the current document
 interoperates fully with RPC implementations
-that do not support RPC-on-TLS.
-Policy settings on the RPC-on-TLS-enabled peer determine
+that do not support RPC-over-TLS.
+Policy settings on the RPC-over-TLS-enabled peer determine
 whether RPC operation continues without the use of TLS
 or RPC operation is not permitted.
 </t>
@@ -423,7 +423,7 @@ Once the TLS session handshake is complete,
 the RPC client and server have established
 a secure channel for communicating.
 A successful AUTH_TLS probe on one particular port/transport tuple
-never implies RPC-on-TLS is available on that same server
+never implies RPC-over-TLS is available on that same server
 using a different port/transport tuple.
 </t>
 </section>
@@ -443,7 +443,7 @@ and
 precisely specifying the role that each layer plays.
 </t>
 <t>
-Each RPC server that supports RPC-on-TLS <bcp14>MUST</bcp14> possess a unique global identity
+Each RPC server that supports RPC-over-TLS <bcp14>MUST</bcp14> possess a unique global identity
 (e.g., a certificate that is signed by a well-known trust anchor).
 Such an RPC server <bcp14>MUST</bcp14> request a TLS peer identity from each client
 upon first contact.
@@ -457,7 +457,7 @@ the client can authenticate the server host
 using the presented server peer TLS identity,
 but the server cannot authenticate the client.
 In this situation,
-RPC-on-TLS clients are anonymous.
+RPC-over-TLS clients are anonymous.
 They present no globally unique identifier to the server peer.
 </dd>
 <dt>Mutual Host Authentication</dt>
@@ -607,7 +607,7 @@ Typically,
 once an RPC client completes the TCP handshake,
 it uses the mechanism described in
 <xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default"/>
-to discover RPC-on-TLS support for that connection.
+to discover RPC-over-TLS support for that connection.
 If spurious traffic appears on a TCP connection
 between the initial clear-text AUTH_TLS probe
 and
@@ -1111,7 +1111,7 @@ Implementers should familiarize themselves with these materials.
 <t>
 The purpose of using an explicitly opportunistic approach
 is to enable interoperation
-with implementations that do not support RPC-on-TLS.
+with implementations that do not support RPC-over-TLS.
 A range of options is allowed by this approach,
 from "no peer authentication or encryption"
 to
@@ -1128,7 +1128,7 @@ Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect,
 and are <bcp14>REQUIRED</bcp14> to provide an audit log
-of RPC-on-TLS security mode selection.
+of RPC-over-TLS security mode selection.
 </t>
 <t>
 In all other cases,
@@ -1218,9 +1218,9 @@ does not contain user information.
  toc="default">
 <name>TLS Identity Management on Clients</name>
 <t>
-The goal of the RPC-on-TLS protocol extension
+The goal of the RPC-over-TLS protocol extension
 is to hide the content of RPC requests while they are in transit.
-The RPC-on-TLS protocol by itself cannot protect
+The RPC-over-TLS protocol by itself cannot protect
 against exposure of a user's RPC requests to other users on the same client.
 </t>
 <t>
@@ -1309,9 +1309,9 @@ is the same on both the RPC client and server.
  toc="default">
 <name>Best Security Policy Practices</name>
 <t>
-RPC-on-TLS implementations and deployments
+RPC-over-TLS implementations and deployments
 are strongly encouraged to adhere to the following policies
-to achieve the strongest possible security with RPC-on-TLS.
+to achieve the strongest possible security with RPC-over-TLS.
 </t>
 <ul spacing="normal">
 <li>
@@ -1379,7 +1379,7 @@ TLS
 </dd>
 <dt>Description:</dt>
 <dd>
-Indicates support for RPC-on-TLS.
+Indicates support for RPC-over-TLS.
 </dd>
 <dt>Reference:</dt>
 <dd>
