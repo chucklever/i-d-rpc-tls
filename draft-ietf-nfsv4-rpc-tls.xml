@@ -703,7 +703,7 @@ and RPC-on-DTLS peer endpoints <bcp14>MUST</bcp14> provide a ConnectionID
 with a non-zero length.
 Endpoints implementing RPC programs
 that expect a significant number of concurrent clients
-should employ ConnectionIDs of at least 4 bytes in length.
+<bcp14>SHOULD</bcp14> employ ConnectionIDs of at least 4 bytes in length.
 </t>
 <t>
 Sending a TLS Closure Alert terminates a DTLS session.
