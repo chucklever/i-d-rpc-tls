@@ -148,13 +148,13 @@ Continued use is in part because:
 </t>
 <ul spacing="normal">
 <li>
-Per-client deployment and administrative costs
+Per-client GSS deployment and administrative costs
 are not scalable.
 Administrators must provide keying material
 for each RPC client, including transient clients.
 </li>
 <li>
-Host identity management and user identity management
+GSS host identity management and user identity management
 must be enforced in the same security realm.
 In certain environments,
 different authorities might be responsible
