@@ -1102,6 +1102,15 @@ contains a detailed discussion
 of technologies used in conjunction with TLS.
 Implementers should familiarize themselves with these materials.
 </t>
+<t>
+Once a TLS session is established,
+the RPC payload carried on TLS version 1.3 is forward-secure.
+However, implementers need to be aware that replay attacks
+can occur during session establishment.
+Remedies for such attacks are discussed in detail
+in Section&nbsp;8 of
+<xref target="RFC8446" format="default"/>.
+</t>
 
 <section
  anchor="section_51737BB5-2B65-441E-AD1D-7EBF5123C079"
