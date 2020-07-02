@@ -1335,7 +1335,7 @@ and
 rejection of a connection when host authentication fails.
 </li>
 <li>
-RCPSEC_GSS provides integrity and privacy services
+RPCSEC GSS provides integrity and privacy services
 which are redundant when TLS is in use.
 These services should be disabled in that case.
 </li>
