@@ -421,7 +421,7 @@ the auth_stat field to AUTH_BADCRED.
 <t>
 Once the TLS session handshake is complete,
 the RPC client and server have established
-a secure channel for communicating.
+a secure channel for exchanging RPC transactions.
 A successful AUTH_TLS probe on one particular port/transport tuple
 never implies RPC-over-TLS is available on that same server
 using a different port/transport tuple.
@@ -646,8 +646,8 @@ these operations.
 </t>
 <t>
 When operation is complete,
-an RPC peer terminates a TLS session by sending a TLS Closure Alert
-and may then close the TCP connection.
+an RPC peer terminates a TLS session by sending a TLS Closure Alert.
+It may then close the TCP connection.
 </t>
 </section>
 
