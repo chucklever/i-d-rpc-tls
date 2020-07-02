@@ -480,8 +480,8 @@ provides no way for the server to know
 whether that identity represents one RPC user on that client,
 or
 is shared amongst many RPC users.
-Therefore, a server implementation must not
-utilize the remote TLS peer identity for RPC user authentication.
+Therefore, a server implementation cannot utilize
+the remote TLS peer identity to authenticate RPC users.
 </t>
 
 <section
