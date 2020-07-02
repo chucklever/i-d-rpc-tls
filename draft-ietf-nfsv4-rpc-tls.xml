@@ -692,6 +692,18 @@ to discover DTLS support for an RPC program on a particular port.
 It then negotiates a DTLS session.
 </t>
 <t>
+The current document does not specify a mechanism
+that enables a server to distinguish between
+DTLS traffic
+and
+unprotected RPC traffic
+directed to the same port.
+To make this distinction,
+each peer matches ingress datagrams
+that appear to be DTLS traffic to existing DTLS session state.
+A peer treats any datagram that fails the matching process as an RPC message.
+</t>
+<t>
 Multi-homed RPC clients and servers may send protected RPC messages
 via network interfaces that were not involved in the handshake that
 established the DTLS session.
