@@ -1047,7 +1047,7 @@ The Linux Foundation
 </dd>
 <dt>Maturity:</dt>
 <dd>
-Prototype software based on early versions of the current document.
+Not complete.
 </dd>
 <dt>Coverage:</dt>
 <dd>
@@ -1060,7 +1060,11 @@ GPLv2
 </dd>
 <dt>Implementation experience:</dt>
 <dd>
-No comments from the implementor.
+A Linux in-kernel prototype is underway,
+but implementation delays have resulted from the challenges of
+handling a TLS handshake in a kernel environment.
+Those issues stem from the architecture of TLS and the kernel,
+not from the design of the RPC-over-TLS protocol.
 </dd>
 </dl>
 </section>
