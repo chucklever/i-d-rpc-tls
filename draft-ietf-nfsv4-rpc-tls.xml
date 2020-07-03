@@ -168,10 +168,16 @@ The alternative described in the current document is
 to employ a transport layer security mechanism
 that can protect the confidentiality of each RPC connection
 transparently to RPC and upper-layer protocols.
-The Transport Layer Security protocol
+The
+Transport Layer Security
 <xref target="RFC8446" format="default"/>
-(TLS) is a well-established Internet building block
-that protects many standard Internet protocols
+(TLS)
+and
+Datagram Transport Layer Security
+<xref target="I-D.ietf-tls-dtls13" format="default"/>
+(DTLS)
+protocols are a well-established Internet building blocks
+that protect many standard Internet protocols
 such as the Hypertext Transport Protocol (HTTP)
 <xref target="RFC2818" format="default"/>.
 </t>
