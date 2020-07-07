@@ -567,7 +567,7 @@ defined in
 in that message's ProtocolNameList value.
 </t>
 <t>
-Similary, in response to the "ClientHello" message,
+Similarly, in response to the "ClientHello" message,
 server implementations <bcp14>MUST</bcp14> include the
 "application_layer_protocol_negotiation(16)" extension
 <xref target="RFC7301" format="default"/>
@@ -1223,7 +1223,7 @@ and the initial parts of TLS session establishment.
 Appendix C of
 <xref target="RFC8446" format="default"/>
 discusses precautions that can mitigate exposure during
-the exchange of connnection handshake information
+the exchange of connection handshake information
 and
 TLS certificate material that might enable attackers
 to track the RPC client.
