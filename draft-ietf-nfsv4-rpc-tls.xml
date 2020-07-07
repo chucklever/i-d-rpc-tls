@@ -331,8 +331,10 @@ fields in each RPC Call.
 The mechanism described in the current document
 interoperates fully with RPC implementations
 that do not support RPC-over-TLS.
-Policy settings on the RPC-over-TLS-enabled peer determine
-whether RPC operation continues without the use of TLS
+When an RPC-over-TLS-enabled peer encounters a peer that
+does not support RPC-over-TLS,
+policy settings on the RPC-over-TLS-enabled peer determine
+whether RPC operation continues without the use of TLS,
 or RPC operation is not permitted.
 </t>
 <t>
