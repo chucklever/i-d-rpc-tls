@@ -1136,6 +1136,13 @@ can occur during session establishment.
 Remedies for such attacks are discussed in detail
 in Section&nbsp;8 of
 <xref target="RFC8446" format="default"/>.
+Further, the current document does not
+provide a profile that defines the use of 0-RTT data
+(see
+Appendix&nbsp;E.5 of
+<xref target="RFC8446" format="default"/>).
+Therefore, RPC-over-TLS implementations MUST NOT
+use 0-RTT data.
 </t>
 
 <section
