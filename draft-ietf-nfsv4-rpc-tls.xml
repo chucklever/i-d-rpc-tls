@@ -1317,10 +1317,10 @@ from AUTH_SYS without encryption,
 but it leaves a critical security exposure.
 </t>
 <t>
-In light of the above,
-it is <bcp14>RECOMMENDED</bcp14> that when AUTH_SYS is used,
-every RPC client should present host authentication material
-to RPC servers to prove that the client is a known one.
+In light of the above, when AUTH_SYS is used,
+the use of a TLS mutual authentication mechanism is
+<bcp14>RECOMMENDED</bcp14>
+to prove that the RPC client is known to the RPC server.
 The server can then determine whether the UIDs and GIDs
 in AUTH_SYS requests from that client can be accepted.
 </t>
