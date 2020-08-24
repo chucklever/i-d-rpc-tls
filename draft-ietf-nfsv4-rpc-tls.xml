@@ -855,11 +855,13 @@ should expose as many details of the presented certificate
 to the administrator as possible
 so that the administrator can implement the trust model.
 As a suggestion, at least the following parameters
-of the X.509 client certificate <bcp14>SHOULD</bcp14> be exposed:
+of the X.509 client certificate
+<bcp14>SHOULD</bcp14>
+be exposed to the RPC server:
 </t>
 <ul spacing="normal">
 <li>
-Originating IP address
+The IP address of the peer that presented the certificate
 </li>
 <li>
 Certificate Fingerprint
