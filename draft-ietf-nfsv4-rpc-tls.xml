@@ -850,8 +850,6 @@ to reassess the connecting peer's continued authorization.
 <t>
 Authenticating a connecting entity does not mean
 the RPC server necessarily wants to communicate with that client.
-For example, if the Issuer is not in a trusted set of Issuers,
-the RPC server may decline to perform RPC transactions with this client.
 Implementations that want to support a wide variety of trust models
 should expose as many details of the presented certificate
 to the administrator as possible
