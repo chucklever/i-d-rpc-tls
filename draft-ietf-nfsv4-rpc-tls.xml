@@ -542,12 +542,12 @@ Support for mandatory-to-implement ciphersuites
 for the negotiated TLS version is <bcp14>REQUIRED</bcp14>.
 </li>
 <li>
-Implementations <bcp14>MUST</bcp14> support certificate-based mutual authentication.
-Support for TLS-PSK mutual authentication
-<xref target="RFC4279" format="default"/>
-is <bcp14>OPTIONAL</bcp14>.
-See
-<xref target="section_6EDEF553-C95A-47D7-ABBA-0B537FE3A959" format="default"/>
+Implementations <bcp14>MUST</bcp14> support
+certificate-based mutual authentication.
+Support for PSK mutual authentication
+is <bcp14>OPTIONAL</bcp14>;
+see
+<xref target="section_6DA9ED5F-BAD9-4126-95B7-E2331655A01E" format="default"/>
 for further details.
 </li>
 <li>
@@ -1473,7 +1473,6 @@ RFC-TBD
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls13-38.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls-connection-id-07.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4279.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5056.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
