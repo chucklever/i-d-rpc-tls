@@ -189,10 +189,9 @@ Encrypting at the RPC transport layer accords several significant benefits:
 <dd>
 Transport encryption can be enabled
 without additional administrative tasks such as
-identifying client systems to a trust authority,
-generating additional keying material,
-or
-provisioning a secure network tunnel.
+identifying client systems to a trust authority
+and
+providing them with keying material.
 </dd>
 <dt>Encryption Offload:</dt>
 <dd>
