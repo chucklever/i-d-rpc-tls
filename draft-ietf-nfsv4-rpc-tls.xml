@@ -1342,11 +1342,12 @@ to achieve the strongest possible security with RPC-over-TLS.
 <li>
 When using AUTH_NULL or AUTH_SYS,
 both peers are required to have
-DNS TLSA records
+DNS TLSA records,
+keys with which to perform mutual peer authentication
+using one of the methods described in
+<xref target="section_936921ED-67BB-46BF-B316-6740E07F6652" format="default"/>,
 and
-certificate material,
-and a policy that requires
-mutual peer authentication
+a security policy that requires mutual peer authentication
 and
 rejection of a connection when host authentication fails.
 </li>
