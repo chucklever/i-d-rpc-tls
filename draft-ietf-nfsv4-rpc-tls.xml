@@ -922,23 +922,6 @@ TLS Identifier
 </ul>
 </section>
 
-<section
- anchor="section_CBA3E016-B160-4C37-85CA-8D467A6AFE83"
- numbered="true"
- toc="default">
-<name>Token Binding</name>
-<t>
-This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
-In this mode, a token uniquely identifies the RPC peer.
-</t>
-<t>
-Versions of TLS after TLS 1.2 contain a token binding mechanism
-that is more secure than using certificates.
-This mechanism is detailed in
-<xref target="RFC8471" format="default"/>.
-</t>
-</section>
-
 </section>
 
 </section>
@@ -1555,7 +1538,6 @@ It is implicit in the specification of these encoding rules that they are also u
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7435.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8471.xml"/>
 
 </references>
 
