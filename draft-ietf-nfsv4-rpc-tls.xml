@@ -402,9 +402,13 @@ if the Reply's reply_stat is not MSG_ACCEPTED,
 if its verifier flavor is not AUTH_NONE,
 or if its verifier does not contain the "STARTTLS" token,
 the RPC client <bcp14>MUST NOT</bcp14> send a "ClientHello" message.
-RPC operation can continue,
-however it will be without any confidentiality,
-integrity or authentication protection from (D)TLS.
+RPC operation may continue,
+depending on local policy, but without
+confidentiality,
+integrity,
+or
+peer authentication protection
+from (D)TLS.
 </t>
 <t>
 If, after a successful RPC AUTH_TLS probe,
