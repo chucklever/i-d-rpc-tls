@@ -903,27 +903,6 @@ all X.509v3 Certificate Policies
 </section>
 
 <section
- anchor="section_15B9BEE9-9D2F-49B7-900E-0BA9BCE9CB27"
- numbered="true"
- removeInRFC="false"
- toc="default">
-<name>X.509 Certificates Using Fingerprints</name>
-<t>
-This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
-In this mode, the fingerprint of a certificate uniquely identifies the RPC peer.
-</t>
-<t>
-A "fingerprint" is typically defined as
-a cryptographic digest of the Distinguished Encoding Rules (DER) form
-<xref target="X.690" format="default" sectionFormat="of"/>
-of an X.509v3 certificate
-<xref target="X.509" format="default" sectionFormat="of"/>.
-Implementations <bcp14>SHOULD</bcp14> allow the configuration
-of a list of trusted certificates that is indexed by fingerprint.
-</t>
-</section>
-
-<section
  anchor="section_6DA9ED5F-BAD9-4126-95B7-E2331655A01E"
  numbered="true"
  removeInRFC="false"
@@ -1539,37 +1518,6 @@ It also defines several certificates and CRL extensions, and it defines director
 In addition, it defines entity types, such as certification authority (CA), attribute authority (AA), relying party, privilege verifier, trust broker and trust anchor.
 It specifies the principles for certificate validation, validation path, certificate policy, etc.
 It also includes a specification for authorization validation lists that allow for fast validation and restrictions on communications.
-</t>
-</abstract>
-</front>
-</reference>
-
-<reference anchor="X.690">
-<front>
-<title>
-ITU-T X.690 - Information technology -
-ASN.1 encoding rules: Specification of Basic Encoding Rules (BER),
-Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)
-</title>
-<seriesInfo name="ISO/IEC" value="8825-1"/>
-<seriesInfo name="CCITT Recommendation" value="X.690"/>
-<author>
-<organization showOnFrontPage="true">
-International Telephone and Telegraph Consultative Committee
-</organization>
-</author>
-<date month="August" year="2015"/>
-<abstract>
-<t>
-Recommendation ITU-T X.690 | ISO/IEC 8825-1 defines a set of Basic Encoding Rules (BER) that may be applied to values of types defined using the
- ASN.1 notation.
-Application of these encoding rules produces a transfer syntax for such values.
-It is implicit in the specification of these encoding rules that they are also used for decoding.
-This Recommendation | International Standard defines also a set of Distinguished Encoding Rules (DER) and a set of Canonical Encoding Rules (CER
-) both of which provide constraints on the Basic Encoding Rules (BER).
-The key difference between them is that DER uses the definite length form of encoding while CER uses the indefinite length form.
-DER is more suitable for the small encoded values, while CER is more suitable for the large ones.
-It is implicit in the specification of these encoding rules that they are also used for decoding.
 </t>
 </abstract>
 </front>
