@@ -702,7 +702,7 @@ reject the same RPC program on a different TCP connection.
 <t>
 Reverse-direction operation occurs only on connected transports such as TCP
 (see
-<xref target="RFC8166" section="2" format="default" sectionFormat="of"/>).
+<xref target="RFC8167" section="2" format="default" sectionFormat="of"/>).
 To protect reverse-direction RPC operations,
 the RPC server does not establish a separate TLS session on the TCP connection,
 but instead uses the existing TLS session on that connection to protect
@@ -1586,6 +1586,8 @@ It also includes a specification for authorization validation lists that allow f
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8167.xml"/>
 
 </references>
 
