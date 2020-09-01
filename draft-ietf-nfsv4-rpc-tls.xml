@@ -1889,6 +1889,13 @@ of the final revisions of the current document.
 The text of
 <xref target="section_B8BF600E-96DC-4C82-AADF-D593826E9B75" format="default" sectionFormat="of"/>
 is mostly his contribution.
+Also, thanks to
+<contact fullname="Benjamin Kaduk"/>
+for his expert guidance on the use of PKIX and TLS.
+In addition,
+the authors thank the other members of the IESG for
+their astute review comments.
+These contributors made this a significantly better document.
 </t>
 <t>
 The authors are additionally grateful to
@@ -1896,14 +1903,14 @@ The authors are additionally grateful to
 <contact fullname="David Black"/>,
 <contact fullname="Alan DeKok"/>,
 <contact fullname="Lars Eggert"/>,
-<contact fullname="Benjamin Kaduk"/>,
 <contact fullname="Olga Kornievskaia"/>,
 <contact fullname="Greg Marsden"/>,
 <contact fullname="Alex McDonald"/>,
 <contact fullname="Justin Mazzola Paluska"/>,
 <contact fullname="Tom Talpey"/>,
+<contact fullname="Martin Thomson"/>,
 and
-<contact fullname="Martin Thomson"/>
+<contact fullname="Nico Williams"/>,
 for their input and support of this work.
 </t>
 <t>
