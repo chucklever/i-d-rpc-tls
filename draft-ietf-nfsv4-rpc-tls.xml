@@ -910,19 +910,17 @@ all X.509v3 Certificate Policies
 <name>Pre-Shared Keys</name>
 <t>
 This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
-In this mode, the RPC peer is uniquely identified
+In this mode, the RPC peer can be uniquely identified
 by keying material that has been shared out-of-band
-or
-by a previous TLS-protected connection (see
+(see
 <xref target="RFC8446" section="2.2" format="default" sectionFormat="of"/>).
-At least the following parameters of the TLS connection <bcp14>SHOULD</bcp14> be exposed:
+At least the following parameter of the TLS connection
+<bcp14>SHOULD</bcp14>
+be exposed at the RPC layer:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-Originating IP address
-</li>
-<li>
-TLS Identifier
+PSK Identifier
 </li>
 </ul>
 </section>
