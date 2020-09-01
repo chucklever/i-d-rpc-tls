@@ -1266,7 +1266,7 @@ A classic form of attack on network protocols that initiate an association
 in plain-text to discover support for TLS is a man-in-the-middle
 that alters the plain-text handshake to make it appear as though
 TLS support is not available on one or both peers.
-Clients implementers can choose from the following to mitigate
+Client implementers can choose from the following to mitigate
 STRIPTLS attacks:
 </t>
 <ul spacing="normal" bare="false" empty="false">
