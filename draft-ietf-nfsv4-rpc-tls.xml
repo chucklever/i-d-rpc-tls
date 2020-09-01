@@ -839,7 +839,7 @@ of the RPC-over-RDMA transport protocol.
 <name>TLS Peer Authentication</name>
 <t>
 TLS can perform peer authentication
-using any of the following mechanisms:
+using any of the following mechanisms.
 </t>
 
 <section
@@ -847,109 +847,134 @@ using any of the following mechanisms:
  numbered="true"
  removeInRFC="false"
  toc="default">
-<name>X.509 Certificates Using PKIX trust</name>
-<t>
-Implementations are <bcp14>REQUIRED</bcp14> to support this mechanism.
-In this mode, the tuple
-(serial number of the presented certificate; Issuer)
-uniquely identifies the RPC peer.
-</t>
+<name>X.509 Certificates Using PKIX Trust</name>
 <t>
 X.509 certificates are specified in
 <xref target="X.509" format="default" sectionFormat="of"/>.
-Their use on the Internet is described in detail in
+<xref target="RFC5280" format="default" sectionFormat="of"/>
+provides a profile of Internet PKI X.509 public key infrastructure.
+RPC-over-TLS implementations are
+<bcp14>REQUIRED</bcp14>
+to support the PKIX mechanism described in
 <xref target="RFC5280" format="default" sectionFormat="of"/>.
+</t>
+<t>
+The rules and guidelines defined in
+<xref target="RFC6125" format="default" sectionFormat="of"/>
+apply to RPC-over-TLS certificates
+with the following considerations:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-Implementations <bcp14>MUST</bcp14> allow the configuration
-of a list of trusted Certification Authorities
-for authorizing incoming connections.
+Support for the DNS-ID identifier type
+<xref target="RFC6125" format="default" sectionFormat="of"/>
+is
+<bcp14>REQUIRED</bcp14>
+in RPC-over-TLS client and server implementations.
+Certification authorities that issue such certificates
+<bcp14>MUST</bcp14>
+support the DNS-ID identifier type.
 </li>
 <li>
-Certificate validation <bcp14>MUST</bcp14> include the verification rules as per
-<xref target="RFC5280" format="default" sectionFormat="of"/>.
+DNS domain names in RPC-over-TLS certificates
+<bcp14>MUST NOT</bcp14>
+contain the wildcard character '*'
+within the identifier.
+</li>
+</ul>
+
+
+<t>
+When validating a server certificate,
+an RPC-over-TLS client implementation
+takes the following into account:
+</t>
+<ul spacing="normal" bare="false" empty="false">
+<li>
+Certificate validation
+<bcp14>MUST</bcp14>
+include the verification rules as per
+<xref target="RFC5280" section="6" format="default" sectionFormat="of"/>
+and
+<xref target="RFC6125" section="6" format="default" sectionFormat="of"/>.
 </li>
 <li>
-Implementations <bcp14>SHOULD</bcp14> indicate their trusted Certification
-Authorities (CAs).
-</li>
-<li>
-Peer validation always includes a check
-on whether the locally configured expected
-DNS name
+Server certificate validation
+<bcp14>MUST</bcp14>
+include a check on whether
+the locally configured expected
+DNS-ID
 or
-IP address of the server that is contacted
+iPAddress subjectAltName
+of the server that is contacted
 matches its presented certificate.
-DNS names and IP addresses can be contained
-in the Common Name (CN) or subjectAltName entries.
-For verification, only one of these entries is to be considered.
-The following precedence applies:
-for DNS name validation, subjectAltName:DNS has precedence over CN;
-for IP address validation, subjectAltName:iPAddress has precedence over CN.
-Implementors of this specification are advised to read
-<xref target="RFC6125" section="6" format="default" sectionFormat="of"/>
-for more details on DNS name validation.
 </li>
 <li>
-For services accessed by their network identifiers (netids) and universal
-network addresses (uaddr), the iPAddress subjectAltName
+For RPC services accessed by their
+network identifiers (netids)
+and
+universal network addresses (uaddr),
+the iPAddress subjectAltName
 <bcp14>MUST</bcp14>
 be present in the certificate
 and
 <bcp14>MUST</bcp14>
 exactly match the address represented by the universal network address.
 </li>
-<li>
-Implementations <bcp14>MAY</bcp14> allow the configuration
-of a set of additional properties of the certificate
-to check for a peer's authorization to communicate
-(e.g., a set of allowed values in subjectAltName:URI
-or a set of allowed X.509v3 Certificate Policies).
-</li>
-<li>
-When the configured trust base changes
-(e.g., removal of a CA from the list of trusted CAs;
-issuance of a new CRL for a given CA),
-implementations <bcp14>MAY</bcp14> renegotiate the TLS session
-to reassess the connecting peer's continued authorization.
-</li>
 </ul>
+
+
 <t>
-Authenticating a connecting entity does not mean
-the RPC server necessarily wants to communicate with that client.
-Implementations that want to support a wide variety of trust models
-should expose as many details of the presented certificate
-to the administrator as possible
-so that the administrator can implement the trust model.
-As a suggestion, at least the following parameters
-of the X.509 client certificate
-<bcp14>SHOULD</bcp14>
-be exposed to the RPC server:
+An RPC client's
+domain name
+and
+IP address
+are often assigned dynamically,
+thus RPC servers cannot rely on those to verify client certificates.
+Therefore, when an RPC-over-TLS client presents a certificate
+to an RPC-over-TLS server,
+the server takes the following into account:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-The IP address of the peer that presented the certificate
+The server
+<bcp14>MUST</bcp14>
+use a procedure conformant to
+<xref target="RFC5280" section="6" format="default" sectionFormat="of"/>)
+to validate the client certificate's certification path.
 </li>
 <li>
-Certificate Fingerprint
-</li>
-<li>
-Issuer
-</li>
-<li>
-Subject
-</li>
-<li>
-all X.509v3 Extended Key Usage
-</li>
-<li>
-all X.509v3 Subject Alternative Name
-</li>
-<li>
-all X.509v3 Certificate Policies
+The tuple (serial number of the presented certificate; Issuer)
+uniquely identifies the RPC client.
+The meaning and syntax of these fields is defined in
+<xref target="RFC5280" section="4" format="default" sectionFormat="of"/>).
 </li>
 </ul>
+
+
+<t>
+RPC-over-TLS implementations
+<bcp14>MAY</bcp14>
+allow the configuration
+of a set of additional properties of the certificate
+to check for a peer's authorization to communicate
+(e.g.,
+a set of allowed values in subjectAltName:URI,
+a set of allowed X.509v3 Certificate Policies,
+or
+a set of extended key usages).
+</t>
+<t>
+When the configured trust base changes
+(e.g., removal of a CA from the list of trusted CAs;
+issuance of a new CRL for a given CA),
+implementations
+<bcp14>SHOULD</bcp14>
+reevaluate the certificate originally presented
+in the context of the new configuration
+and
+terminate the TLS session if the certificate is no longer trustworthy.
+</t>
 </section>
 
 <section
