@@ -488,8 +488,8 @@ using the successfully probed port.
  toc="default">
 <name>Authentication</name>
 <t>
-Both RPC and TLS have peer and user authentication,
-with some overlap in capability between RPC and TLS.
+There is some overlap between the authentication
+capabilities of RPC and TLS.
 The goal of interoperability with implementations
 that do not support TLS requires
 limiting the combinations that are allowed
