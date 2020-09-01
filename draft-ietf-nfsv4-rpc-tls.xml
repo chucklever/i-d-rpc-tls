@@ -907,24 +907,19 @@ all X.509v3 Certificate Policies
  numbered="true"
  removeInRFC="false"
  toc="default">
-<name>Pre-Shared Keys (PSK)</name>
+<name>Pre-Shared Keys</name>
 <t>
-The Pre-Shared Key exchange mechanism is specified in
-<xref target="RFC4279" section="2" format="default" sectionFormat="of"/>.
 This mechanism is <bcp14>OPTIONAL</bcp14> to implement.
-Implementations
-<bcp14>MUST</bcp14>
-use only the ciphersuites defined in
-<xref target="RFC5487" format="default" sectionFormat="of"/>.
-</t>
-<t>
-At least the following parameters of the TLS connection
-<bcp14>SHOULD</bcp14>
-be exposed to the RPC server:
+In this mode, the RPC peer is uniquely identified
+by keying material that has been shared out-of-band
+or
+by a previous TLS-protected connection (see
+<xref target="RFC8446" section="2.2" format="default" sectionFormat="of"/>).
+At least the following parameters of the TLS connection <bcp14>SHOULD</bcp14> be exposed:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-The IP address of the peer that presented the certificate
+Originating IP address
 </li>
 <li>
 TLS Identifier
@@ -1487,13 +1482,9 @@ RFC-TBD
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4279.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5056.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5487.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
