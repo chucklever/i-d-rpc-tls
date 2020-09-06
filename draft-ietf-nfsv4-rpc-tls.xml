@@ -66,9 +66,10 @@ Oracle Corporation
 <t>
 This document describes a mechanism that,
 through the use of opportunistic Transport Layer Security (TLS),
-enables encryption of in-transit Remote Procedure Call (RPC) transactions
-while interoperating with ONC RPC implementations
-that do not support this mechanism.
+enables encryption of Remote Procedure Call (RPC) transactions
+while they are in-transit.
+The proposed mechanism interoperates with ONC RPC implementations
+that do not support it.
 This document updates RFC 5531.
 </t>
 </abstract>
