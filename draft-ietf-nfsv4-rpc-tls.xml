@@ -154,9 +154,10 @@ Continued use is in part because:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-Per-client GSS deployment and administrative costs
-are not scalable.
-Administrators must provide keying material
+Per-client deployment and administrative costs
+for the only well-defined alternative to AUTH_SYS
+are expensive at scale.
+For instance, administrators must provide keying material
 for each RPC client, including transient clients.
 </li>
 <li>
