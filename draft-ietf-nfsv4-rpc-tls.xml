@@ -548,7 +548,7 @@ the remote TLS peer identity to authenticate RPC users.
 To use GSS, an RPC server has to possess a GSS service principal.
 On a TLS session, GSS mutual (peer) authentication occurs as usual,
 but only after a TLS session has been established for communication.
-Authentication of GSS users is unchanged by the use of TLS.
+Authentication of RPCSEC GSS users is unchanged by the use of TLS.
 </t>
 <t>
 RPCSEC GSS can also perform
@@ -556,12 +556,15 @@ per-request integrity or confidentiality protection.
 When operating over a TLS session,
 these GSS services become largely redundant.
 An RPC implementation capable of concurrently using TLS and RPCSEC GSS
-can use GSS channel binding, as defined in
+<bcp14>MUST</bcp14>
+use GSS-API channel binding, as defined in
 <xref target="RFC5056" format="default" sectionFormat="of"/>,
-to determine when an underlying transport provides a sufficient degree
-of confidentiality.
-Channel bindings for the TLS channel type are defined in
-<xref target="RFC5929" format="default" sectionFormat="of"/>.
+to determine when an underlying transport
+provides a sufficient degree of confidentiality.
+RPC-over-TLS implementations
+<bcp14>MUST</bcp14>
+provide the "tls-exporter" channel binding type, as defined in
+<xref target="I-D.ietf-kitten-tls-channel-bindings-for-tls13" format="default" sectionFormat="of"/>.
 </t>
 </section>
 
@@ -1510,6 +1513,8 @@ RFC-TBD
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls13-38.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls-connection-id-07.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-kitten-tls-channel-bindings-for-tls13-00.xml"/>
 
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
@@ -1519,8 +1524,6 @@ RFC-TBD
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5929.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
