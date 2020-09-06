@@ -245,7 +245,9 @@ should choose to require even stricter policies that guarantee
 encryption
 and
 host authentication
-is used for all RPC transactions.
+is used for all RPC transactions
+to mitigate against pervasive monitoring attacks
+<xref target="RFC7258" format="default" sectionFormat="of"/>.
 Enforcing the use of RPC-over-TLS is of particular importance
 for existing upper-layer protocols whose security infrastructure is weak.
 </t>
