@@ -131,7 +131,7 @@ can be challenging to use in practice:
 <ul spacing="normal" bare="false" empty="false">
 <li>
 Parts of each RPC header remain in clear-text,
-constituting a significant security exposure.
+constituting a loss of metadata confidentiality.
 </li>
 <li>
 Offloading the GSS privacy service is not practical
