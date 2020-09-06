@@ -171,10 +171,15 @@ provisioning new users.
 </li>
 </ul>
 <t>
-The alternative described in the current document is
-to employ a transport layer security mechanism
-that can protect the confidentiality of each RPC connection
-transparently to RPC and upper-layer protocols.
+In view of the challenges with the
+currently available mechanisms
+for
+authenticating
+and
+protecting the confidentiality
+of RPC transactions,
+this document specifies a transport-layer security mechanism
+that complements the existing ones.
 The
 Transport Layer Security
 <xref target="RFC8446" format="default" sectionFormat="of"/>
