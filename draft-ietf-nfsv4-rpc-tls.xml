@@ -112,7 +112,7 @@ was a subversive threat
 to all who make use of the Internet at large.
 It strongly recommended that newly defined Internet protocols
 should make a genuine effort to mitigate monitoring attacks.
-Typically this mitigation is done by encrypting data in transit.
+Typically this mitigation includes encrypting data in transit.
 </t>
 <t>
 The Remote Procedure Call version 2 protocol
