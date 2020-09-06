@@ -463,11 +463,10 @@ If an RPC client uses the AUTH_TLS authentication flavor
 on any procedure other than the NULL procedure,
 or an RPC client sends an RPC AUTH_TLS probe within
 an existing (D)TLS session,
-the RPC server <bcp14>MUST</bcp14> reject that RPC Call by setting
-the reply_stat field to MSG_DENIED,
-the reject_stat field to AUTH_ERROR,
-and
-the auth_stat field to AUTH_BADCRED.
+the RPC server <bcp14>MUST</bcp14> reject that RPC Call
+by returning a reply_stat of MSG_DENIED
+with a reject_stat of AUTH_ERROR
+and an auth_stat of AUTH_BADCRED.
 </t>
 <t>
 Once the TLS session handshake is complete,
