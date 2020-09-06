@@ -398,26 +398,36 @@ with an auth_flavor of AUTH_TLS on that connection.
 To protect RPC traffic to a UDP port,
 the RPC client sends a UDP datagram to that port
 containing a NULL RPC procedure with an auth_flavor of AUTH_TLS.
+The client constructs this RPC procedure as follows:
 </t>
-<t>
+<ul spacing="normal" bare="false" empty="false">
+<li>
 The length of the opaque data constituting the credential
 sent in the RPC Call message <bcp14>MUST</bcp14> be zero.
+</li>
+<li>
 The verifier accompanying the credential <bcp14>MUST</bcp14> be an AUTH_NONE
 verifier of length zero.
-</t>
-<t>
+</li>
+<li>
 The flavor value of the verifier in the RPC Reply message
 received from the server <bcp14>MUST</bcp14> be AUTH_NONE.
+</li>
+<li>
 The length of the verifier's body field is eight.
+</li>
+<li>
 The bytes of the verifier's body field encode the ASCII characters
 "STARTTLS" as a fixed-length opaque.
-</t>
+</li>
+</ul>
 <t>
-If the RPC server replies with
+The RPC server signals its corresponding support for RPC-over-TLS
+by replying with
 a reply_stat of MSG_ACCEPTED
 and
-an AUTH_NONE verifier containing the "STARTTLS" token,
-the client <bcp14>SHOULD</bcp14> proceed with TLS session establishment,
+an AUTH_NONE verifier containing the "STARTTLS" token.
+The client <bcp14>SHOULD</bcp14> proceed with TLS session establishment,
 even if the Reply's accept_stat is not SUCCESS.
 If the AUTH_TLS probe was done via TCP,
 the RPC client <bcp14>MUST</bcp14> send the "ClientHello" message
