@@ -473,8 +473,11 @@ Once the TLS session handshake is complete,
 the RPC client and server have established
 a secure channel for exchanging RPC transactions.
 A successful AUTH_TLS probe on one particular port/transport tuple
-never implies RPC-over-TLS is available on that same server
-using a different port/transport tuple.
+does not imply that RPC-over-TLS is available on that same server
+using a different port/transport tuple,
+nor does it imply that
+RPC-over-TLS will be available in the future
+using the successfully probed port.
 </t>
 </section>
 
