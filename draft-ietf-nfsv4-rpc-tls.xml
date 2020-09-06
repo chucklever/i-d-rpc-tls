@@ -784,8 +784,14 @@ that expect a significant number of concurrent clients
 </t>
 <t>
 Sending a TLS Closure Alert terminates a DTLS session.
-Subsequent RPC messages exchanged between the RPC client and server
-are no longer protected until a new DTLS session is established.
+Because neither DTLS nor UDP provide in-order delivery,
+after session closure there can be ambiguity
+as to whether a datagram should be interpreted as DTLS protected or not.
+Therefore receivers
+<bcp14>MUST</bcp14>
+discard datagrams
+exchanged using the same 5-tuple that just
+terminated the DTLS session for 60 seconds.
 </t>
 </section>
 
