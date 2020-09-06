@@ -384,6 +384,8 @@ The RPC client might query the RPC server's RPCBIND service
 to make this selection
 (The RPCBIND service is described in
 <xref target="RFC1833" format="default" sectionFormat="of"/>).
+The mechanism described in the current document
+does not support RPC transports other than TCP and UDP.
 In all cases, an RPC server <bcp14>MUST</bcp14> listen on the same ports
 for (D)TLS-protected RPC programs
 as the ports used when (D)TLS is not available.
@@ -396,8 +398,6 @@ with an auth_flavor of AUTH_TLS on that connection.
 To protect RPC traffic to a UDP port,
 the RPC client sends a UDP datagram to that port
 containing a NULL RPC procedure with an auth_flavor of AUTH_TLS.
-The mechanism described in the current document
-does not support RPC transports other than TCP and UDP.
 </t>
 <t>
 The length of the opaque data constituting the credential
