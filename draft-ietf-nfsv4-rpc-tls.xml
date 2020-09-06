@@ -253,9 +253,20 @@ for existing upper-layer protocols whose security infrastructure is weak.
 </t>
 <t>
 The protocol specification in the current document assumes
-that support for RPC, TLS, PKI, GSS-API, and DNSSEC
-is already available in an RPC implementation
-where TLS support is to be added.
+that support for
+ONC RPC
+<xref target="RFC5531" format="default" sectionFormat="of"/>,
+TLS
+<xref target="RFC8446" format="default" sectionFormat="of"/>,
+PKIX
+<xref target="RFC5280" format="default" sectionFormat="of"/>,
+DNSSEC/DANE
+<xref target="RFC6698" format="default" sectionFormat="of"/>,
+and optionally
+RPCSEC_GSS
+<xref target="RFC2203" format="default" sectionFormat="of"/>
+is available within the platform
+where RPC-over-TLS support is to be added.
 </t>
 </section>
 
