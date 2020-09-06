@@ -380,8 +380,10 @@ An RPC client begins its communication with an RPC server
 by selecting a transport and destination port.
 The choice of transport and port is
 typically based on the RPC program that is to be used.
-The RPC client might query the RPC server's rpcbind service
-to make this selection.
+The RPC client might query the RPC server's RPCBIND service
+to make this selection
+(The RPCBIND service is described in
+<xref target="RFC1833" format="default" sectionFormat="of"/>).
 In all cases, an RPC server <bcp14>MUST</bcp14> listen on the same ports
 for (D)TLS-protected RPC programs
 as the ports used when (D)TLS is not available.
@@ -1552,6 +1554,8 @@ It also includes a specification for authorization validation lists that allow f
 <references>
 <name>Informative References</name>
 
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1833.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2203.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
