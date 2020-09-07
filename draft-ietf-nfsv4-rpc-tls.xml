@@ -1443,7 +1443,7 @@ to achieve the strongest possible security with RPC-over-TLS.
 <li>
 When using AUTH_NULL or AUTH_SYS, both peers are
 <bcp14>RECOMMENDED</bcp14>
-to have DNS TLSA records,
+to have DNSSEC TLSA records,
 keys with which to perform mutual peer authentication
 using one of the methods described in
 <xref target="section_936921ED-67BB-46BF-B316-6740E07F6652" format="default" sectionFormat="of"/>,
