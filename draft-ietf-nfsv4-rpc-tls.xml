@@ -1325,7 +1325,8 @@ the initial RPC NULL procedure that acts as a STARTTLS message,
 which cannot be protected.
 This RPC NULL procedure contains no arguments or results,
 and the AUTH_TLS authentication flavor it uses
-does not contain user information.
+does not contain user information,
+so there is negligible privacy impact from this exception.
 </t>
 </section>
 
