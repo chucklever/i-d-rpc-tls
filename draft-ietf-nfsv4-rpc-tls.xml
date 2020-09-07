@@ -1348,14 +1348,14 @@ against exposure of a user's RPC requests to other users on the same client.
 Moreover, client implementations are free to transmit RPC requests
 for more than one RPC user using the same TLS session.
 Depending on the details of the client RPC implementation,
-this means that the client's TLS identity material
-is potentially visible to every RPC user that shares a TLS session.
+this means that the client's TLS credentials
+are potentially visible to every RPC user that shares a TLS session.
 Privileged users may also be able to access this TLS identity.
 </t>
 <t>
 As a result,
 client implementations need to carefully segregate
-TLS identity material so that local access to it
+TLS credentials so that local access to it
 is restricted to only the local users that are authorized
 to perform operations on the remote RPC server.
 </t>
