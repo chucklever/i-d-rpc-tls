@@ -975,6 +975,45 @@ in the context of the new configuration
 and
 terminate the TLS session if the certificate is no longer trustworthy.
 </t>
+
+<section
+ anchor="section_685D3F88-94FF-4C91-8CCB-860DBA602B2F"
+ numbered="true"
+ removeInRFC="false"
+ toc="default">
+<name>Extended Key Usage Values</name>
+<t>
+<xref target="RFC5280" section="4.2.1.12" format="default" sectionFormat="of"/>
+specifies the extended key usage X.509 certificate extension.
+This extension, which may appear in end-entity certificates,
+indicates one or more purposes for which the certified public key may be used
+in addition to or in place of the basic purposes indicated in the key usage extension.
+</t>
+<t>
+The current document defines two new KeyPurposeId values:
+one that identifies the RPC-over-TLS peer as an RPC client,
+and
+one that identifies the RPC-over-TLS peer as an RPC server.
+Additional KeyPurposeId values related to RPC-over-TLS may be specified
+in subsequent Standards Track documents.
+</t>
+<t>
+The inclusion of the RPC server value (id-kp-rpcTLSServer)
+indicates that the certificate has been issued
+for allowing the holder to process RPC transactions.
+Such a certificate is a Resource Certificate and therefore
+<bcp14>MUST</bcp14>
+conform to the constraints specified in
+<xref target="RFC6487" format="default" sectionFormat="of"/>.
+</t>
+<t>
+The inclusion of the RPC client value (id-kp-rpcTLSClient)
+indicates that the certificate has been issued
+for allowing the holder to request RPC transactions.
+</t>
+
+</section>
+
 </section>
 
 <section
@@ -1548,6 +1587,46 @@ RFC-TBD
 </dl>
 </section>
 
+<section
+ anchor="section_62E5E930-706A-4216-9A32-D7AC5952A507"
+ numbered="true"
+ removeInRFC="false"
+ toc="default">
+<name>Object Identifier for PKIX Extended Key Usage</name>
+<t>
+RFC Editor: In the following subsection,
+please replace XXX and YYY with the IANA numbers assigned to these new entries.
+And, please remove this Editor's Note
+before this document is published.
+</t>
+<t>
+Per the Specification Required policy as defined in
+<xref target="RFC8126" section="4.6" format="default" sectionFormat="of"/>,
+the authors request the reservation of the following new values:
+</t>
+<ul spacing="normal" bare="false" empty="false">
+<li>
+The RPC-over-TLS ASN.1 module in the
+"SMI Security for PKIX Extended Key Purpose" registry (1.3.6.1.5.5.7.3)
+(see
+<xref target="section_685D3F88-94FF-4C91-8CCB-860DBA602B2F" format="default" sectionFormat="of"/>
+and
+<xref target="section_B08B45C1-1E10-4F7A-935B-1198BAF255C0" format="default" sectionFormat="of"/>.
+</li>
+<li>
+The RPC-over-TLS client certificate extended key usage (1.3.6.1.5.5.7.3.XXX).
+The description of this new entry should be "id-kp-rpcTLSClient".
+</li>
+<li>
+The RPC-over-TLS server certificate extended key usage (1.3.6.1.5.5.7.3.YYY).
+The description of this new entry should be "id-kp-rpcTLSServer".
+</li>
+</ul>
+<t>
+IANA should use the current document (RFC-TBD) as the reference for the new entries.
+</t>
+</section>
+
 </section>
 
 </middle>
@@ -1576,6 +1655,8 @@ RFC-TBD
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6487.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
@@ -1583,6 +1664,8 @@ RFC-TBD
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7301.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -1735,6 +1818,34 @@ Because the user and group ID fields are not integrity-protected,
 AUTH_SYS does not provide non-repudiation.
 </li>
 </ol>
+</section>
+
+<section
+ anchor="section_B08B45C1-1E10-4F7A-935B-1198BAF255C0"
+ numbered="true"
+ removeInRFC="false"
+ toc="default">
+<name>ASN.1 Module</name>
+<t>
+RFC Editor: In the following section,
+please replace XXX and YYY with the IANA numbers assigned to these new entries.
+And, please remove this Editor's Note
+before this document is published.
+</t>
+<sourcecode name="" type="asn.1" markers="true">
+<![CDATA[
+-- OID Arc
+
+id-kp OBJECT IDENTIFIER ::=
+{ iso(1) identified-organization(3) dod(6) internet(1)
+security(5) mechanisms(5) pkix(7) kp(3) }
+
+-- Extended Key Usage Values
+
+id-kp-rpcTLSClient OBJECT IDENTIFIER ::= { id-kp XXX }
+id-kp-rpcTLSServer OBJECT IDENTIFIER ::= { id-kp YYY }
+]]>
+</sourcecode>
 </section>
 
 <section
