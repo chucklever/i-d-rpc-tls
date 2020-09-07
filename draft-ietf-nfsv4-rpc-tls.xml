@@ -1192,6 +1192,8 @@ Also,
 <xref target="RFC7525" section="6" format="default" sectionFormat="of"/>
 contains a detailed discussion
 of technologies used in conjunction with TLS.
+<xref target="RFC5280" section="8" format="default" sectionFormat="of"/>
+covers important considerations about handling certificate material securely.
 Implementers should familiarize themselves with these materials.
 </t>
 <t>
