@@ -1392,6 +1392,8 @@ but it does enable receivers to reject non-participant messages.
 In particular, transport layer encryption plus peer authentication
 protects receiving XDR decoders from deserializing untrusted data,
 a common coding vulnerability.
+However, these decoders would still be exposed to untrusted input
+in the case of the compromise of a trusted peer or Certificate Authority.
 </t>
 <t>
 The use of TLS enables strong authentication
