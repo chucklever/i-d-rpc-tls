@@ -1283,6 +1283,7 @@ Client security policy can require
 that a TLS session is established on every connection.
 If an attacker spoofs the handshake,
 the client disconnects and reports the problem.
+This policy prevents an attacker from causing the client to silently fall back to plaintext.
 If TLSA records are not available, this approach is strongly encouraged.
 </li>
 </ul>
