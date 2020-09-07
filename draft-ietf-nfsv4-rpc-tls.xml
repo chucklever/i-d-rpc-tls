@@ -1659,8 +1659,6 @@ IANA should use the current document (RFC-TBD) as the reference for the new entr
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7301.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
@@ -1714,6 +1712,8 @@ It also includes a specification for authorization validation lists that allow f
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6698.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6973.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7435.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
