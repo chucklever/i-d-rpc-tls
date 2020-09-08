@@ -741,12 +741,16 @@ reliable
 or
 in-order
 semantics to RPC on UDP.
-Each RPC message <bcp14>MUST</bcp14> fit in a single DTLS record.
-DTLS encapsulation has overhead,
-which reduces the effective Path MTU (PMTU)
-and thus the maximum RPC payload size.
 The use of DTLS record replay protection is <bcp14>REQUIRED</bcp14>
 when transporting RPC traffic.
+</t>
+<t>
+Each RPC message <bcp14>MUST</bcp14> fit in a single DTLS record.
+DTLS encapsulation has overhead,
+which reduces the Packetization Layer Path MTU (PLPMTU)
+and thus the maximum RPC payload size.
+A possible PLPMTU discovery mechanism is offered in
+<xref target="RFC8899" format="default" sectionFormat="of"/>.
 </t>
 <t>
 As soon as a client initializes a UDP socket
@@ -1594,6 +1598,8 @@ It also includes a specification for authorization validation lists that allow f
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8167.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8899.xml"/>
 
 </references>
 
