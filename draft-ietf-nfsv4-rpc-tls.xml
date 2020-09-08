@@ -1217,7 +1217,13 @@ use 0-RTT data.
  numbered="true"
  removeInRFC="false"
  toc="default">
-<name>Limitations of an Opportunistic Approach</name>
+<name>The Limitations of Opportunistic Security</name>
+<t>
+Readers can find the definition of Opportunistic Security in
+<xref target="RFC7435" format="default" sectionFormat="of"/>.
+A discussion of its underlying principals
+appears in Section&nbsp;3 of that document.
+</t>
 <t>
 The purpose of using an explicitly opportunistic approach
 is to enable interoperation
