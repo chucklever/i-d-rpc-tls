@@ -780,11 +780,14 @@ Therefore, when protecting RPC traffic,
 each DTLS handshake <bcp14>MUST</bcp14> include the "connection_id(TBD)" extension
 described in
 <xref target="I-D.ietf-tls-dtls13" section="9" format="default" sectionFormat="of"/>,
-and RPC-on-DTLS peer endpoints <bcp14>MUST</bcp14> provide a ConnectionID
+and RPC-over-DTLS peer endpoints
+<bcp14>MUST</bcp14>
+provide a ConnectionID
 with a non-zero length.
 Endpoints implementing RPC programs
 that expect a significant number of concurrent clients
-<bcp14>SHOULD</bcp14> employ ConnectionIDs of at least 4 bytes in length.
+<bcp14>SHOULD</bcp14>
+employ ConnectionIDs of at least 4 bytes in length.
 </t>
 <t>
 Sending a TLS Closure Alert terminates a DTLS session.
