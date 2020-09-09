@@ -1415,7 +1415,8 @@ the use of a TLS mutual authentication mechanism is
 <bcp14>RECOMMENDED</bcp14>
 to prove that the RPC client is known to the RPC server.
 The server can then determine whether the UIDs and GIDs
-in AUTH_SYS requests from that client can be accepted.
+in AUTH_SYS requests from that client can be accepted,
+based on the authenticated identity of the client.
 </t>
 <t>
 The use of TLS does not enable RPC clients to detect compromise
