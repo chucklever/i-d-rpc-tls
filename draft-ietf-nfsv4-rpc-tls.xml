@@ -856,8 +856,8 @@ uniquely identifies the RPC peer.
 </t>
 <t>
 X.509 certificates are specified in
-<xref target="X.509" format="default" sectionFormat="of"/>
-and extended in
+<xref target="X.509" format="default" sectionFormat="of"/>.
+Their use on the Internet is described in detail in
 <xref target="RFC5280" format="default" sectionFormat="of"/>.
 </t>
 <ul spacing="normal" bare="false" empty="false">
