@@ -1479,21 +1479,37 @@ RFC-TBD
 <references>
 <name>Normative References</name>
 
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls13-38.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls-connection-id-07.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4279.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5056.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5487.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5929.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7301.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls13-38.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-tls-dtls-connection-id-07.xml"/>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4279.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5056.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5487.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5929.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7301.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml"/>
 
 <reference anchor="X.509">
 <front>
@@ -1528,13 +1544,20 @@ It also includes a specification for authorization validation lists that allow f
 <references>
 <name>Informative References</name>
 
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2203.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2818.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6698.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6973.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7435.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2203.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2818.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6698.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6973.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7435.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
 
 </references>
 
