@@ -553,7 +553,8 @@ Authentication of GSS users is unchanged by the use of TLS.
 <t>
 RPCSEC GSS can also perform
 per-request integrity or confidentiality protection.
-When operating over a TLS session, these GSS services become redundant.
+When operating over a TLS session,
+these GSS services become largely redundant.
 An RPC implementation capable of concurrently using TLS and RPCSEC GSS
 can use GSS channel binding, as defined in
 <xref target="RFC5056" format="default" sectionFormat="of"/>,
