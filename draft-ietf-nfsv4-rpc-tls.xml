@@ -746,9 +746,21 @@ And, please remove this Editor's Note
 before this document is published.
 </t>
 <t>
-RPC over UDP is protected using
-the Datagram Transport Layer Security (DTLS) protocol
+The use of the Datagram Transport Layer Security (DTLS) protocol
 <xref target="I-D.ietf-tls-dtls13" format="default" sectionFormat="of"/>.
+protects RPC carried in UDP datagrams.
+As soon as a client initializes a UDP socket
+for use with an RPC service,
+it uses the mechanism described in
+<xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default" sectionFormat="of"/>
+to discover RPC-over-DTLS support for that RPC program on that port.
+If spurious traffic appears on a 5-tuple between
+the initial clear-text AUTH_TLS probe
+and
+the DTLS association handshake,
+receivers
+<bcp14>MUST</bcp14>
+discard that traffic without response.
 </t>
 <t>
 Using DTLS does not introduce
@@ -766,14 +778,6 @@ which reduces the Packetization Layer Path MTU (PLPMTU)
 and thus the maximum RPC payload size.
 A possible PLPMTU discovery mechanism is offered in
 <xref target="RFC8899" format="default" sectionFormat="of"/>.
-</t>
-<t>
-As soon as a client initializes a UDP socket
-for use with an RPC server,
-it uses the mechanism described in
-<xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default" sectionFormat="of"/>
-to discover DTLS support for an RPC program on a particular port.
-It then negotiates a DTLS session.
 </t>
 <t>
 The current document does not specify a mechanism
