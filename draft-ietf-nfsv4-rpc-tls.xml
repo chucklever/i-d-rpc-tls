@@ -1024,10 +1024,6 @@ in subsequent Standards Track documents.
 The inclusion of the RPC server value (id-kp-rpcTLSServer)
 indicates that the certificate has been issued
 for allowing the holder to process RPC transactions.
-Such a certificate is a Resource Certificate and therefore
-<bcp14>MUST</bcp14>
-conform to the constraints specified in
-<xref target="RFC6487" format="default" sectionFormat="of"/>.
 </t>
 <t>
 The inclusion of the RPC client value (id-kp-rpcTLSClient)
@@ -1677,8 +1673,6 @@ IANA should use the current document (RFC-TBD) as the reference for the new entr
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5280.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5531.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6487.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
