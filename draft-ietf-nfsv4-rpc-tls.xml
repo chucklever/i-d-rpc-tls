@@ -1333,6 +1333,11 @@ can alert clients that TLS is expected to work,
 and provide a binding of hostname to X.509 identity.
 If TLS cannot be negotiated or authentication fails,
 the client disconnects and reports the problem.
+When an opportunistic security policy is in place,
+a client
+<bcp14>SHOULD</bcp14>
+check for the existence of a TLSA record for the target
+server before initiating an RPC-over-TLS association.
 </li>
 <li>
 Client security policy can require
