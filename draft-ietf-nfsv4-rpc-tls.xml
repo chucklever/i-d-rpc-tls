@@ -594,6 +594,21 @@ Support for mandatory-to-implement ciphersuites
 for the negotiated TLS version is <bcp14>REQUIRED</bcp14>.
 </li>
 <li>
+Implementations
+<bcp14>MUST</bcp14>
+conform to the recommendations for TLS usage specified in BCP 195
+<xref target="RFC7525" format="default" sectionFormat="of"/>.
+Although RFC 7525 permits the use of TLS v1.2,
+the requirement to use TLS v1.3 or later for RPC-over-TLS takes precedence.
+Further, because TLS v1.3 ciphers
+are qualitatively different than cipher suites in previous versions of TLS
+and RFC 7525 predates TLS v1.3,
+the cipher suite recommendations in RFC 7525 do not apply to RPC-over-(D)TLS.
+A strict TLS mode for RPC-over-TLS that protects against STRIPTLS attacks
+is discussed in detail in
+<xref target="section_8894BDD2-0E0B-47A3-A2CB-70E4D93B55B0" format="default" sectionFormat="of"/>.
+</li>
+<li>
 Implementations <bcp14>MUST</bcp14> support
 certificate-based mutual authentication.
 Support for PSK mutual authentication
@@ -1661,6 +1676,8 @@ IANA should use the current document (RFC-TBD) as the reference for the new entr
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7301.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7942.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
@@ -1716,8 +1733,6 @@ It also includes a specification for authorization validation lists that allow f
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7258.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7435.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
- href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7525.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8166.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
