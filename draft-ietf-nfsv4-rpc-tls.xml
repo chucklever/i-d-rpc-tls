@@ -1017,8 +1017,6 @@ The current document defines two new KeyPurposeId values:
 one that identifies the RPC-over-TLS peer as an RPC client,
 and
 one that identifies the RPC-over-TLS peer as an RPC server.
-Additional KeyPurposeId values related to RPC-over-TLS may be specified
-in subsequent Standards Track documents.
 </t>
 <t>
 The inclusion of the RPC server value (id-kp-rpcTLSServer)
