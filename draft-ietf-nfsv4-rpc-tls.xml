@@ -817,7 +817,11 @@ Therefore receivers
 <bcp14>MUST</bcp14>
 discard datagrams
 exchanged using the same 5-tuple that just
-terminated the DTLS session for 60 seconds.
+terminated the DTLS session for a
+sufficient length of time to ensure that retransmissions have ceased and
+packets already in the network have been delivered.
+In the absence of more specific data,
+a period of 60 seconds is expected to suffice.
 </t>
 </section>
 
