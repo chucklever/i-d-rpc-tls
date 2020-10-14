@@ -1,0 +1,409 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2020-06-09T14:52:23.627253+00:00",
+  "repo": "chucklever/i-d-rpc-tls",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWU0OTY3OTUxODg=",
+      "title": "Private review comments from David Noveck",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/2",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Regarding the last paragraph of the introduction, I think you have to clarify what you mean by \"opportunistic\" and recognize that \"opportunistic\" as used in the phrase \"opportunistic TLS\" and in RFC 7435 are really homonyms.   I'm going to suggest something like the following two paragraphs as a possible replacement:\r\n\r\nThis document specifies the use of RPC on a TLS-protected transport in a fashion that is transparent to upper layer protocols based on RPC. It is specfied to use opportunistic TLS, enabling use of RPC-on-TLS to be deployed in environments with implentations that do not support it.  Specifications for RPC-based upper layer protocols are free to require stricter policies to guarantee that TLS is used for each connection.\r\n\r\nClient authentication is provided for using the opportnitunstic approach specified in [RFC7435], allowing encryption to be used even when authenitication is not. However, specifications  for RPC-based upper layer protocols are free to require stricter policies to guarantee the client is always authenticated or always authenticated when certain secrity flavors (e.g. AUTH_SYS) are used.\r\n\r\nIn section 4.1, I'm not clear about the relevance of the last sentence of the first paragraph.  While the tatement is true, it doesn't appear relevant to the matter being discussed.\r\n\r\nWith regard to the two deployment modes, I suggest that what they share (a server cerificate) should be made clearer by pulling thi assumption into the second paragraph.   Also I'm concened about overuse of the term \"SHOULD\".   In some cases (e.g. the \"SHOULD\" now in the second paragraph) I have no idea what circumstance might justify not doing rhe recommended action, while in other cases it appear that the i just describing the way the protocol works and that \"SHOULD\" might suggest a choice where there really isn't one, leading to a large set of deplyment modes, rather than just two.  So here is possible replacement text to consider.   \r\n\r\nIn all cases a server is to posess a unique global identity (e.g., a certificate that is signed by a well-known trust anchor) . The RPC server MUST request a TLS peer identity from each client upon first contact.  The availabilit of such client identities and how the absence of such identities are dealt with permits two deployment modes:\r\n\r\nServer-only Host Authentication\r\n\r\nIn this case, clients are anonymous (i.e., present no identifier or any identifier presented ). In this situation, the client will authenticate the server host using the presented TLS identity, but the server cannot authenticate clients.\r\nMutual Host Authentication\r\n\r\nIn this type of deployment, all clients are to possess unique identities (e.g., certificates). As part of the TLS handshake, both peers authenticate using the presented TLS identities. If authentication of either peer fails, or if authorization based on those identities blocks access to the server, the client association is to be rejected.\r\nIn the second sentence of the first paragraph of section 4.2.1, suggest replacing \"disabled\" by \"avoided\".\r\n\r\nI'm concrerned abou the use of the term \"RECOMMENDED\" in the first bullet in secttion 7.1.1.  I think thisshould be changed to \"recommended\".   With \"RECOMMENDED\", the natural interpretation is that you SHOULD do A but MUST do B if you don't.   However, you don't have to do any of it since that would invalidate the opportunistic nature of the whole thing. \r\n\r\nSection 7.2 really confuses me.   First of all it isn't made very clear what \"multiple distinct security realms\" means although it is natural to assume that they correspond to the multiiple \"identity domains\" mentioned in the second paragraph.\r\n\r\nif that's the case., I don't see how use of the same tls session by the client would compormise the \"privacty of RPC users\"  if the requestring user are x@a.org and y@b.rg any more than they would be compromised by use by users x@a.org and y@a.org (i.e. not at all).   i suspect that this comes from the security directorate.  If so, it makes sense to ask them to clarify exactly what they want and why.\r\n\r\nI'd like to suggest the following as a possible replacement for the third paragraph of section 7.3:\r\n\r\nIn light of the above, it is RECOMMENDED that AUTH_SYS is to be used, RPC clients present authentication material necessary for RPC servers they contact to have a degree of trust that the clients are acting responsibly.  \r\n\r\nIn the second sentence of the last paragraph of suggest adding \"in addition,\" at the start of the sentence.\r\n\r\nSuggest replacing the last (unnumbered) paragraph of Appendix A by the following:\r\n\r\nIn light of the avbove, it should be clear that AUTH_SYS therefore by itself offers little to no communication security:  \r\n\r\nIn item 2, suggest replacing \"real\" by \"actual\".\r\n\r\nFInally, I'd like to to suggest the following as a replacement for section 5.1,3:\r\n\r\n5.1.3. Potential Operation on other Transports\r\nThe RPC-over-RDMA transport can make use of Transport Layer Security below the RDMA transport layer [RFC8166]. The exact mechanism is not within the scope of this document.   Because there might not provisions made to exchange client and server certificates, authentication material might be provide by facilites with the RPC-over-RDMA transport [TBD].\r\n\r\nTransports that provide tls-level security [e.g.  QUIC] would need to be accommodated, even though, in such cases, use of TLS is not opportunitic as it is in the cases in which TCP or UDP is used. ",
+      "createdAt": "2019-09-22T15:33:19Z",
+      "updatedAt": "2019-09-22T16:54:23Z",
+      "closedAt": "2019-09-22T16:54:23Z",
+      "comments": [
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Note: In the future, large reviews should be broken into several issues. Each issue contains one comment/suggestion/text replacement.",
+          "createdAt": "2019-09-22T15:37:06Z",
+          "updatedAt": "2019-09-22T15:37:06Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Addressed in draft-ietf-nfsv4-rpc-tls-03",
+          "createdAt": "2019-09-22T16:54:23Z",
+          "updatedAt": "2019-09-22T16:54:23Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWU1MTEzNDgzMDA=",
+      "title": "Comments from second SecDir early review",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/3",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "chucklever"
+      ],
+      "labels": [
+        "bug"
+      ],
+      "body": "Reviewer: Derrell Piper\r\nReview result: Not Ready\r\n\r\nI reviewed this document as part of the security directorate's ongoing\r\neffort to review all IETF documents entering the IESG.  These comments\r\nare directed at the security area director(s).  Document editors and WG\r\nchairs should treat these comments like any other last call comments.\r\n\r\nThis draft is entitled, \"Remote Procedure Call Encryption by Default\",\r\nexcept it does not define this.  It instead discusses opportunistic RPC\r\nencryption using TLS (DTLS), encryption that might be used if the sun,\r\nmoon, and stars align, and likely only if you're running one of two NFS\r\nimplementations mentioned in this draft, which exclude most existing NFS\r\nservers on the Internet today and is incompatible with Linux (pp. 13).\r\n\r\nTo some extent, this draft simply defines a new enum in ONC RPC, named\r\nAUTH_TLS.  It completely handwaves all code changes in RPC and NFS to\r\nsupport TLS, PKI, GSS-API, or DNSSEC.  It contains no pseudocode, just\r\nRFC2119 MUST, MAYs, and SHOULDs.\r\n\r\npp. 5, Discovery\r\n\r\n\"The mechanism described in this document interoperates fully with RPC\r\nimplementations that do not support TLS. The use of TLS is automatically\r\ndisabled in these cases.\"\r\n\r\nHence, Not Ready.\r\n\r\nI have great sympathy for wanting to try to make it possible to use TLS\r\nby default in new NFS servers that support it, however even then, I\r\nthink this draft falls short.  It seems self-contradictory at times, and\r\nseems to continue to default to off, not on, which is exactly what\r\nRFC7258 says we ought not be doing anymore.\r\n\r\nOr maybe it doesn't intend to say this, since Token binding and TLSA are\r\nmentioned in Security Considerations, but optional, so it kinda does.\r\nSo, defer to the ADs.\r\n\r\npp. 6, Discovery\r\n\r\n\"Once the TLS handshake is complete, the RPC client and server will have\r\nestablished a secure channel for communicating.  The client MUST switch\r\nto a security flavor other than AUTH_TLS within that channel, presumably\r\nafter negotiating down redundant RPCSEC_GSS privacy and integrity\r\nservices and applying channel binding.\"\r\n\r\nWhat are the code changes?  GSS-API is subtle, please explain.  Are\r\nthere really no TLS or DTLS changes for any of this?\r\n\r\npp. 6, Discovery, STARTTLS discussion\r\n\r\nONC RPC person needed.  The AUTH_NONE and NULL RPC text is of concern.\r\n\r\npp. 7, Authentication\r\n\r\n\"If authentication of either peer fails, or if authorization based on\r\nthose identities blocks access to the server, the client association\r\nSHOULD be rejected.\"\r\n\r\nMUST be rejected.\r\n\r\npp. 7, Authentication\r\n\r\n\"Once a TLS session is established, the server MUST NOT utilize the\r\nclient peer's TLS identity for the purpose of authorizing individual RPC\r\nrequests.\"\r\n\r\nThat's a curious statement to end a section on Authentication with.  At\r\nleast justify that statement.\r\n\r\npp. 8, TLS Requirements\r\n\r\n\"Support for TLS-PSK mutual authentication [RFC4279] is OPTIONAL.\"\r\n\r\nConsidering this is retrofit security for a legacy UNIX UID/GID\r\nprotocol, making PSKs OPTIONAL almost seems quaint here, but okay.\r\n\r\npp. 8, TLS Requirements\r\n\r\n\"Support for and negotiation of compression is OPTIONAL.\"  Noted.\r\n\r\npp. 9, Operation on Other Transports\r\n\r\n\"Transports that provide intrinsic TLS-level security (e.g. QUIC) would\r\nneed to be accomodated separatey from the current document.  In such\r\ncases, use of TLS might not be opportunistic as it is for TCP or UDP.\"\r\n\r\n\"opportunitic\" is misspelled, and I don't know what to make of this\r\nsentence, but I have very partisan views on QUIC, so defer to the ADs.\r\n\r\nI assume Section 5.1.3 is there for RDMA but it doesn't say anything.\r\n\r\npp. 11, X.509 Certificates Using Fingerprints\r\n\r\n\"Implementations MUST support SHA-1 as the hash algorithm for the\r\nfingerprint.  To prevent attacks based on hash collisions, support for a\r\nmore contemporary hash function, such as SHA-256, is RECOMMENDED.\"\r\n\r\nSHA-1's deprecated, right?  So we shoudn't be mandating SHA-1 in new\r\nRFCs, right?  Defer to AD.\r\n\r\npp. 11 Pre-Shared Keys\r\n\r\n\"should be exposed\" -> \"SHOULD be exposed\"\r\n\r\npp. 12, DESY, Hammerspace, and Linux\r\n\r\nWhy are these two implementations called out?  This section does not\r\ngive me confidence that this all interoperates, is it supposed to?\r\n\r\npp. 13, Security Considerations\r\n\r\nSince absolute compatibilty with fielded insecure NFS is stated as a\r\nrequirement, the obvious downgrade attack is not only permitted, but\r\nrequired.  Again, RFC7258 says that's no longer acceptable, doesn't it?\r\nnAgain, defer to the ADs.\r\n\r\n\"Implementations must take care to accurately represent to all RPC\r\nconsumers the level of security that is actually in effect.\"  How?\r\n\r\npp. 14, Security Considerations for AUTH_SYS on TLS\r\n\r\n\"In light of the above, it is RECOMMENDED that when AUTH_SYS is used,\r\nRPC clients present authentication material necessary for RPC servers\r\nthey contact to have a degree of trust that the clients are acting\r\nresponsibly.\"\r\n\r\nHence, \"if the sun, moon, and stars align.\"  Again, this is not in the\r\nspirit of RFC7258.  And just to remind, AUTH_SYS doesn't make sense on\r\nnon-UNIX operating systems, but that perhaps is my partisan viewpoint.\r\n\r\nIn closing, there's two broad questions to consider:\r\n\r\n1) Does this do no harm?\r\n\r\n2) Does it improve security on the Internet in the spirit of RFC7258?\r\n\r\nThis is going to have to be much more detailed to convince me that it\r\ndoes either of these things for any implementation other than DESY or\r\nHammerspace, and without other reference implemenatation in the BSDs or\r\na least some flavors of Linux, you can't say this broadly interoperable\r\neither.  Distributed file systems are never easy, hence DCE/AFS, so\r\ngranted it's not an easy problem, but this is not ready to advance on\r\nStandards Track, unless merely being interoperable with legacy code is\r\nall we aspire to, and I sincerely hope it's not.\r\n\r\nPerhaps this needle can be threaded and with appropriate configuration\r\nby enterprising people, TLS can be configured with DNSSEC and GSS-API in\r\nRPC and NFS and it will do something reasonable and secure, but I would\r\nlike to see at least some more comments from implementation experience\r\nbefore I could recommend this advance.\r\n\r\nDerrell",
+      "createdAt": "2019-10-23T14:06:43Z",
+      "updatedAt": "2019-11-27T15:11:31Z",
+      "closedAt": "2019-11-27T15:11:31Z",
+      "comments": [
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "DP: SHA-1's deprecated, right?  So we shoudn't be mandating SHA-1 in new RFCs, right?  Defer to AD.\r\n\r\nCL: I can change this to SHA-256, or whatever is the current preference.\r\n\r\nBK: I was going to point out https://tools.ietf.org/html/rfc7469#section-2.4 but that's for public-key fingerprints, not certificate fingerprints.  But yes, please use SHA-256.",
+          "createdAt": "2019-10-24T13:01:57Z",
+          "updatedAt": "2019-10-24T13:01:57Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "DP: One way to address the legacy downgrade problem is to mandate auditing of it when it happens; so in the protocol, yes, we'll let you default to insecure to interoperate and do all those UNIX things, but new RPC/NFS will at least log this and allow you to administratively prohibit it, that's fine.",
+          "createdAt": "2019-10-24T13:23:39Z",
+          "updatedAt": "2019-10-24T13:23:39Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Suggested process to address this issue:\r\n\r\n1. Rename it as suggested, \u201cTowards Remote Procedure Call Encryption\u201d is good.\r\n2. Review your MAYs, MUSTs, and SHOULDs and ensure they\u2019re as strong as reasonably possible, SHA-1 is a problem, failed auth MUST fail, etc (Nits)\r\n3. Write more text in Security Considerations discussing the fact that downgrade is explicitly permitted for interoperability, just state it clearly.\r\n3. Every place where the negotiation can downgrade should be double-checked, and if you can, these MUST be logged.\r\n4. Write more text in Security Considerations about how it can be securely configured, for the various authentications discussed in 4.2.",
+          "createdAt": "2019-10-25T16:24:00Z",
+          "updatedAt": "2019-10-25T16:24:00Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "MDU6SXNzdWU1Mjk0MDcxMDg=",
+      "title": "Noveck's WGLC comments",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/4",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "chucklever"
+      ],
+      "labels": [
+        "bug"
+      ],
+      "body": "***General Comments***\r\n\r\n**Importance of this Work**\r\n\r\nThis work addresses the two biggest problems in NFSv4 security and could serve as a basis to allow secure  use of NFSv4 on the internet, which was one of the original goals of NFSv4.  My thanks to Chuck and Trond for taking this on and bringing the work to this point.\r\n\r\n**State of the Document**\r\n\r\nThis document is in good shape.   The issues I've found concern how the material is presented rather than indicating problems in the approach taken or the specific choices made.   \r\n\r\n***Per-Section Comments***\r\n\r\n**1.  Introduction**\r\n\r\nI feel that some reorganization of the second paragraph and the associated bullets would be helpful.   I think you need to decide whether the focus is to be on the diffculties of deploying RPCSEC_GSS or the difficulties of deploying RPCSEC_GSS with privacy, which, to me are more clear-cut and are really the major thing that this proposal addresses.   Note that, of the four bullets below this paragraph, only two are relevant to privacy while the paragraph after the bullets only makes sense if it speaking about RPCSEC_GSS with privacy.   It is not the case that RPCSEC_GSS is not used at all, altough it is not used as much as originally hoped.\r\n\r\nI think you might consider a replacement along the following lines:\r\n\r\n> The Remote Procedure Call version 2 protocol has been a Proposed Standard for three decades (see [RFC5531] and its antecedants). Eisler et al. first introduced an in-transit encryption mechanism for RPC with RPCSEC GSS over twenty years ago [RFC2203].  However, experience has shown that RPCSEC GSS with in-transit encryption can be difficult to deploy and use:\r\n> \r\n> - Parts of each RPC header remain in clear-text, and can constitute a significant security exposure.\r\n> - On-host cryptographic manipulation of data payloads can exact a significant CPU and memory bandwidth cost on RPC peers. Offloadng does not appear to be practical using GSS privacy since each message is encrypted using its own key based on the issuing RPC user. As a result, the performance penalty is so significant that, for many important RPC-based protocols, RPCSEC_GSS wiith privacy is hardly ever used.\r\n> \r\n> However strong a privacy service is, it cannot provide any security if the challenges of using it result in it not being used at all.\r\n> In addition, the use of AUTH_SYS remains common despite the negative effect on security that server acceptnce of uids and gids from unauthenticated clients brings with it.   This is in part because:\r\n> \r\n> - Per-client deployment and administrative costs are not scalable and, in many environments may be considered excessive. Keying material must be provided for each RPC client user, including transient users.\r\n> - Host identity management and user identity management must be carried out in the same security realm.  In certain environments, different authorities might be responsible for provisioning client systems versus provisioning new users.\r\n> \r\n> Through the use of TLS-aided client authentication these difficulties can be addressed without the security compromises that result from the use of AUTH_SYS, without client authentication and in the clear.\r\n\r\nAt the the start of the third (non-bulleted) paragraph, suggest replacing \"an alternative approach\" by \"The Alternative approach proposed here\".\r\n\r\nWith regard to your benefits paragraphs I feel some reorganization could be helpful to render the presentation more impactful:\r\n\r\n- While \"Encryption by default\" is strong, it would better if it was immediately followed up by the second major benefit \"Encryption Offload\".\r\n- I feel it is a mistake to mention AUTH_SYS where you do, before telling people you have rendered it more safe.  So \"Decoupled User and Host Identities\" should appear after \"Securing AUTH_SYS\" and be revised in light of the fact that AUTH_SYS has been rendered OK (e.g. changing \"still using\" to \"safely using\").\r\n- \"Protection of Existing Protocols\" should not be listed among these benefits since the first sentence of the paragraph is true of RPCSEC_GSS as well.   I think you can add some of this material to a revised penultimate paragraph as I suggest below.\r\n\r\nWith regard to the penultimate paragraph of this section, I'm suggesting a revision to \r\n\r\n- Incorporate material  from \"Protection of Existing Protocols\" \r\n- Eliminate the reference to RFC7435 (entitled \"Opportunistic Security: Some Protection Most of the Time\").  \r\n\r\nAlthough both this document and \"opportunistic TLS\" use the word \"opportunistic\",  they are effectively homonyms and referencing RFC7435 adds confusion.\r\n\r\nWould like you to consider the following replacement paragraphs:\r\n\r\n> This document specifies the use of RPC on a TLS-protected transport in a fashion that is transparent to upper layer protocols based on RPC. This transport layer encryption can protect all minor versions of  NFS version 4 [RFC7530][RFC5661][RFC7862] as well legacy NFS versions such as NFS version 3 [RFC1813], NFS side-band protocols such as the MNT protocol [RFC1813] and other protocols using RPC.\r\n> \r\n> We specify policies that enable RPC-on-TLS to be deployed opportunistically in environments with RPC implementations that do not support TLS.  Specifications for RPC-based upper layer protocols are free to adopt stricter policies to guarantee that TLS with encryption or TLS with host authentication and encryption is used for every connection or that  connections for which these facilities are not available are restricted as to the facilities they are allowed to use.\r\n\r\n**4.2.1.  Using TLS with RPCSEC GSS**\r\n\r\nI don't think the word \"client\" in the second paragraph is correct.  IIUC, it is the requesting user rather than the client itself that is authenticated. \r\n\r\n**5.1.3.  Operation on Other Transports**\r\n\r\nIn the third sntence of the first paragraph, suggest:\r\n\r\n- replacing \"provisions\" by \"other provisions\"\r\n- replacing \"could\" by \"would need to be\"\r\n\r\nIn the first sentence of the second pragraph, suggest replacing \"accommodated\" by \"addressed\".\r\nIn the second sentence ofthe second paragraph, suggest replacing \"might\" by \"would\"\r\n\r\n**7.2.  Multiple User Identity Realms**\r\n\r\nI don't see how establishing an independent TLS session for each user identity domain would prevent privileged users in each security realm from monitoring RPC traffic emitted on behalf of users in other security realms on the same peer.  What am I missing?   Are there some unstated assumptions about what privileged users might be allowed to do?\r\n\r\n**7.3.  Security Considerations for AUTH_SYS on TLS**\r\n\r\nWith regard to the penultimate paragraph, I don't see how this recommendation, desirable as it is, can provide any assurance that clients are \"acting responsibly\"  Suggest the following as a possible replacement:\r\n\r\n> In light of the above, it is RECOMMENDED that when AUTH_SYS is used, RPC clients present authentication material to  RPC servers and that servers use this material to determine if the client is a known one, so that they can make a determination whther the UIDs and GIDs in AUTH_SYS requests can be accepted as-is, subject to some degree some filtering or montitoring, or whther all AUTH_SYS requests on this connection are to be rejected. \r\n\r\nWith regard to the last sentence of the last paragraph, I think it should be noted that this issue could be addressed by not having names for these users and using numeric id's instead.",
+      "createdAt": "2019-11-27T15:10:28Z",
+      "updatedAt": "2019-12-13T21:42:11Z",
+      "closedAt": "2019-12-13T21:42:11Z",
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "MDU6SXNzdWU1MzUwNDMxNzE=",
+      "title": "Section 4.2 2nd paragraph is inadequate",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/5",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The MUST NOT in the 2nd paragraph is too vague to be implemented. This text needs to be strengthened, making it clear what the implementations have to do.\r\n\r\nThe reason the current protocol does not bind the client certificate to a particular user is because we want to enable encryption in the following usage scenarios:\r\n\r\n- The client has no certificate\r\n- The client has a certificate that is shared amongst some or all of its users\r\n- Each user has her own certificate (or, the client has a single user which is indistinguishable from the host itself)\r\n\r\nThe problem is that, given the currently proposed protocol extension, the server has no way to distinguish between the latter two cases.",
+      "createdAt": "2019-12-09T16:29:24Z",
+      "updatedAt": "2019-12-13T21:41:44Z",
+      "closedAt": "2019-12-13T21:41:44Z",
+      "comments": []
+    },
+    {
+      "number": 6,
+      "id": "MDU6SXNzdWU1MzUwNDQ4MzU=",
+      "title": "Section 7.2 should be expressed in terms of key management",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/6",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The current text is confusing. The deeper issue is how keys are managed on the client. Explain the risks of sharing the client's peer identity between users.\r\n\r\nWill also need to revisit the discussion of connection management. If we permit multiple sessions/keys on the same connection (multiple user keys) then terminating the connection will impact other sessions sharing that connection.",
+      "createdAt": "2019-12-09T16:32:04Z",
+      "updatedAt": "2019-12-14T22:18:30Z",
+      "closedAt": "2019-12-14T22:18:30Z",
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "MDU6SXNzdWU1Mzc3OTgwMDk=",
+      "title": "Can the current protocol enable the use of one TLS identity per RPC user?",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/7",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "chucklever"
+      ],
+      "labels": [
+        "enhancement"
+      ],
+      "body": "Although we don't intend to fully support using TLS identities to represent single RPC users in this iteration of the protocol, that is an eventual possibility. We want to ensure the document does not unnecessarily limit the possibility, potentially by permitting deployments to use multiple TLS identities on a client (or even, specifically, permitting a client to use each user's certificate to create a separate TLS session for each user).",
+      "createdAt": "2019-12-13T22:04:32Z",
+      "updatedAt": "2020-04-30T14:02:38Z",
+      "closedAt": "2020-04-30T14:02:38Z",
+      "comments": [
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "I think the likely answer is that, for now, user certs are explicitly forbidden by Section 5. Question is whether the documented protocol needs to assume the use of exactly zero or one certificate on the client.",
+          "createdAt": "2019-12-13T22:10:22Z",
+          "updatedAt": "2019-12-13T22:10:22Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "This enhancement is beyond the scope of rpc-tls, but might be considered in subsequent documents.",
+          "createdAt": "2020-04-30T14:02:38Z",
+          "updatedAt": "2020-04-30T14:02:38Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "MDU6SXNzdWU1NjU3Njk1MDg=",
+      "title": "Certificate handling when server address presented as netid+uaddr",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/8",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Tigran opened a thread on this:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/nfsv4/05AcqG3vXoINtop2tGQUy4KFgiw",
+      "createdAt": "2020-02-15T15:58:41Z",
+      "updatedAt": "2020-03-03T14:50:04Z",
+      "closedAt": "2020-03-03T14:50:04Z",
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "MDU6SXNzdWU1NzcwNjMzNDg=",
+      "title": "\"unique global identity\" might exclude site local certifications",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/11",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "chucklever"
+      ],
+      "labels": [
+        "bug"
+      ],
+      "body": "Rick Macklem says:\r\nAs I am working through implementation of NFS over TLS, I have run into a couple of things related to certificates. Here's an example scenario:\r\n- The client is a laptop that wants to mount a server from \"anywhere\" using TLS, so that data is encrypted on the wire. The server understandably wants to use \"mutual authentication\" to determine that the client is indeed one that is allowed to mount the server.\r\n\r\nOk, so now how do you get a certificate for the client that the server can reasonably verify?\r\n--> After a discussion over on a FreeBSD mailing list, it sounds like the easy (maybe only?) way to do this is for the NFS server admin. to run a site local CA and generate certificates against that.\r\n- Although I'm sure there are other ways, you can create a site local CA certificate with two openssl commands and sign a certificate for a client with two more openssl commands.\r\nThen the server can verify the certificate using the CAcert that was used to sign the client's certificate.\r\n\r\nNow, when I read the sections around Page 6 of the draft...\r\n\r\n>   Mutual Host Authentication\r\n>      In this type of deployment, the client possesses a unique global\r\n>      identity (e.g., a certificate).  As part of the TLS handshake,\r\n>      both peers authenticate using the presented TLS identities.  If\r\n>      authentication of either peer fails, or if authorization based on\r\n>      those identities blocks access to the server, the client\r\n>      association MUST be rejected.\r\n\r\nFor the above, the client does not possess a unique global identity, it might more correctly be called a \"site local identity\" that the server can authenticate. Is the \"unique global identity\" requirement necessary? It seems to me that a site local CA issued certificate might be appropriate. (RFC 5280 page 12, second (a) item seems to allow site local CA certificates).",
+      "createdAt": "2020-03-06T17:07:17Z",
+      "updatedAt": "2020-04-08T21:13:56Z",
+      "closedAt": "2020-04-08T21:13:56Z",
+      "comments": [
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Trond suggests:\r\n\r\n> Now, when I read the sections around Page 6 of the draft...\r\n>>   Mutual Host Authentication\r\n>>      In this type of deployment, the client possesses a unique global\r\n>>      identity (e.g., a certificate).  As part of the TLS handshake,\r\n>>      both peers authenticate using the presented TLS identities.  If\r\n>>      authentication of either peer fails, or if authorization based on\r\n>>      those identities blocks access to the server, the client\r\n>>      association MUST be rejected.\r\n\r\n> For the above, the client does not possess a unique global identity, it might more correctly be called a \"site local identity\" that the server can authenticate.\r\n> Is the \"unique global identity\" requirement necessary? It seems to me that a site local CA issued certificate might be appropriate. (RFC 5280 page 12, second (a) item seems to allow site local CA certificates).\r\n\r\nIt might be better to word in terms of the language of chains of trust. \"...the client possesses an identity (e.g. a certificate) that is backed by a trusted entity.\"",
+          "createdAt": "2020-03-09T20:25:52Z",
+          "updatedAt": "2020-03-09T20:25:52Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "MDU6SXNzdWU1OTE5ODU1NjA=",
+      "title": "Magnus W's AD review",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/issues/12",
+      "state": "CLOSED",
+      "author": "chucklever",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "chucklever"
+      ],
+      "labels": [
+        "bug"
+      ],
+      "body": "1. Section Status of this memo:\r\n\r\n> This document may contain material from IETF Documents or IETF Contributions published or made publicly available before November 10, 2008.  The person(s) controlling the copyright in some of this material may not have granted the IETF Trust the right to allow modifications of such material outside the IETF Standards Process. Without obtaining an adequate license from the person(s) controlling the copyright in such materials, this document may not be modified outside the IETF Standards Process, and derivative works of it may not be created outside the IETF Standards Process, except to format it for publication as an RFC or to translate it into languages other than English.\r\n\r\nWhat material in this document is not provided according to BCP 78 and the TLP? I just wonder if you are over careful, or is something verbatim copied from an old RFC?\r\n \r\n2. Section 3:\r\n \r\n> Note also that the NFS community uses the term \"privacy\" where other Internet communities use \"confidentiality\".  In the current document, the two terms are synonymous.\r\n\r\nCan this usage of privacy be avoided? Confidentiality is a tool to help provide privacy. So I think you should try to conform to more mainstream usage of privacy and use confidentiality where that is actually what is provided. See later comment also where this distinction becomes relevant.\r\n\r\n3. Section 4.1:\r\n\r\n```\r\n  <CODE BEGINS>\r\nenum auth_flavor {\r\n           AUTH_NONE       = 0,\r\n           AUTH_SYS        = 1,\r\n           AUTH_SHORT      = 2,\r\n           AUTH_DH         = 3,\r\n           AUTH_KERB       = 4,\r\n           AUTH_RSA        = 5,\r\n           RPCSEC_GSS      = 6,\r\n           AUTH_TLS        = 7,\r\n/* and more to be defined */\r\n   };\r\n<CODE ENDS>\r\n```\r\n\r\nIn this particular case, it might not be a major issue, but it is recommended that not put the numbers from the IANA registry into the document until it has been assigned to the document. In cases where one needs a number for testing during development, one can in many registries actually issue an early assignment.\r\n \r\nTo me, the right way of doing this table would have been to replace the 7 on the AUTH_TLS line with a [IANA_TBA]. And add an RFC-editor note in this section, and the necessary IANA sub-section requesting assignment. And if a number would have been needed for the implementation an early assignment request could have been done, and then converted to a permanent one using the IANA section.\r\n \r\n4. Section 4.1:\r\n \r\nIn Section 5.1.1 is clear that the RPC receiving entity should reject requests that are not sent over TLS. However, there appears to be no requirement to actually send all subsequent requests over TLS made in section 4.1. I think such a statement should be added.\r\n \r\n5. Section 4.2.1:\r\n\r\n> A TLS-capable RPC implementation uses GSS channel binding to determine when GSS integrity or privacy is unnecessary.  See Section 2.5 of [RFC7861] for details.\r\n\r\nRFC 7861 Section 2.5 says:\r\n\r\n> 2.5.  RPCSEC_GSS_BIND_CHANNEL Operation\r\n>  \r\n> RPCSEC_GSSv3 provides a channel-binding assertion that replaces the RPCSEC_GSSv2 RPCSEC_GSS_BIND_CHANNEL operation.\r\n> \r\n> The RPCSEC_GSS_BIND_CHANNEL operation is not supported on RPCSEC_GSS version 3 handles.  If a server receives an RPCSEC_GSS_BIND_CHANNEL operation on an RPCSEC_GSSv3 handle, it MUST return a reply status of MSG_ACCEPTED with an accept_stat of PROC_UNAVAIL [RFC5531].\r\n\r\nI don't see how the details in 2.5 provide an answer to how each peer can determine that TLS Is present by using the GSS channel binding. Maybe this is understandable by someone that understands GSS in detail.  However, I think some more details are needed.\r\n\r\n6. Section 5.1.1:\r\n\r\n> After establishing a TLS session, an RPC server MUST reject with a reject_stat of AUTH_ERROR any subsequent RPC requests over a TLS-protected connection that are outside of a TLS session.\r\n\r\nI assume this is actually bound to a host or a user identity? Because reading the above sentence immediately made me ask how can the RPC server determine that the RPC request is coming from an entity that already has an TLS session? Can you please clarify this question?\r\n \r\n7. Section 5.1.2.  Operation on UDP\r\n\r\n> RPC over UDP is protected using DTLS [RFC6347].\r\n\r\nDTLS 1.3 specification appears to have been publication requested so it is not significantly later than your document in the process. Thus, I wonder if it wouldn't be better to require DTLS 1.3 to match version with TLS 1.3? I also recommend being explicit about the version in this sentence. I have also asked the responsible SEC AD about the status of DTLS 1.3 so I hopefully have more input into this question soon.\r\n \r\n8. Section 5.1.2:\r\n \r\n> As soon as a client initializes a socket for use with an unfamiliar server, it uses the mechanism described in Section 4.1 to discover DTLS support and then negotiate a DTLS session.\r\n\r\nSo, first of all, is the usage of TLS for TCP completely separate from using DTLS over UDP? So having determined TLS support for TCP does not indicate the same for UDP? And is it in any case possible to skip the initial RPC null request with AUTH_TLS authentication and go directly to negotiate TLS after support has been determined with a server?\r\n \r\n9. Section 6.\r\n \r\nShould there be an RFC-editor note that the whole of Section 6 should be removed prior to publication, or do you intended to have this section included in the RFC? I do note that RFC 7942 does indicate the removal of this section.\r\n \r\n10. Section 7:\r\n \r\nPrivacy leakage due to STARTTLS procedure. So what is sent in clear text over the TCP connection prior to the TLS session establishment? Is there information here that provides any information that enables tracking of client, or the user on the client? If there is anything that may be sent that could allow tracking that should be mentioned in the security consideration.\r\n\r\n11. Section 8:\r\n \r\nALPN label.\r\n \r\nSo the IANA section requests the ALPN label \"sunrpc\" however the document fails to discuss how this is to be used. If it is to be used, then I think there needs to be a requirement on including it and verifying that it is present. I also wonder if the WG expect that this label can be used also for a future TLS based solution that requires the usage of TLS, or if you actually need to have a separate label between them to identify on TLS Level the difference in policy and intention of the request by the client.\r\n\r\n12. Section 8.\r\n\r\nI am missing a sub-section requesting the assignment of the AUTH_TLS value from the\r\nRPC Authentication Flavor Numbers registry. What I can see that request has not yet been named as value 7 is unassigned.\r\n\r\nhttps://www.iana.org/assignments/rpc-authentication-numbers/rpc-authentication-numbers.xhtml#flavor\r\n\r\n13. Requirement on implementation\r\n\r\nShould this document actually update any or all of the versions of NFS 4 to mandate implementation support? From the WG's perspective doesn't it make sense to start demand implementation support. The mechanism is clearly opportunistic in its establishment, however, the goal here needs to be to get support in as many places is as possible. Thus, sending a clearer signal that NFS 4.x servers and clients are expected to support this should be sent. If not can you clarify what the concerns are? Because we are going to get this question again in the IESG evaluation.\r\n\r\nTo me, the reasonable plan towards always used transport security (something I expect the full updates, for example of NFS v4.1 to require) is to require implementation but not used now. Then next step to require its usage.",
+      "createdAt": "2020-04-01T15:02:19Z",
+      "updatedAt": "2020-04-30T14:01:49Z",
+      "closedAt": "2020-04-30T14:01:49Z",
+      "comments": [
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "> > Should this document actually update any or all of the versions of NFS 4 to mandate implementation support? From the WG's perspective doesn't it make sense to start demand implementation support. The mechanism is clearly opportunistic in its establishment, however, the goal here needs to be to get support in as many places is as possible. Thus, sending a clearer signal that NFS 4.x servers and clients are expected to support this should be sent. If not can you clarify what the concerns are? Because we are going to get this question again in the IESG evaluation.\r\n\r\nDave Noveck responds:\r\n\r\n> One possibility to consider is replacing the penultimate paragraph of the Introduction by the following two paragraphs.\r\n> \r\n> The current document assumes policies in line with [RFC7435] in order to enable RPC-on-TLS to be deployed opportunistically in environments that contain RPC implementations that do not support TLS.  Specifications for RPC-based upper-layer protocols will often choose to require stricter policies in order to guarantee that encryption or host authentication is in use on every connection.\r\n> \r\n> Imposition of such stricter policies is of particular importance with regard to protocols for which the within-protocol  security infrastrucure is weak, allowing common deployments without encryption of request and response data or providing attackers the opportunity to easily obtain server execution of substantively unauthenticated requests, with authentication presumptively provided by the clients (e.g. using AUTH_SYS), which themselves have not been authenticated.\r\n",
+          "createdAt": "2020-04-05T17:11:17Z",
+          "updatedAt": "2020-04-05T17:11:17Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Further response from Magnus:\r\n\r\n> So this document is clearly an opportunistic mechanism. And I am not trying to push things beyond this in this document. However, I need to understand the answers to certain questions that are likely to arise in the IETF last call and IESG evaluation. \r\n> \r\n> Thanks for clarifying that due to layering, it would be a bad idea for this document to demand anything from NFS implementation. The NFS specificaiton extension/updates will have to make such requirement. I am fine with conveying that message to anyone raising this as an issue. \r\n> \r\n> Even on the RPC level, I do think the document can become clearer in that this document's solution is strongly recommended to be implemented to improve security. It is good that the document do dicsuss how policies can be established to move this mechanism beyond just opportunistic. Hinting on the likelihood that you will soon be required to support it. \r\n> \r\n> Thus, can one in introduce any RECOMMENDED/SHOULD writings on implementation of this mechanism for RPC implementors? \r\n> \r\n> Second are there aspect of the non-normative text that can be improved?",
+          "createdAt": "2020-04-08T14:48:59Z",
+          "updatedAt": "2020-04-08T14:48:59Z"
+        },
+        {
+          "author": "chucklever",
+          "authorAssociation": "OWNER",
+          "body": "Review comments addressed in draft-ietf-nfsv4-rpc-tls-07.",
+          "createdAt": "2020-04-30T14:01:49Z",
+          "updatedAt": "2020-04-30T14:01:49Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mjk1NDkwMDQz",
+      "title": "use correct license for oncrpc4j implementation",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/pull/1",
+      "state": "MERGED",
+      "author": "kofemann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2019-07-08T20:43:34Z",
+      "updatedAt": "2019-07-08T20:50:51Z",
+      "closedAt": "2019-07-08T20:50:51Z",
+      "mergedAt": "2019-07-08T20:50:51Z",
+      "mergedBy": "chucklever",
+      "comments": [],
+      "reviews": [],
+      "baseRepository": "chucklever/i-d-rpc-tls",
+      "baseRefName": "master",
+      "baseRefOid": "3d7e2108421ef5866d481450889e13df798f9d44",
+      "headRepository": null,
+      "headRefName": "patch-2",
+      "headRefOid": "ef968dc99fb300fb2389c2cadd99671e1c6c6030",
+      "mergeCommit": {
+        "oid": "9d151fad1d6c6b779dc20bb5f001185459cdb74e"
+      }
+    },
+    {
+      "number": 9,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mzc4NDY0MDUw",
+      "title": "rename iPAddr => iPAddress as it defined in rfc5280",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/pull/9",
+      "state": "MERGED",
+      "author": "kofemann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-02-21T20:41:21Z",
+      "updatedAt": "2020-03-03T14:50:23Z",
+      "closedAt": "2020-03-03T14:50:23Z",
+      "mergedAt": "2020-03-03T14:50:23Z",
+      "mergedBy": "chucklever",
+      "comments": [],
+      "reviews": [],
+      "baseRepository": "chucklever/i-d-rpc-tls",
+      "baseRefName": "master",
+      "baseRefOid": "c38056e4a014e4a912fa526a5d4ff12fe1ce37ed",
+      "headRepository": null,
+      "headRefName": "patch-3",
+      "headRefOid": "ca12e90d4624763e91213d749028e7748140e57e",
+      "mergeCommit": {
+        "oid": "377da0193026e886d19ded0f9ef16a1077536fb7"
+      }
+    },
+    {
+      "number": 10,
+      "id": "MDExOlB1bGxSZXF1ZXN0Mzc4NDk5OTEz",
+      "title": "Describe iPAddress in subjectAltNames for uaddr",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/pull/10",
+      "state": "MERGED",
+      "author": "kofemann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "rpc servers accessed by IP address should have iPAddress in subjectAltNames\r\n\r\nfixes: #8 ",
+      "createdAt": "2020-02-21T22:30:15Z",
+      "updatedAt": "2020-03-03T14:50:04Z",
+      "closedAt": "2020-03-03T14:50:04Z",
+      "mergedAt": "2020-03-03T14:50:04Z",
+      "mergedBy": "chucklever",
+      "comments": [],
+      "reviews": [],
+      "baseRepository": "chucklever/i-d-rpc-tls",
+      "baseRefName": "master",
+      "baseRefOid": "c38056e4a014e4a912fa526a5d4ff12fe1ce37ed",
+      "headRepository": null,
+      "headRefName": "patch-4",
+      "headRefOid": "2fb645d19780d0a8b20152c1ed398935b610405c",
+      "mergeCommit": {
+        "oid": "2ed4aad56471a8b6b643aab592c9fb6db915d9d2"
+      }
+    },
+    {
+      "number": 13,
+      "id": "MDExOlB1bGxSZXF1ZXN0NDA4MDA3NzAw",
+      "title": "update DESY implementation section to indicate DTLS status",
+      "url": "https://github.com/chucklever/i-d-rpc-tls/pull/13",
+      "state": "MERGED",
+      "author": "kofemann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2020-04-23T15:42:56Z",
+      "updatedAt": "2020-04-27T07:39:35Z",
+      "closedAt": "2020-04-23T15:45:13Z",
+      "mergedAt": "2020-04-23T15:45:13Z",
+      "mergedBy": "chucklever",
+      "comments": [],
+      "reviews": [],
+      "baseRepository": "chucklever/i-d-rpc-tls",
+      "baseRefName": "master",
+      "baseRefOid": "ae465cc257707a0eb49b7675f67b77f298fd15fe",
+      "headRepository": "kofemann/i-d-rpc-tls",
+      "headRefName": "patch-1",
+      "headRefOid": "0e12c4fd55f512bdb0dde376f63d6237fa31fd0d",
+      "mergeCommit": {
+        "oid": "7cb4945f9dab54532f1abc8326371a1e8d7370d9"
+      }
+    }
+  ]
+}
