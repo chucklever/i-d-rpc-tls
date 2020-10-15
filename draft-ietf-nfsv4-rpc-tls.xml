@@ -161,13 +161,12 @@ For instance, administrators must provide keying material
 for each RPC client, including transient clients.
 </li>
 <li>
-Host identity management and user identity management
-become overly complex in environments with a mixture
-of security mechanisms and realms.
-Cloud providers, for instance,
-might prefer to use GSS for authenticating hosts
-but allow tenants to use AUTH_SYS to manage
-user identities within their private networks.
+GSS host identity management and user identity management
+must typically be enforced in the same security realm.
+However, cloud providers, for instance, might prefer
+to remain authoritative for host identity
+but
+allow tenants to manage user identities within their private networks.
 </li>
 </ul>
 <t>
