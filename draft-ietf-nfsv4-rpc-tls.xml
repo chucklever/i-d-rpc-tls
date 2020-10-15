@@ -746,7 +746,7 @@ before this document is published.
 </t>
 <t>
 The use of the Datagram Transport Layer Security (DTLS) protocol
-<xref target="I-D.ietf-tls-dtls13" format="default" sectionFormat="of"/>.
+<xref target="I-D.ietf-tls-dtls13" format="default" sectionFormat="of"/>
 protects RPC carried in UDP datagrams.
 As soon as a client initializes a UDP socket
 for use with an RPC service,
