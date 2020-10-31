@@ -683,7 +683,7 @@ Typically,
 once an RPC client completes the TCP handshake,
 it uses the mechanism described in
 <xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default" sectionFormat="of"/>
-to discover RPC-over-TLS support for that connection.
+to discover RPC-over-TLS support for that RPC program on that connection.
 Until an AUTH_TLS probe is done on a connection,
 the RPC server treats all traffic as RPC messages.
 If spurious traffic appears on a TCP connection
