@@ -6,7 +6,7 @@ Network File System Version 4                               T. Myklebust
 Internet-Draft                                               Hammerspace
 Updates: 5531 (if approved)                                C. Lever, Ed.
 Intended status: Standards Track                                  Oracle
-Expires: 4 May 2021                                      31 October 2020
+Expires: 7 May 2021                                      3 November 2020
 
 
           Towards Remote Procedure Call Encryption By Default
@@ -53,12 +53,12 @@ Status of This Memo
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 1]
+Myklebust & Lever          Expires 7 May 2021                   [Page 1]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
-   This Internet-Draft will expire on 4 May 2021.
+   This Internet-Draft will expire on 7 May 2021.
 
 Copyright Notice
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 2]
+Myklebust & Lever          Expires 7 May 2021                   [Page 2]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
      8.3.  Object Identifier for PKIX Extended Key Usage . . . . . .  20
@@ -165,16 +165,16 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 3]
+Myklebust & Lever          Expires 7 May 2021                   [Page 3]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
-   *  GSS host identity management and user identity management must
-      typically be enforced in the same security realm.  However, cloud
-      providers, for instance, might prefer to remain authoritative for
-      host identity but allow tenants to manage user identities within
-      their private networks.
+   *  GSS host identity management and user identity management
+      typically must be enforced in the same security realm.  However,
+      cloud providers, for instance, might prefer to remain
+      authoritative for host identity but allow tenants to manage user
+      identities within their private networks.
 
    In view of the challenges with the currently available mechanisms for
    authenticating and protecting the confidentiality of RPC
@@ -221,9 +221,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 4]
+Myklebust & Lever          Expires 7 May 2021                   [Page 4]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    [RFC7258].  Enforcing the use of RPC-over-TLS is of particular
@@ -277,9 +277,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 5]
+Myklebust & Lever          Expires 7 May 2021                   [Page 5]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 4.1.  Discovering Server-side TLS Support
@@ -333,9 +333,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 6]
+Myklebust & Lever          Expires 7 May 2021                   [Page 6]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    The RPC server signals its corresponding support for RPC-over-TLS by
@@ -389,9 +389,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 7]
+Myklebust & Lever          Expires 7 May 2021                   [Page 7]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    Server-only Host Authentication
@@ -445,9 +445,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 8]
+Myklebust & Lever          Expires 7 May 2021                   [Page 8]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    *  Implementations MUST conform to the recommendations for TLS usage
@@ -501,9 +501,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                   [Page 9]
+Myklebust & Lever          Expires 7 May 2021                   [Page 9]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 5.1.1.  Protected Operation on TCP
@@ -557,9 +557,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 10]
+Myklebust & Lever          Expires 7 May 2021                  [Page 10]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    appears on a 5-tuple between the initial clear-text AUTH_TLS probe
@@ -613,9 +613,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 11]
+Myklebust & Lever          Expires 7 May 2021                  [Page 11]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    RPC-over-RDMA can make use of transport layer security below the RDMA
@@ -669,9 +669,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 12]
+Myklebust & Lever          Expires 7 May 2021                  [Page 12]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    An RPC client's domain name and IP address are often assigned
@@ -725,9 +725,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 13]
+Myklebust & Lever          Expires 7 May 2021                  [Page 13]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 5.2.2.  Pre-Shared Keys
@@ -781,9 +781,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 14]
+Myklebust & Lever          Expires 7 May 2021                  [Page 14]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 6.2.  Hammerspace NFS server
@@ -837,9 +837,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 15]
+Myklebust & Lever          Expires 7 May 2021                  [Page 15]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    Licensing:  BSD
@@ -893,9 +893,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 16]
+Myklebust & Lever          Expires 7 May 2021                  [Page 16]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    In all other cases, the adoption, implementation, and deployment of
@@ -949,9 +949,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 17]
+Myklebust & Lever          Expires 7 May 2021                  [Page 17]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    The exception to this edict is the initial RPC NULL procedure that
@@ -1005,9 +1005,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 18]
+Myklebust & Lever          Expires 7 May 2021                  [Page 18]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    authentication.  In-transit traffic is protected, but the RPC client
@@ -1061,9 +1061,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 19]
+Myklebust & Lever          Expires 7 May 2021                  [Page 19]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    Flavor Name:  TLS
@@ -1117,9 +1117,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 20]
+Myklebust & Lever          Expires 7 May 2021                  [Page 20]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 9.1.  Normative References
@@ -1173,9 +1173,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 21]
+Myklebust & Lever          Expires 7 May 2021                  [Page 21]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    [RFC7301]  Friedl, S., Popov, A., Langley, A., and E. Stephan,
@@ -1229,9 +1229,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 22]
+Myklebust & Lever          Expires 7 May 2021                  [Page 22]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
@@ -1285,9 +1285,9 @@ Appendix A.  Known Weaknesses of the AUTH_SYS Authentication Flavor
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 23]
+Myklebust & Lever          Expires 7 May 2021                  [Page 23]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    supplemental group IDs are associated with each RPC request.  The
@@ -1341,9 +1341,9 @@ Internet-Draft                RPC-Over-TLS                  October 2020
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 24]
+Myklebust & Lever          Expires 7 May 2021                  [Page 24]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
 Appendix B.  ASN.1 Module
@@ -1397,9 +1397,9 @@ Acknowledgments
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 25]
+Myklebust & Lever          Expires 7 May 2021                  [Page 25]
 
-Internet-Draft                RPC-Over-TLS                  October 2020
+Internet-Draft                RPC-Over-TLS                 November 2020
 
 
    Finally, special thanks to NFSV4 Working Group Chair and document
@@ -1453,4 +1453,4 @@ Authors' Addresses
 
 
 
-Myklebust & Lever          Expires 4 May 2021                  [Page 26]
+Myklebust & Lever          Expires 7 May 2021                  [Page 26]
