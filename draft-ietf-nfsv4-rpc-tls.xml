@@ -162,7 +162,7 @@ for each RPC client, including transient clients.
 </li>
 <li>
 GSS host identity management and user identity management
-must typically be enforced in the same security realm.
+typically must be enforced in the same security realm.
 However, cloud providers, for instance, might prefer
 to remain authoritative for host identity
 but
