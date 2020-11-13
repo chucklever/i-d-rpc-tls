@@ -622,7 +622,6 @@ for further details.
 <li>
 Negotiation of a ciphersuite providing confidentiality as
 well as integrity protection is <bcp14>REQUIRED</bcp14>.
-Support for and negotiation of compression is <bcp14>OPTIONAL</bcp14>.
 </li>
 </ul>
 <t>
