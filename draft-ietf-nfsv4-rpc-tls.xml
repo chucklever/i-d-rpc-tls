@@ -516,12 +516,15 @@ They present no globally unique identifier to the server peer.
 <dt>Mutual Host Authentication</dt>
 <dd>
 In this type of deployment,
-the client possesses an identity (e.g. a certificate) that is backed by a trusted entity.
+the client possesses an identity that is backed by a trusted entity
+(e.g. a pre-shared key or a certificate validated with a certification path).
 As part of the TLS handshake, both peers authenticate using the presented TLS identities.
 If authentication of either peer fails,
 or
 if authorization based on those identities blocks access to the server,
 the peers <bcp14>MUST</bcp14> reject the association.
+Further explanation appears in
+<xref target="section_936921ED-67BB-46BF-B316-6740E07F6652" format="default" sectionFormat="of"/>.
 </dd>
 </dl>
 <t>
