@@ -900,14 +900,26 @@ Certification authorities that issue such certificates
 support the DNS-ID identifier type.
 </li>
 <li>
+To specify the identity of an RPC peer as
+a domain name,
+the certificate
+<bcp14>MUST</bcp14>
+contain a subjectAltName extension that contains a dNSName.
 DNS domain names in RPC-over-TLS certificates
 <bcp14>MUST NOT</bcp14>
 contain the wildcard character '*'
 within the identifier.
 </li>
+<li>
+To specify the identity of an RPC peer as
+a network identifier (netid)
+or
+a universal network address (uaddr),
+the certificate
+<bcp14>MUST</bcp14>
+contain a subjectAltName extension that contains an iPAddress.
+</li>
 </ul>
-
-
 <t>
 When validating a server certificate,
 an RPC-over-TLS client implementation
@@ -946,8 +958,6 @@ and
 exactly match the address represented by the universal network address.
 </li>
 </ul>
-
-
 <t>
 An RPC client's
 domain name
