@@ -1057,15 +1057,11 @@ In this mode, the RPC peer can be uniquely identified
 by keying material that has been shared out-of-band
 (see
 <xref target="RFC8446" section="2.2" format="default" sectionFormat="of"/>).
-At least the following parameter of the TLS connection
-<bcp14>SHOULD</bcp14>
-be exposed at the RPC layer:
-</t>
-<ul spacing="normal" bare="false" empty="false">
-<li>
+The
 PSK Identifier
-</li>
-</ul>
+<bcp14>SHOULD</bcp14>
+be exposed at the RPC layer.
+</t>
 </section>
 
 </section>
