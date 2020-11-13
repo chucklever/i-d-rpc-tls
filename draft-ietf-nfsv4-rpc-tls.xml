@@ -1000,7 +1000,7 @@ or
 a set of extended key usages).
 </t>
 <t>
-When the configured trust base changes
+When the configured set of trust anchors changes
 (e.g., removal of a CA from the list of trusted CAs;
 issuance of a new CRL for a given CA),
 implementations
