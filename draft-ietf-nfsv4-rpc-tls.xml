@@ -890,9 +890,10 @@ with the following considerations:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-Support for the DNS-ID identifier type
-<xref target="RFC6125" format="default" sectionFormat="of"/>
-is
+The DNS-ID identifier type is a subjectAltName extension
+that contains a dNSName, as defined in
+<xref target="RFC5280" section="4.2.1.6" format="default" sectionFormat="of"/>.
+Support for the DNS-ID identifier type is
 <bcp14>REQUIRED</bcp14>
 in RPC-over-TLS client and server implementations.
 Certification authorities that issue such certificates
