@@ -19,7 +19,7 @@
 
 <front>
 
-<title abbrev="RPC-Over-TLS">
+<title abbrev="RPC-With-TLS">
 Towards Remote Procedure Call Encryption By Default
 </title>
 
@@ -237,7 +237,7 @@ Further,
 <xref target="section_2AE49383-E6B2-4830-8407-995FEBF727F2" format="default" sectionFormat="of"/>
 of the current document defines policies in line with
 <xref target="RFC7435" format="default" sectionFormat="of"/>
-which enable RPC-over-TLS to be deployed opportunistically
+which enable RPC-with-TLS to be deployed opportunistically
 in environments that contain RPC implementations that do not support TLS.
 However, specifications for RPC-based upper-layer protocols
 should choose to require even stricter policies that guarantee
@@ -247,7 +247,7 @@ host authentication
 is used for all RPC transactions
 to mitigate against pervasive monitoring attacks
 <xref target="RFC7258" format="default" sectionFormat="of"/>.
-Enforcing the use of RPC-over-TLS is of particular importance
+Enforcing the use of RPC-with-TLS is of particular importance
 for existing upper-layer protocols whose security infrastructure is weak.
 </t>
 <t>
@@ -265,7 +265,7 @@ and optionally
 RPCSEC_GSS
 <xref target="RFC2203" format="default" sectionFormat="of"/>
 is available within the platform
-where RPC-over-TLS support is to be added.
+where RPC-with-TLS support is to be added.
 </t>
 </section>
 
@@ -345,7 +345,7 @@ fields in each RPC Call.
  numbered="true"
  removeInRFC="false"
  toc="default">
-<name>RPC-Over-TLS in Operation</name>
+<name>RPC-With-TLS in Operation</name>
 
 <section
  anchor="section_0A03673B-14BA-4228-8A8A-F76AA318CA73"
@@ -356,10 +356,10 @@ fields in each RPC Call.
 <t>
 The mechanism described in the current document
 interoperates fully with RPC implementations
-that do not support RPC-over-TLS.
-When an RPC-over-TLS-enabled peer encounters a peer that
-does not support RPC-over-TLS,
-policy settings on the RPC-over-TLS-enabled peer determine
+that do not support RPC-with-TLS.
+When an RPC-with-TLS-enabled peer encounters a peer that
+does not support RPC-with-TLS,
+policy settings on the RPC-with-TLS-enabled peer determine
 whether RPC operation continues without the use of TLS,
 or RPC operation is not permitted.
 </t>
@@ -421,7 +421,7 @@ The bytes of the verifier's body field encode the ASCII characters
 </li>
 </ul>
 <t>
-The RPC server signals its corresponding support for RPC-over-TLS
+The RPC server signals its corresponding support for RPC-with-TLS
 by replying with
 a reply_stat of MSG_ACCEPTED
 and
@@ -472,10 +472,10 @@ Once the TLS session handshake is complete,
 the RPC client and server have established
 a secure channel for exchanging RPC transactions.
 A successful AUTH_TLS probe on one particular port/transport tuple
-does not imply that RPC-over-TLS is available on that same server
+does not imply that RPC-with-TLS is available on that same server
 using a different port/transport tuple,
 nor does it imply that
-RPC-over-TLS will be available in the future
+RPC-with-TLS will be available in the future
 using the successfully probed port.
 </t>
 </section>
@@ -496,7 +496,7 @@ and
 precisely specifying the role that each layer plays.
 </t>
 <t>
-Each RPC server that supports RPC-over-TLS <bcp14>MUST</bcp14> possess a unique global identity
+Each RPC server that supports RPC-with-TLS <bcp14>MUST</bcp14> possess a unique global identity
 (e.g., a certificate that is signed by a well-known trust anchor).
 Such an RPC server <bcp14>MUST</bcp14> request a TLS peer identity from each client
 upon first contact.
@@ -510,7 +510,7 @@ the client can authenticate the server host
 using the presented server peer TLS identity,
 but the server cannot authenticate the client.
 In this situation,
-RPC-over-TLS clients are anonymous.
+RPC-with-TLS clients are anonymous.
 They present no globally unique identifier to the server peer.
 </dd>
 <dt>Mutual Host Authentication</dt>
@@ -563,7 +563,7 @@ use GSS-API channel binding, as defined in
 <xref target="RFC5056" format="default" sectionFormat="of"/>,
 to determine when an underlying transport
 provides a sufficient degree of confidentiality.
-RPC-over-TLS implementations
+RPC-with-TLS implementations
 <bcp14>MUST</bcp14>
 provide the "tls-exporter" channel binding type, as defined in
 <xref target="I-D.ietf-kitten-tls-channel-bindings-for-tls13" format="default" sectionFormat="of"/>.
@@ -601,12 +601,12 @@ Implementations
 conform to the recommendations for TLS usage specified in BCP 195
 <xref target="RFC7525" format="default" sectionFormat="of"/>.
 Although RFC 7525 permits the use of TLS v1.2,
-the requirement to use TLS v1.3 or later for RPC-over-TLS takes precedence.
+the requirement to use TLS v1.3 or later for RPC-with-TLS takes precedence.
 Further, because TLS v1.3 ciphers
 are qualitatively different than cipher suites in previous versions of TLS
 and RFC 7525 predates TLS v1.3,
-the cipher suite recommendations in RFC 7525 do not apply to RPC-over-(D)TLS.
-A strict TLS mode for RPC-over-TLS that protects against STRIPTLS attacks
+the cipher suite recommendations in RFC 7525 do not apply to RPC-with-(D)TLS.
+A strict TLS mode for RPC-with-TLS that protects against STRIPTLS attacks
 is discussed in detail in
 <xref target="section_8894BDD2-0E0B-47A3-A2CB-70E4D93B55B0" format="default" sectionFormat="of"/>.
 </li>
@@ -685,7 +685,7 @@ Typically,
 once an RPC client completes the TCP handshake,
 it uses the mechanism described in
 <xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default" sectionFormat="of"/>
-to discover RPC-over-TLS support for that RPC program on that connection.
+to discover RPC-with-TLS support for that RPC program on that connection.
 Until an AUTH_TLS probe is done on a connection,
 the RPC server treats all traffic as RPC messages.
 If spurious traffic appears on a TCP connection
@@ -754,7 +754,7 @@ As soon as a client initializes a UDP socket
 for use with an RPC service,
 it uses the mechanism described in
 <xref target="section_0A03673B-14BA-4228-8A8A-F76AA318CA73" format="default" sectionFormat="of"/>
-to discover RPC-over-DTLS support for that RPC program on that port.
+to discover RPC-with-DTLS support for that RPC program on that port.
 If spurious traffic appears on a 5-tuple between
 the initial clear-text AUTH_TLS probe
 and
@@ -800,7 +800,7 @@ Therefore, when protecting RPC traffic,
 each DTLS handshake <bcp14>MUST</bcp14> include the "connection_id(TBD)" extension
 described in
 <xref target="I-D.ietf-tls-dtls13" section="9" format="default" sectionFormat="of"/>,
-and RPC-over-DTLS peer endpoints
+and RPC-with-DTLS peer endpoints
 <bcp14>MUST</bcp14>
 provide a ConnectionID
 with a non-zero length.
@@ -877,7 +877,7 @@ X.509 certificates are specified in
 <xref target="X.509" format="default" sectionFormat="of"/>.
 <xref target="RFC5280" format="default" sectionFormat="of"/>
 provides a profile of Internet PKI X.509 public key infrastructure.
-RPC-over-TLS implementations are
+RPC-with-TLS implementations are
 <bcp14>REQUIRED</bcp14>
 to support the PKIX mechanism described in
 <xref target="RFC5280" format="default" sectionFormat="of"/>.
@@ -885,7 +885,7 @@ to support the PKIX mechanism described in
 <t>
 The rules and guidelines defined in
 <xref target="RFC6125" format="default" sectionFormat="of"/>
-apply to RPC-over-TLS certificates
+apply to RPC-with-TLS certificates
 with the following considerations:
 </t>
 <ul spacing="normal" bare="false" empty="false">
@@ -895,7 +895,7 @@ that contains a dNSName, as defined in
 <xref target="RFC5280" section="4.2.1.6" format="default" sectionFormat="of"/>.
 Support for the DNS-ID identifier type is
 <bcp14>REQUIRED</bcp14>
-in RPC-over-TLS client and server implementations.
+in RPC-with-TLS client and server implementations.
 Certification authorities that issue such certificates
 <bcp14>MUST</bcp14>
 support the DNS-ID identifier type.
@@ -906,7 +906,7 @@ a domain name,
 the certificate
 <bcp14>MUST</bcp14>
 contain a subjectAltName extension that contains a dNSName.
-DNS domain names in RPC-over-TLS certificates
+DNS domain names in RPC-with-TLS certificates
 <bcp14>MUST NOT</bcp14>
 contain the wildcard character '*'
 within the identifier.
@@ -923,7 +923,7 @@ contain a subjectAltName extension that contains an iPAddress.
 </ul>
 <t>
 When validating a server certificate,
-an RPC-over-TLS client implementation
+an RPC-with-TLS client implementation
 takes the following into account:
 </t>
 <ul spacing="normal" bare="false" empty="false">
@@ -966,8 +966,8 @@ and
 IP address
 are often assigned dynamically,
 thus RPC servers cannot rely on those to verify client certificates.
-Therefore, when an RPC-over-TLS client presents a certificate
-to an RPC-over-TLS server,
+Therefore, when an RPC-with-TLS client presents a certificate
+to an RPC-with-TLS server,
 the server takes the following into account:
 </t>
 <ul spacing="normal" bare="false" empty="false">
@@ -988,7 +988,7 @@ The meaning and syntax of these fields is defined in
 
 
 <t>
-RPC-over-TLS implementations
+RPC-with-TLS implementations
 <bcp14>MAY</bcp14>
 allow the configuration
 of a set of additional properties of the certificate
@@ -1026,9 +1026,9 @@ in addition to or in place of the basic purposes indicated in the key usage exte
 </t>
 <t>
 The current document defines two new KeyPurposeId values:
-one that identifies the RPC-over-TLS peer as an RPC client,
+one that identifies the RPC-with-TLS peer as an RPC client,
 and
-one that identifies the RPC-over-TLS peer as an RPC server.
+one that identifies the RPC-with-TLS peer as an RPC server.
 </t>
 <t>
 The inclusion of the RPC server value (id-kp-rpcTLSServer)
@@ -1196,7 +1196,7 @@ A Linux in-kernel prototype is underway,
 but implementation delays have resulted from the challenges of
 handling a TLS handshake in a kernel environment.
 Those issues stem from the architecture of TLS and the kernel,
-not from the design of the RPC-over-TLS protocol.
+not from the design of RPC-with-TLS.
 </dd>
 </dl>
 </section>
@@ -1272,7 +1272,7 @@ provide a profile that defines the use of 0-RTT data
 (see
 Appendix&nbsp;E.5 of
 <xref target="RFC8446" format="default" sectionFormat="of"/>).
-Therefore, RPC-over-TLS implementations MUST NOT
+Therefore, RPC-with-TLS implementations MUST NOT
 use 0-RTT data.
 </t>
 
@@ -1291,7 +1291,7 @@ appears in Section&nbsp;3 of that document.
 <t>
 The purpose of using an explicitly opportunistic approach
 is to enable interoperation
-with implementations that do not support RPC-over-TLS.
+with implementations that do not support RPC-with-TLS.
 A range of options is allowed by this approach,
 from "no peer authentication or encryption"
 to
@@ -1308,7 +1308,7 @@ Implementations of the mechanism described in the current document
 must take care to accurately represent to all RPC consumers
 the level of security that is actually in effect,
 and are <bcp14>REQUIRED</bcp14> to provide an audit log
-of RPC-over-TLS security mode selection.
+of RPC-with-TLS security mode selection.
 </t>
 <t>
 In all other cases,
@@ -1345,7 +1345,7 @@ When an opportunistic security policy is in place,
 a client
 <bcp14>SHOULD</bcp14>
 check for the existence of a TLSA record for the target
-server before initiating an RPC-over-TLS association.
+server before initiating an RPC-with-TLS association.
 </li>
 <li>
 Client security policy can require
@@ -1411,9 +1411,9 @@ so there is negligible privacy impact from this exception.
  toc="default">
 <name>TLS Identity Management on Clients</name>
 <t>
-The goal of the RPC-over-TLS protocol extension
+The goal of RPC-with-TLS
 is to hide the content of RPC requests while they are in transit.
-The RPC-over-TLS protocol by itself cannot protect
+RPC-with-TLS by itself cannot protect
 against exposure of a user's RPC requests to other users on the same client.
 </t>
 <t>
@@ -1507,9 +1507,9 @@ is the same on both the RPC client and server.
  toc="default">
 <name>Best Security Policy Practices</name>
 <t>
-RPC-over-TLS implementations and deployments
+RPC-with-TLS implementations and deployments
 are strongly encouraged to adhere to the following policies
-to achieve the strongest possible security with RPC-over-TLS.
+to achieve the strongest possible security with RPC-with-TLS.
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
@@ -1582,7 +1582,7 @@ TLS
 </dd>
 <dt>Description:</dt>
 <dd>
-Indicates support for RPC-over-TLS.
+Indicates support for RPC-with-TLS.
 </dd>
 <dt>Reference:</dt>
 <dd>
@@ -1639,7 +1639,7 @@ the authors request the reservation of the following new values:
 </t>
 <ul spacing="normal" bare="false" empty="false">
 <li>
-The RPC-over-TLS ASN.1 module in the
+The RPC-with-TLS ASN.1 module in the
 "SMI Security for PKIX Extended Key Purpose" registry (1.3.6.1.5.5.7.3)
 (see
 <xref target="section_685D3F88-94FF-4C91-8CCB-860DBA602B2F" format="default" sectionFormat="of"/>
@@ -1647,11 +1647,11 @@ and
 <xref target="section_B08B45C1-1E10-4F7A-935B-1198BAF255C0" format="default" sectionFormat="of"/>.
 </li>
 <li>
-The RPC-over-TLS client certificate extended key usage (1.3.6.1.5.5.7.3.XXX).
+The RPC-with-TLS client certificate extended key usage (1.3.6.1.5.5.7.3.XXX).
 The description of this new entry should be "id-kp-rpcTLSClient".
 </li>
 <li>
-The RPC-over-TLS server certificate extended key usage (1.3.6.1.5.5.7.3.YYY).
+The RPC-with-TLS server certificate extended key usage (1.3.6.1.5.5.7.3.YYY).
 The description of this new entry should be "id-kp-rpcTLSServer".
 </li>
 </ul>
@@ -1867,10 +1867,10 @@ before this document is published.
 </t>
 <sourcecode name="" type="asn.1" markers="true">
 <![CDATA[
-RPCoverTLS-2021
+RPCwithTLS-2021
   { iso(1) identified-organization(3) dod(6) internet(1)
     security(5) mechanisms(5) pkix(7) id-mod(0)
-    id-mod-rpcOverTLS-2021(TBD) }
+    id-mod-rpcWithTLS-2021(TBD) }
 
 DEFINITIONS IMPLICIT TAGS ::=
 BEGIN
