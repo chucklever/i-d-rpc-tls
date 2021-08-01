@@ -6,7 +6,7 @@ Network File System Version 4                               T. Myklebust
 Internet-Draft                                               Hammerspace
 Updates: 5531 (if approved)                                C. Lever, Ed.
 Intended status: Standards Track                                  Oracle
-Expires: 31 January 2022                                    30 July 2021
+Expires: 2 February 2022                                   1 August 2021
 
 
           Towards Remote Procedure Call Encryption By Default
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 January 2022.
+   This Internet-Draft will expire on 2 February 2022.
 
 Copyright Notice
 
@@ -522,12 +522,12 @@ Table of Contents
    cases, the use of TLS is not opportunistic as it can be for TCP or
    UDP.
 
-   RPC-with-RDMA can make use of transport layer security below the RDMA
+   RPC-over-RDMA can make use of transport layer security below the RDMA
    transport layer [RFC8166].  The exact mechanism is not within the
    scope of the current document.  Because there might not be other
    provisions to exchange client and server certificates, authentication
    material exchange needs to be provided by facilities within a future
-   version of the RPC-with-RDMA transport protocol.
+   version of the RPC-over-RDMA transport protocol.
 
 5.2.  TLS Peer Authentication
 
@@ -697,8 +697,7 @@ Table of Contents
               but implementation delays have resulted from the
               challenges of handling a TLS handshake in a kernel
               environment.  Those issues stem from the architecture of
-              TLS and the kernel, not from the design of the RPC-with-
-              TLS protocol.
+              TLS and the kernel, not from the design of RPC-with-TLS.
 
 6.4.  FreeBSD NFS server and client
 
@@ -813,10 +812,9 @@ Table of Contents
 
 7.2.  TLS Identity Management on Clients
 
-   The goal of the RPC-with-TLS protocol extension is to hide the
-   content of RPC requests while they are in transit.  The RPC-with-TLS
-   protocol by itself cannot protect against exposure of a user's RPC
-   requests to other users on the same client.
+   The goal of RPC-with-TLS is to hide the content of RPC requests while
+   they are in transit.  RPC-with-TLS by itself cannot protect against
+   exposure of a user's RPC requests to other users on the same client.
 
    Moreover, client implementations are free to transmit RPC requests
    for more than one RPC user using the same TLS session.  Depending on
